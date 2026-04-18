@@ -1,0 +1,2214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Crimson — Unified Design System</title>
+<meta name="description" content="A premium design system blending the structural clarity of Tunnel with the editorial elegance of Monso Water — built around red, black, and white with a strong motion language." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<style>
+/* =================================================================
+   1 · DESIGN TOKENS
+================================================================= */
+:root {
+  /* — Color: Red scale (primary accent) — */
+  --red-50:  #FFF1F2;
+  --red-100: #FFE0E2;
+  --red-200: #FFC0C5;
+  --red-300: #FF8A92;
+  --red-400: #FF4D5A;
+  --red-500: #E11D2A;   /* base */
+  --red-600: #B01421;
+  --red-700: #800E18;
+  --red-800: #4F080F;
+  --red-900: #2A0407;
+
+  /* Semantic red aliases */
+  --color-accent-soft:    var(--red-100);
+  --color-accent-light:   var(--red-400);
+  --color-accent:         var(--red-500);
+  --color-accent-dark:    var(--red-700);
+  --color-accent-deep:    var(--red-900);
+
+  /* — Neutrals — */
+  --black:     #0A0A0A;
+  --ink:       #111111;
+  --char:     #1A1A1A;
+  --slate:    #2B2B2B;
+  --gray-900: #1F1F1F;
+  --gray-800: #2E2E2E;
+  --gray-700: #4A4A4A;
+  --gray-600: #6B6B6B;
+  --gray-500: #8C8C8C;
+  --gray-400: #B3B3B3;
+  --gray-300: #D6D6D6;
+  --gray-200: #E8E8E8;
+  --gray-100: #F2F2F2;
+  --gray-50:  #FAFAFA;
+  --white:    #FFFFFF;
+
+  /* — Surface / background semantics — */
+  --bg-primary:    var(--white);
+  --bg-secondary:  var(--gray-50);
+  --bg-inverse:    var(--black);
+  --bg-accent:     var(--color-accent);
+  --surface-1:     #FFFFFF;
+  --surface-2:     #F7F7F7;
+  --surface-3:     #EFEFEF;
+  --surface-dark-1: #141414;
+  --surface-dark-2: #1C1C1C;
+  --surface-dark-3: #242424;
+
+  /* — Text semantics — */
+  --text-primary:    var(--ink);
+  --text-secondary:  var(--gray-700);
+  --text-tertiary:   var(--gray-500);
+  --text-muted:      var(--gray-400);
+  --text-inverse:    var(--white);
+  --text-accent:     var(--color-accent);
+
+  /* — Borders — */
+  --border-subtle:  rgba(10, 10, 10, 0.06);
+  --border-soft:    rgba(10, 10, 10, 0.10);
+  --border-strong:  rgba(10, 10, 10, 0.20);
+  --border-accent:  var(--color-accent);
+  --border-on-dark: rgba(255, 255, 255, 0.10);
+
+  /* — Typography — */
+  --font-display: "Fraunces", "Times New Roman", serif;
+  --font-body:    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono:    "JetBrains Mono", "SF Mono", Monaco, monospace;
+
+  --fs-display:   clamp(56px, 8vw, 128px);
+  --fs-h1:        clamp(40px, 5vw, 72px);
+  --fs-h2:        clamp(32px, 3.6vw, 52px);
+  --fs-h3:        clamp(24px, 2.4vw, 36px);
+  --fs-h4:        20px;
+  --fs-h5:        18px;
+  --fs-h6:        16px;
+  --fs-body-lg:   18px;
+  --fs-body:      16px;
+  --fs-body-sm:   14px;
+  --fs-caption:   12px;
+  --fs-overline:  11px;
+
+  --lh-tight:    1.05;
+  --lh-snug:     1.2;
+  --lh-normal:   1.5;
+  --lh-loose:    1.7;
+
+  --ls-tighter:  -0.04em;
+  --ls-tight:    -0.02em;
+  --ls-normal:   0;
+  --ls-wide:     0.06em;
+  --ls-wider:    0.18em;
+
+  /* — Spacing (4px base) — */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+  --space-32: 128px;
+  --space-40: 160px;
+  --space-48: 192px;
+
+  /* — Radii — */
+  --radius-xs:  4px;
+  --radius-sm:  8px;
+  --radius-md:  12px;
+  --radius-lg:  16px;
+  --radius-xl:  24px;
+  --radius-2xl: 32px;
+  --radius-pill: 999px;
+
+  /* — Elevation — */
+  --shadow-xs:  0 1px 2px rgba(10, 10, 10, 0.04);
+  --shadow-sm:  0 2px 8px rgba(10, 10, 10, 0.06);
+  --shadow-md:  0 8px 24px rgba(10, 10, 10, 0.08);
+  --shadow-lg:  0 20px 48px rgba(10, 10, 10, 0.12);
+  --shadow-xl:  0 32px 80px rgba(10, 10, 10, 0.18);
+  --shadow-accent: 0 12px 32px rgba(225, 29, 42, 0.30);
+
+  /* — Motion — */
+  --dur-instant: 100ms;
+  --dur-fast:    200ms;
+  --dur-normal:  400ms;
+  --dur-slow:    700ms;
+  --dur-ambient: 1200ms;
+  --dur-epic:    2000ms;
+
+  --ease-linear:    cubic-bezier(0, 0, 1, 1);
+  --ease-out:       cubic-bezier(0.16, 1, 0.3, 1);            /* expo out — premium */
+  --ease-in:        cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out:    cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring:    cubic-bezier(0.34, 1.56, 0.64, 1);        /* slight overshoot */
+  --ease-smooth:    cubic-bezier(0.25, 0.46, 0.45, 0.94);     /* monso style */
+
+  /* — Z-Index — */
+  --z-base:    0;
+  --z-raised:  10;
+  --z-overlay: 50;
+  --z-fixed:   100;
+  --z-modal:   200;
+  --z-toast:   300;
+
+  /* — Layout — */
+  --container-max: 1280px;
+  --container-pad: clamp(20px, 4vw, 48px);
+  --topnav-h:      52px;
+}
+
+/* =================================================================
+   2 · BASE / RESET
+================================================================= */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-normal);
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; }
+img, svg { display: block; max-width: 100%; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+::selection { background: var(--color-accent); color: var(--white); }
+
+/* Scrollbar — minimal */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--gray-100); }
+::-webkit-scrollbar-thumb { background: var(--gray-400); border-radius: var(--radius-pill); }
+::-webkit-scrollbar-thumb:hover { background: var(--color-accent); }
+
+/* =================================================================
+   3 · TOP NAV (DOC CHROME)
+================================================================= */
+.ds-topnav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: var(--z-fixed);
+  height: var(--topnav-h);
+  background: rgba(10, 10, 10, 0.85);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border-bottom: 1px solid var(--border-on-dark);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--container-pad);
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.ds-topnav::-webkit-scrollbar { display: none; }
+.ds-topnav-brand {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--white);
+  margin-right: var(--space-8);
+  flex-shrink: 0;
+  letter-spacing: var(--ls-tight);
+  white-space: nowrap;
+  display: flex; align-items: center; gap: var(--space-2);
+}
+.ds-topnav-brand::before {
+  content: "";
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--color-accent);
+  box-shadow: 0 0 12px var(--color-accent);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(0.85); }
+}
+.ds-topnav-links { display: flex; align-items: center; gap: var(--space-1); flex: 1; }
+.ds-topnav a {
+  font-family: var(--font-body);
+  font-size: var(--fs-caption);
+  font-weight: 500;
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  padding: 8px 14px;
+  border-radius: var(--radius-pill);
+  transition: color var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out);
+  white-space: nowrap;
+}
+.ds-topnav a:hover { color: var(--white); background: rgba(255, 255, 255, 0.08); }
+.ds-topnav-version {
+  font-family: var(--font-mono);
+  font-size: var(--fs-overline);
+  color: rgba(255, 255, 255, 0.4);
+  margin-left: auto;
+  flex-shrink: 0;
+  padding-left: var(--space-4);
+}
+
+/* =================================================================
+   4 · LAYOUT PRIMITIVES
+================================================================= */
+.section {
+  padding: var(--space-32) 0;
+  position: relative;
+}
+.section--dark { background: var(--bg-inverse); color: var(--text-inverse); }
+.section--subtle { background: var(--bg-secondary); }
+.section--accent {
+  background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--white) 100%);
+}
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--container-pad);
+}
+.section-eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--fs-overline);
+  font-weight: 500;
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  color: var(--color-accent);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+.section-eyebrow::before {
+  content: "";
+  width: 24px; height: 1px; background: var(--color-accent);
+}
+.section--dark .section-eyebrow { color: var(--red-400); }
+.section--dark .section-eyebrow::before { background: var(--red-400); }
+.section-title {
+  font-family: var(--font-display);
+  font-size: var(--fs-h2);
+  font-weight: 400;
+  line-height: var(--lh-snug);
+  letter-spacing: var(--ls-tight);
+  margin-bottom: var(--space-3);
+  color: var(--text-primary);
+  max-width: 24ch;
+}
+.section--dark .section-title { color: var(--text-inverse); }
+.section-title em { font-style: italic; color: var(--color-accent); font-weight: 500; }
+.section-title .accent { color: var(--color-accent); font-style: italic; }
+.section-lead {
+  font-size: var(--fs-body-lg);
+  color: var(--text-secondary);
+  max-width: 60ch;
+  margin-bottom: var(--space-16);
+  line-height: var(--lh-normal);
+}
+.section--dark .section-lead { color: rgba(255, 255, 255, 0.6); }
+.subheading {
+  font-family: var(--font-display);
+  font-size: var(--fs-h4);
+  font-weight: 500;
+  letter-spacing: var(--ls-tight);
+  margin: var(--space-12) 0 var(--space-6);
+  color: var(--text-primary);
+}
+.section--dark .subheading { color: var(--text-inverse); }
+
+/* =================================================================
+   5 · HERO
+================================================================= */
+.hero {
+  min-height: 100vh;
+  background: var(--bg-inverse);
+  color: var(--text-inverse);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  padding-top: var(--topnav-h);
+}
+.hero-grid-bg {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 80px 80px;
+  pointer-events: none;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+}
+.hero-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.5;
+  pointer-events: none;
+  will-change: transform;
+}
+.hero-orb--1 {
+  width: 540px; height: 540px;
+  background: radial-gradient(circle at 30% 30%, var(--color-accent), transparent 70%);
+  top: -120px; right: -120px;
+  animation: orbDrift1 14s ease-in-out infinite;
+}
+.hero-orb--2 {
+  width: 420px; height: 420px;
+  background: radial-gradient(circle at 70% 70%, var(--red-700), transparent 70%);
+  bottom: -100px; left: -80px;
+  animation: orbDrift2 18s ease-in-out infinite;
+}
+@keyframes orbDrift1 {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(-40px, 60px, 0) scale(1.1); }
+}
+@keyframes orbDrift2 {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(60px, -40px, 0) scale(0.9); }
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+  width: 100%;
+}
+.hero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--fs-overline);
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  color: var(--red-400);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+}
+.hero-eyebrow .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--red-400);
+  box-shadow: 0 0 10px var(--red-400);
+}
+.hero-title {
+  font-family: var(--font-display);
+  font-size: var(--fs-display);
+  font-weight: 300;
+  line-height: 0.95;
+  letter-spacing: var(--ls-tighter);
+  color: var(--white);
+  max-width: 14ch;
+}
+.hero-title .word {
+  display: inline-block;
+  overflow: hidden;
+  padding: 0.05em 0.04em 0.08em;
+  margin: 0 -0.04em;
+}
+.hero-title .word > span {
+  display: inline-block;
+  transform: translateY(110%);
+  animation: heroReveal var(--dur-ambient) var(--ease-out) forwards;
+}
+.hero-title .word:nth-child(2) > span { animation-delay: 80ms; }
+.hero-title .word:nth-child(3) > span { animation-delay: 160ms; }
+.hero-title .word:nth-child(4) > span { animation-delay: 240ms; }
+.hero-title .word:nth-child(5) > span { animation-delay: 320ms; }
+.hero-title em {
+  font-style: italic; color: var(--color-accent); font-weight: 400;
+}
+@keyframes heroReveal {
+  0%   { transform: translateY(110%); }
+  100% { transform: translateY(0); }
+}
+.hero-lead {
+  font-size: var(--fs-body-lg);
+  line-height: var(--lh-normal);
+  color: rgba(255, 255, 255, 0.65);
+  max-width: 50ch;
+  margin-top: var(--space-2);
+  opacity: 0;
+  animation: fadeUp var(--dur-slow) var(--ease-out) 600ms forwards;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+  opacity: 0;
+  animation: fadeUp var(--dur-slow) var(--ease-out) 800ms forwards;
+}
+.hero-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  margin-top: var(--space-16);
+  padding-top: var(--space-8);
+  border-top: 1px solid var(--border-on-dark);
+  opacity: 0;
+  animation: fadeUp var(--dur-slow) var(--ease-out) 1000ms forwards;
+}
+.hero-meta-item { display: flex; flex-direction: column; gap: var(--space-1); }
+.hero-meta-label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-overline);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+.hero-meta-value {
+  font-family: var(--font-display);
+  font-size: var(--fs-h5);
+  color: var(--white);
+  font-weight: 500;
+  letter-spacing: var(--ls-tight);
+}
+
+@media (min-width: 900px) {
+  .hero-content { grid-template-columns: 1.4fr 1fr; align-items: end; }
+  .hero-meta { grid-column: 1 / -1; }
+}
+
+/* =================================================================
+   6 · BUTTONS
+================================================================= */
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 14px 28px;
+  font-family: var(--font-body);
+  font-size: var(--fs-body-sm);
+  font-weight: 500;
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform var(--dur-fast) var(--ease-out),
+              box-shadow var(--dur-normal) var(--ease-out),
+              color var(--dur-normal) var(--ease-out);
+  user-select: none;
+  isolation: isolate;
+}
+.btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  transition: transform var(--dur-normal) var(--ease-out);
+}
+
+/* Primary — solid red with sweep */
+.btn--primary {
+  background: var(--color-accent);
+  color: var(--white);
+}
+.btn--primary::after {
+  background: var(--color-accent-dark);
+  transform: translateX(-101%);
+}
+.btn--primary:hover { box-shadow: var(--shadow-accent); }
+.btn--primary:hover::after { transform: translateX(0); }
+.btn--primary:active { transform: scale(0.97); }
+
+/* Secondary — outlined */
+.btn--secondary {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border-strong);
+}
+.btn--secondary::after {
+  background: var(--ink);
+  transform: translateY(101%);
+}
+.btn--secondary:hover { color: var(--white); border-color: var(--ink); }
+.btn--secondary:hover::after { transform: translateY(0); }
+.btn--secondary:active { transform: scale(0.97); }
+
+/* Ghost */
+.btn--ghost {
+  background: transparent;
+  color: var(--text-primary);
+}
+.btn--ghost:hover { color: var(--color-accent); }
+.btn--ghost::before {
+  content: "";
+  position: absolute;
+  bottom: 8px;
+  left: 28px;
+  right: 28px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--dur-normal) var(--ease-out);
+}
+.btn--ghost:hover::before { transform: scaleX(1); transform-origin: left; }
+
+/* On dark contexts */
+.btn--on-dark.btn--secondary {
+  color: var(--white);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+.btn--on-dark.btn--secondary::after { background: var(--white); }
+.btn--on-dark.btn--secondary:hover { color: var(--ink); border-color: var(--white); }
+
+/* Loading */
+.btn--loading {
+  color: transparent !important;
+  pointer-events: none;
+}
+.btn--loading::before {
+  content: "";
+  position: absolute;
+  width: 16px; height: 16px;
+  top: 50%; left: 50%;
+  margin: -8px 0 0 -8px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  color: var(--white);
+  animation: spin 0.8s linear infinite;
+}
+.btn--primary.btn--loading::before { color: var(--white); }
+.btn--secondary.btn--loading::before { color: var(--ink); }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Disabled */
+.btn--disabled, .btn:disabled, .btn[aria-disabled="true"] {
+  opacity: 0.4;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+/* Sizes */
+.btn--sm { padding: 10px 20px; font-size: var(--fs-overline); }
+.btn--lg { padding: 18px 36px; font-size: var(--fs-body-sm); }
+
+.btn .arrow {
+  display: inline-block;
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.btn:hover .arrow { transform: translateX(4px); }
+
+/* =================================================================
+   7 · TYPOGRAPHY DEMO TABLE
+================================================================= */
+.type-table { border-top: 1px solid var(--border-soft); }
+.type-row {
+  display: grid;
+  grid-template-columns: 200px 1fr 160px;
+  gap: var(--space-6);
+  padding: var(--space-8) 0;
+  border-bottom: 1px solid var(--border-soft);
+  align-items: baseline;
+}
+.type-meta { display: flex; flex-direction: column; gap: var(--space-1); }
+.type-name {
+  font-family: var(--font-mono);
+  font-size: var(--fs-overline);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+.type-token {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-accent);
+}
+.type-preview { overflow: hidden; }
+.type-spec {
+  font-family: var(--font-mono);
+  font-size: var(--fs-overline);
+  color: var(--text-muted);
+  text-align: right;
+  line-height: var(--lh-loose);
+}
+.t-display {
+  font-family: var(--font-display);
+  font-size: var(--fs-display);
+  font-weight: 300;
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-tighter);
+}
+.t-h1 { font-family: var(--font-display); font-size: var(--fs-h1); font-weight: 400; line-height: var(--lh-snug); letter-spacing: var(--ls-tight); }
+.t-h2 { font-family: var(--font-display); font-size: var(--fs-h2); font-weight: 400; line-height: var(--lh-snug); letter-spacing: var(--ls-tight); }
+.t-h3 { font-family: var(--font-display); font-size: var(--fs-h3); font-weight: 500; line-height: var(--lh-snug); letter-spacing: var(--ls-tight); }
+.t-h4 { font-family: var(--font-display); font-size: var(--fs-h4); font-weight: 500; line-height: var(--lh-snug); letter-spacing: var(--ls-tight); }
+.t-h5 { font-family: var(--font-body); font-size: var(--fs-h5); font-weight: 600; line-height: var(--lh-snug); }
+.t-h6 { font-family: var(--font-body); font-size: var(--fs-h6); font-weight: 600; line-height: var(--lh-snug); text-transform: uppercase; letter-spacing: var(--ls-wide); }
+.t-body-lg { font-size: var(--fs-body-lg); line-height: var(--lh-normal); color: var(--text-secondary); }
+.t-body { font-size: var(--fs-body); line-height: var(--lh-normal); color: var(--text-secondary); }
+.t-body-sm { font-size: var(--fs-body-sm); line-height: var(--lh-normal); color: var(--text-tertiary); }
+.t-caption { font-size: var(--fs-caption); line-height: var(--lh-normal); color: var(--text-tertiary); }
+.t-overline {
+  font-family: var(--font-mono);
+  font-size: var(--fs-overline);
+  font-weight: 500;
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+/* =================================================================
+   8 · COLOR SWATCHES
+================================================================= */
+.swatch-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--space-3);
+}
+.swatch {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--white);
+  border: 1px solid var(--border-subtle);
+  transition: transform var(--dur-normal) var(--ease-out), box-shadow var(--dur-normal) var(--ease-out);
+}
+.swatch:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+.swatch-block { height: 100px; position: relative; overflow: hidden; }
+.swatch-block::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 50%, rgba(255,255,255,0.04));
+}
+.swatch-info { padding: 12px 14px; }
+.swatch-name {
+  font-family: var(--font-body);
+  font-size: var(--fs-body-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+.swatch-token {
+  font-family: var(--font-mono);
+  font-size: var(--fs-overline);
+  color: var(--text-tertiary);
+}
+
+.scale-row {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 2px;
+  margin-bottom: var(--space-8);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+.scale-step {
+  aspect-ratio: 1 / 1.6;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 12px 10px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-overline);
+  transition: transform var(--dur-normal) var(--ease-out);
+}
+.scale-step:hover { transform: scale(1.04); z-index: 2; box-shadow: var(--shadow-md); }
+.scale-step .num { font-weight: 600; }
+.scale-step .hex { opacity: 0.7; font-size: 9px; margin-top: 2px; }
+
+/* =================================================================
+   9 · CARDS
+================================================================= */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-6);
+}
+.card {
+  background: var(--surface-1);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  transition: transform var(--dur-normal) var(--ease-out),
+              box-shadow var(--dur-normal) var(--ease-out),
+              border-color var(--dur-normal) var(--ease-out);
+  position: relative;
+  overflow: hidden;
+}
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+  transform: translateX(-100%);
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--border-strong);
+}
+.card:hover::before { transform: translateX(100%); }
+.card-icon {
+  width: 48px; height: 48px;
+  border-radius: var(--radius-md);
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: var(--space-4);
+  transition: background var(--dur-normal) var(--ease-out), color var(--dur-normal) var(--ease-out);
+}
+.card:hover .card-icon { background: var(--color-accent); color: var(--white); }
+.card-title {
+  font-family: var(--font-display);
+  font-size: var(--fs-h4);
+  font-weight: 500;
+  line-height: var(--lh-snug);
+  letter-spacing: var(--ls-tight);
+  margin-bottom: var(--space-2);
+}
+.card-desc { font-size: var(--fs-body-sm); color: var(--text-secondary); }
+.card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+  font-size: var(--fs-body-sm);
+  font-weight: 500;
+  color: var(--color-accent);
+}
+.card-link .arrow { transition: transform var(--dur-fast) var(--ease-out); }
+.card:hover .card-link .arrow { transform: translateX(4px); }
+
+/* Dark variant */
+.card--dark {
+  background: var(--surface-dark-2);
+  border-color: var(--border-on-dark);
+  color: var(--white);
+}
+.card--dark .card-desc { color: rgba(255, 255, 255, 0.6); }
+.card--dark:hover { border-color: var(--color-accent); }
+
+/* Featured */
+.card--featured {
+  background: var(--ink);
+  color: var(--white);
+  border-color: var(--ink);
+}
+.card--featured .card-icon { background: var(--color-accent); color: var(--white); }
+.card--featured .card-title { color: var(--white); }
+.card--featured .card-desc { color: rgba(255, 255, 255, 0.7); }
+
+/* =================================================================
+   10 · INPUTS / FORMS
+================================================================= */
+.field { display: flex; flex-direction: column; gap: var(--space-2); margin-bottom: var(--space-5); }
+.field label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-overline);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+.input, .textarea {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  color: var(--text-primary);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border-strong);
+  padding: var(--space-3) 0;
+  outline: none;
+  transition: border-color var(--dur-fast) var(--ease-out), padding var(--dur-fast) var(--ease-out);
+  width: 100%;
+}
+.input::placeholder, .textarea::placeholder { color: var(--text-muted); }
+.input:focus, .textarea:focus {
+  border-color: var(--color-accent);
+  border-bottom-width: 2px;
+  padding-bottom: calc(var(--space-3) - 1px);
+}
+.field--error .input, .field--error .textarea { border-color: var(--color-accent); }
+.field--error label { color: var(--color-accent); }
+.field-hint { font-size: var(--fs-caption); color: var(--text-tertiary); }
+.field--error .field-hint { color: var(--color-accent); }
+
+/* Boxed variant */
+.input--boxed {
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface-1);
+}
+.input--boxed:focus { border-color: var(--color-accent); border-width: 1px; padding: var(--space-3) var(--space-4); }
+.textarea { min-height: 100px; resize: vertical; }
+
+/* Checkbox */
+.check-row { display: flex; align-items: center; gap: var(--space-3); }
+.check {
+  appearance: none;
+  width: 18px; height: 18px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  position: relative;
+  transition: all var(--dur-fast) var(--ease-out);
+  flex-shrink: 0;
+}
+.check:checked { background: var(--color-accent); border-color: var(--color-accent); }
+.check:checked::after {
+  content: "";
+  position: absolute;
+  top: 3px; left: 6px;
+  width: 4px; height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* =================================================================
+   11 · NAVBAR (COMPONENT DEMO)
+================================================================= */
+.demo-navbar {
+  background: var(--ink);
+  color: var(--white);
+  border-radius: var(--radius-pill);
+  padding: 12px 12px 12px 28px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  box-shadow: var(--shadow-md);
+}
+.demo-navbar-brand {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 500;
+  font-style: italic;
+  color: var(--white);
+}
+.demo-navbar-brand span { color: var(--color-accent); }
+.demo-navbar-links { display: flex; gap: var(--space-6); flex: 1; }
+.demo-navbar-link {
+  font-size: var(--fs-body-sm);
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 500;
+  transition: color var(--dur-fast) var(--ease-out);
+  position: relative;
+  padding: 4px 0;
+}
+.demo-navbar-link::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -2px;
+  height: 1px;
+  background: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--dur-normal) var(--ease-out);
+}
+.demo-navbar-link:hover { color: var(--white); }
+.demo-navbar-link:hover::after { transform: scaleX(1); transform-origin: left; }
+.demo-navbar-link.is-active { color: var(--color-accent-light); }
+
+/* =================================================================
+   12 · MOTION GALLERY
+================================================================= */
+.motion-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--space-4);
+}
+.motion-card {
+  background: var(--surface-dark-1);
+  border: 1px solid var(--border-on-dark);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  position: relative;
+  overflow: hidden;
+}
+.motion-card-title {
+  font-family: var(--font-mono);
+  font-size: var(--fs-overline);
+  font-weight: 500;
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--red-400);
+}
+.motion-card-name {
+  font-family: var(--font-display);
+  font-size: var(--fs-h5);
+  font-weight: 500;
+  color: var(--white);
+  letter-spacing: var(--ls-tight);
+}
+.motion-card-desc {
+  font-size: var(--fs-caption);
+  color: rgba(255, 255, 255, 0.55);
+  line-height: var(--lh-loose);
+}
+.motion-stage {
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px dashed rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  position: relative;
+  overflow: hidden;
+}
+.motion-replay {
+  position: absolute;
+  top: 8px; right: 8px;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all var(--dur-fast) var(--ease-out);
+}
+.motion-replay:hover { background: var(--color-accent); color: var(--white); transform: rotate(180deg); }
+
+/* Demo elements */
+.dot-red { width: 56px; height: 56px; background: var(--color-accent); border-radius: var(--radius-md); box-shadow: 0 8px 24px rgba(225,29,42,0.4); }
+.bar { width: 80px; height: 8px; background: var(--white); border-radius: var(--radius-pill); }
+
+/* Motion keyframes */
+@keyframes m-fade { 0%, 30% { opacity: 0; } 70%, 100% { opacity: 1; } }
+@keyframes m-fadeup { 0%, 30% { opacity: 0; transform: translateY(30px); } 70%, 100% { opacity: 1; transform: translateY(0); } }
+@keyframes m-blur { 0%, 30% { opacity: 0; filter: blur(20px); transform: scale(0.95); } 70%, 100% { opacity: 1; filter: blur(0); transform: scale(1); } }
+@keyframes m-scale { 0%, 30% { opacity: 0; transform: scale(0.4); } 70%, 100% { opacity: 1; transform: scale(1); } }
+@keyframes m-slide { 0%, 30% { transform: translateX(-100px); opacity: 0; } 70%, 100% { transform: translateX(0); opacity: 1; } }
+@keyframes m-rotate { 0% { transform: rotate(0); } 100% { transform: rotate(360deg); } }
+@keyframes m-parallax-slow { 0%, 100% { transform: translateY(-20px); } 50% { transform: translateY(20px); } }
+@keyframes m-parallax-fast { 0%, 100% { transform: translateY(20px); } 50% { transform: translateY(-20px); } }
+@keyframes m-stagger-bar { 0%, 30% { transform: scaleX(0); transform-origin: left; } 70%, 100% { transform: scaleX(1); transform-origin: left; } }
+@keyframes m-magnetic { 0%, 100% { transform: translate(0,0); } 30% { transform: translate(8px, -8px); } 60% { transform: translate(-6px, 6px); } }
+
+.anim-fade      { animation: m-fade    3s var(--ease-out) infinite; }
+.anim-fadeup    { animation: m-fadeup  3s var(--ease-out) infinite; }
+.anim-blur      { animation: m-blur    3s var(--ease-out) infinite; }
+.anim-scale     { animation: m-scale   3s var(--ease-spring) infinite; }
+.anim-slide     { animation: m-slide   3s var(--ease-out) infinite; }
+.anim-rotate    { animation: m-rotate  6s linear infinite; }
+.anim-parallax-bg  { animation: m-parallax-slow 4s var(--ease-in-out) infinite; }
+.anim-parallax-fg  { animation: m-parallax-fast 4s var(--ease-in-out) infinite; }
+.anim-stagger   { animation: m-stagger-bar 3s var(--ease-out) infinite; transform-origin: left; }
+.anim-magnetic  { animation: m-magnetic 2.4s var(--ease-spring) infinite; }
+
+.parallax-stage { position: relative; }
+.parallax-stage .layer {
+  position: absolute;
+  border-radius: 50%;
+}
+.parallax-stage .layer.bg { width: 80px; height: 80px; background: rgba(225, 29, 42, 0.4); top: 20px; left: 30px; filter: blur(8px); }
+.parallax-stage .layer.fg { width: 48px; height: 48px; background: var(--color-accent); top: 36px; left: 100px; }
+
+.stagger-stage { display: flex; flex-direction: column; gap: 8px; }
+
+/* =================================================================
+   13 · MOTION TOKENS TABLE
+================================================================= */
+.token-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface-1);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.token-table th, .token-table td {
+  padding: var(--space-4) var(--space-5);
+  text-align: left;
+  font-size: var(--fs-body-sm);
+  border-bottom: 1px solid var(--border-soft);
+}
+.token-table th {
+  font-family: var(--font-mono);
+  font-size: var(--fs-overline);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  background: var(--surface-2);
+  font-weight: 500;
+}
+.token-table tr:last-child td { border-bottom: none; }
+.token-table tr:hover td { background: var(--surface-2); }
+.token-table .token-name { font-family: var(--font-mono); font-size: var(--fs-caption); color: var(--color-accent); }
+.token-table .token-value { font-family: var(--font-mono); font-size: var(--fs-caption); color: var(--text-secondary); }
+.token-table .token-bar {
+  display: inline-block;
+  height: 4px;
+  background: var(--color-accent);
+  border-radius: var(--radius-pill);
+  vertical-align: middle;
+  margin-right: var(--space-3);
+}
+
+/* =================================================================
+   14 · LAYOUT DEMOS
+================================================================= */
+.layout-demo {
+  background: var(--surface-2);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  margin-bottom: var(--space-6);
+}
+.layout-demo-label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-overline);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: var(--space-4);
+}
+.col-block {
+  background: var(--color-accent-soft);
+  border: 1px dashed var(--color-accent);
+  border-radius: var(--radius-sm);
+  padding: var(--space-5);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--color-accent-dark);
+  font-family: var(--font-mono);
+  font-size: var(--fs-overline);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.grid-12 { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--space-3); }
+.grid-3  { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); }
+.grid-2  { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6); }
+.grid-asym { display: grid; grid-template-columns: 2fr 1fr; gap: var(--space-6); }
+
+/* Spacing scale viz */
+.space-scale { display: flex; flex-direction: column; gap: var(--space-3); }
+.space-row {
+  display: grid;
+  grid-template-columns: 80px 1fr 80px;
+  gap: var(--space-4);
+  align-items: center;
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.space-token {
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  color: var(--color-accent);
+  font-weight: 500;
+}
+.space-bar {
+  height: 16px;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-accent-light));
+  border-radius: var(--radius-xs);
+}
+.space-value {
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  color: var(--text-tertiary);
+  text-align: right;
+}
+
+/* Breakpoints viz */
+.bp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--space-4); }
+.bp-card {
+  background: var(--surface-1);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  position: relative;
+  overflow: hidden;
+}
+.bp-card::after {
+  content: "";
+  position: absolute;
+  top: 0; right: 0;
+  width: 4px; height: 100%;
+  background: var(--color-accent);
+}
+.bp-name {
+  font-family: var(--font-mono);
+  font-size: var(--fs-overline);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+.bp-range {
+  font-family: var(--font-display);
+  font-size: var(--fs-h5);
+  font-weight: 500;
+  margin-top: var(--space-1);
+  color: var(--text-primary);
+}
+.bp-desc { font-size: var(--fs-caption); color: var(--text-secondary); margin-top: var(--space-2); }
+
+/* =================================================================
+   15 · GUIDELINES
+================================================================= */
+.guideline-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-4);
+}
+.guideline {
+  background: var(--surface-1);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  position: relative;
+}
+.guideline-icon {
+  width: 32px; height: 32px;
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: var(--space-3);
+}
+.guideline.do .guideline-icon { background: var(--color-accent-soft); color: var(--color-accent); }
+.guideline.dont .guideline-icon { background: var(--gray-100); color: var(--gray-600); }
+.guideline-label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-overline);
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: var(--space-2);
+}
+.guideline.do .guideline-label { color: var(--color-accent); }
+.guideline.dont .guideline-label { color: var(--gray-600); }
+.guideline-text {
+  font-size: var(--fs-body-sm);
+  color: var(--text-secondary);
+  line-height: var(--lh-normal);
+}
+
+/* =================================================================
+   16 · SCROLL REVEAL (JS-driven)
+================================================================= */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out);
+  will-change: opacity, transform;
+}
+.reveal.is-in { opacity: 1; transform: translateY(0); }
+
+.reveal-blur {
+  opacity: 0;
+  filter: blur(20px);
+  transform: scale(0.96);
+  transition: opacity var(--dur-ambient) var(--ease-out), filter var(--dur-ambient) var(--ease-out), transform var(--dur-ambient) var(--ease-out);
+}
+.reveal-blur.is-in { opacity: 1; filter: blur(0); transform: scale(1); }
+
+.reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out);
+}
+.reveal-stagger.is-in > *:nth-child(1) { transition-delay: 0ms; }
+.reveal-stagger.is-in > *:nth-child(2) { transition-delay: 80ms; }
+.reveal-stagger.is-in > *:nth-child(3) { transition-delay: 160ms; }
+.reveal-stagger.is-in > *:nth-child(4) { transition-delay: 240ms; }
+.reveal-stagger.is-in > *:nth-child(5) { transition-delay: 320ms; }
+.reveal-stagger.is-in > *:nth-child(6) { transition-delay: 400ms; }
+.reveal-stagger.is-in > * { opacity: 1; transform: translateY(0); }
+
+/* Parallax */
+[data-parallax] { will-change: transform; }
+
+/* =================================================================
+   17 · FOOTER
+================================================================= */
+.ds-footer {
+  background: var(--bg-inverse);
+  color: rgba(255, 255, 255, 0.6);
+  padding: var(--space-16) 0 var(--space-8);
+  border-top: 1px solid var(--border-on-dark);
+}
+.ds-footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: var(--space-8);
+  margin-bottom: var(--space-12);
+}
+.ds-footer-brand {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--fs-h3);
+  color: var(--white);
+  font-weight: 400;
+  letter-spacing: var(--ls-tight);
+  margin-bottom: var(--space-4);
+}
+.ds-footer-brand span { color: var(--color-accent); }
+.ds-footer-tagline { font-size: var(--fs-body-sm); color: rgba(255, 255, 255, 0.55); max-width: 32ch; }
+.ds-footer-col h4 {
+  font-family: var(--font-mono);
+  font-size: var(--fs-overline);
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  color: var(--white);
+  margin-bottom: var(--space-4);
+  font-weight: 500;
+}
+.ds-footer-col ul { list-style: none; display: flex; flex-direction: column; gap: var(--space-2); }
+.ds-footer-col a {
+  font-size: var(--fs-body-sm);
+  color: rgba(255, 255, 255, 0.55);
+  transition: color var(--dur-fast) var(--ease-out);
+}
+.ds-footer-col a:hover { color: var(--color-accent-light); }
+.ds-footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--border-on-dark);
+  font-size: var(--fs-caption);
+  color: rgba(255, 255, 255, 0.4);
+}
+
+@media (max-width: 768px) {
+  .ds-footer-grid { grid-template-columns: 1fr 1fr; }
+  .type-row { grid-template-columns: 1fr; gap: var(--space-3); padding: var(--space-5) 0; }
+  .type-spec { text-align: left; }
+  .grid-asym, .grid-2 { grid-template-columns: 1fr; }
+  .demo-navbar { flex-direction: column; gap: var(--space-3); border-radius: var(--radius-lg); padding: var(--space-4); }
+  .demo-navbar-links { flex-wrap: wrap; justify-content: center; }
+  .hero-content { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     DOC TOP NAVIGATION
+═══════════════════════════════════════════ -->
+<nav class="ds-topnav" aria-label="Design system navigation">
+  <div class="ds-topnav-brand">Crimson</div>
+  <div class="ds-topnav-links">
+    <a href="#hero">Hero</a>
+    <a href="#colors">Colors</a>
+    <a href="#typography">Typography</a>
+    <a href="#animations">Motion</a>
+    <a href="#components">Components</a>
+    <a href="#layout">Layout</a>
+    <a href="#guidelines">Guidelines</a>
+  </div>
+  <span class="ds-topnav-version">v1.0 · 2026</span>
+</nav>
+
+
+<!-- ═══════════════════════════════════════════
+     0 · HERO
+═══════════════════════════════════════════ -->
+<section class="hero" id="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-orb hero-orb--1" data-parallax="0.3"></div>
+  <div class="hero-orb hero-orb--2" data-parallax="-0.2"></div>
+
+  <div class="container hero-content">
+    <div>
+      <div class="hero-eyebrow">
+        <span class="dot"></span>
+        Design System · v1.0
+      </div>
+      <h1 class="hero-title">
+        <span class="word"><span>Motion,</span></span>
+        <span class="word"><span>color</span></span>
+        <span class="word"><span>and</span></span>
+        <span class="word"><span><em>intent.</em></span></span>
+      </h1>
+    </div>
+    <div>
+      <p class="hero-lead">
+        A unified language built around red, black and white. Every token,
+        component and transition documented as a single source of truth —
+        crafted for premium product experiences.
+      </p>
+      <div class="hero-actions">
+        <a href="#components" class="btn btn--primary">
+          Explore components <span class="arrow">→</span>
+        </a>
+        <a href="#animations" class="btn btn--secondary btn--on-dark">Motion language</a>
+      </div>
+    </div>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Tokens</span>
+        <span class="hero-meta-value">120+</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Components</span>
+        <span class="hero-meta-value">24</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Animations</span>
+        <span class="hero-meta-value">10</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Breakpoints</span>
+        <span class="hero-meta-value">5</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     1 · COLORS
+═══════════════════════════════════════════ -->
+<section class="section section--accent" id="colors">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-eyebrow">01 · Color System</span>
+      <h2 class="section-title">A palette of <em>red, black</em> and white.</h2>
+      <p class="section-lead">
+        Red carries every accent. Black and white carry the weight. The 10-step
+        scale gives precise control over hierarchy, focus and emotion.
+      </p>
+    </div>
+
+    <h3 class="subheading">Red Scale — Primary Accent</h3>
+    <div class="scale-row reveal">
+      <div class="scale-step" style="background: var(--red-50);  color: var(--red-900);"><span class="num">50</span><span class="hex">#FFF1F2</span></div>
+      <div class="scale-step" style="background: var(--red-100); color: var(--red-900);"><span class="num">100</span><span class="hex">#FFE0E2</span></div>
+      <div class="scale-step" style="background: var(--red-200); color: var(--red-900);"><span class="num">200</span><span class="hex">#FFC0C5</span></div>
+      <div class="scale-step" style="background: var(--red-300); color: var(--red-900);"><span class="num">300</span><span class="hex">#FF8A92</span></div>
+      <div class="scale-step" style="background: var(--red-400); color: var(--white);"><span class="num">400</span><span class="hex">#FF4D5A</span></div>
+      <div class="scale-step" style="background: var(--red-500); color: var(--white);"><span class="num">500</span><span class="hex">#E11D2A</span></div>
+      <div class="scale-step" style="background: var(--red-600); color: var(--white);"><span class="num">600</span><span class="hex">#B01421</span></div>
+      <div class="scale-step" style="background: var(--red-700); color: var(--white);"><span class="num">700</span><span class="hex">#800E18</span></div>
+      <div class="scale-step" style="background: var(--red-800); color: var(--white);"><span class="num">800</span><span class="hex">#4F080F</span></div>
+      <div class="scale-step" style="background: var(--red-900); color: var(--white);"><span class="num">900</span><span class="hex">#2A0407</span></div>
+    </div>
+
+    <h3 class="subheading">Neutral Scale — Black to White</h3>
+    <div class="scale-row reveal">
+      <div class="scale-step" style="background: var(--white);    color: var(--black);"><span class="num">0</span><span class="hex">#FFFFFF</span></div>
+      <div class="scale-step" style="background: var(--gray-50);  color: var(--black);"><span class="num">50</span><span class="hex">#FAFAFA</span></div>
+      <div class="scale-step" style="background: var(--gray-100); color: var(--black);"><span class="num">100</span><span class="hex">#F2F2F2</span></div>
+      <div class="scale-step" style="background: var(--gray-200); color: var(--black);"><span class="num">200</span><span class="hex">#E8E8E8</span></div>
+      <div class="scale-step" style="background: var(--gray-300); color: var(--black);"><span class="num">300</span><span class="hex">#D6D6D6</span></div>
+      <div class="scale-step" style="background: var(--gray-400); color: var(--black);"><span class="num">400</span><span class="hex">#B3B3B3</span></div>
+      <div class="scale-step" style="background: var(--gray-500); color: var(--white);"><span class="num">500</span><span class="hex">#8C8C8C</span></div>
+      <div class="scale-step" style="background: var(--gray-700); color: var(--white);"><span class="num">700</span><span class="hex">#4A4A4A</span></div>
+      <div class="scale-step" style="background: var(--gray-900); color: var(--white);"><span class="num">900</span><span class="hex">#1F1F1F</span></div>
+      <div class="scale-step" style="background: var(--black);    color: var(--white);"><span class="num">ink</span><span class="hex">#0A0A0A</span></div>
+    </div>
+
+    <h3 class="subheading">Semantic Tokens</h3>
+    <div class="swatch-grid reveal-stagger">
+      <div class="swatch">
+        <div class="swatch-block" style="background: var(--color-accent);"></div>
+        <div class="swatch-info"><div class="swatch-name">Primary Accent</div><div class="swatch-token">--color-accent · #E11D2A</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-block" style="background: var(--color-accent-light);"></div>
+        <div class="swatch-info"><div class="swatch-name">Accent Light</div><div class="swatch-token">--color-accent-light · #FF4D5A</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-block" style="background: var(--color-accent-dark);"></div>
+        <div class="swatch-info"><div class="swatch-name">Accent Dark</div><div class="swatch-token">--color-accent-dark · #800E18</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-block" style="background: var(--color-accent-soft);"></div>
+        <div class="swatch-info"><div class="swatch-name">Accent Soft</div><div class="swatch-token">--color-accent-soft · #FFE0E2</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-block" style="background: var(--ink);"></div>
+        <div class="swatch-info"><div class="swatch-name">Ink</div><div class="swatch-token">--ink · #111111</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-block" style="background: var(--gray-700);"></div>
+        <div class="swatch-info"><div class="swatch-name">Text Secondary</div><div class="swatch-token">--text-secondary · #4A4A4A</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-block" style="background: var(--bg-secondary); border-top: 1px solid var(--border-soft);"></div>
+        <div class="swatch-info"><div class="swatch-name">Surface 2</div><div class="swatch-token">--bg-secondary · #FAFAFA</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-block" style="background: var(--white); border-top: 1px solid var(--border-soft);"></div>
+        <div class="swatch-info"><div class="swatch-name">Surface Base</div><div class="swatch-token">--bg-primary · #FFFFFF</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     2 · TYPOGRAPHY
+═══════════════════════════════════════════ -->
+<section class="section" id="typography">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-eyebrow">02 · Typography</span>
+      <h2 class="section-title">Editorial <em>serif</em>, modern sans.</h2>
+      <p class="section-lead">
+        Fraunces brings emotion and elegance to display type. Inter handles
+        every UI surface with quiet, neutral confidence.
+      </p>
+    </div>
+
+    <div class="type-table reveal">
+
+      <div class="type-row">
+        <div class="type-meta"><span class="type-name">Display</span><span class="type-token">.t-display</span></div>
+        <div class="type-preview"><div class="t-display">Crimson</div></div>
+        <div class="type-spec">Fraunces 300<br/>56–128px<br/>line 1.05</div>
+      </div>
+
+      <div class="type-row">
+        <div class="type-meta"><span class="type-name">Heading 1</span><span class="type-token">.t-h1</span></div>
+        <div class="type-preview"><h1 class="t-h1">A premium design system</h1></div>
+        <div class="type-spec">Fraunces 400<br/>40–72px<br/>line 1.2</div>
+      </div>
+
+      <div class="type-row">
+        <div class="type-meta"><span class="type-name">Heading 2</span><span class="type-token">.t-h2</span></div>
+        <div class="type-preview"><h2 class="t-h2">Built for <em style="color:var(--color-accent);font-weight:500;">motion</em></h2></div>
+        <div class="type-spec">Fraunces 400<br/>32–52px<br/>line 1.2</div>
+      </div>
+
+      <div class="type-row">
+        <div class="type-meta"><span class="type-name">Heading 3</span><span class="type-token">.t-h3</span></div>
+        <div class="type-preview"><h3 class="t-h3">Components &amp; tokens</h3></div>
+        <div class="type-spec">Fraunces 500<br/>24–36px<br/>line 1.2</div>
+      </div>
+
+      <div class="type-row">
+        <div class="type-meta"><span class="type-name">Heading 4</span><span class="type-token">.t-h4</span></div>
+        <div class="type-preview"><h4 class="t-h4">Card titles &amp; subheadings</h4></div>
+        <div class="type-spec">Fraunces 500<br/>20px<br/>line 1.2</div>
+      </div>
+
+      <div class="type-row">
+        <div class="type-meta"><span class="type-name">Heading 5</span><span class="type-token">.t-h5</span></div>
+        <div class="type-preview"><h5 class="t-h5">Section labels</h5></div>
+        <div class="type-spec">Inter 600<br/>18px<br/>line 1.2</div>
+      </div>
+
+      <div class="type-row">
+        <div class="type-meta"><span class="type-name">Heading 6</span><span class="type-token">.t-h6</span></div>
+        <div class="type-preview"><h6 class="t-h6">Block heading</h6></div>
+        <div class="type-spec">Inter 600<br/>16px<br/>uppercase</div>
+      </div>
+
+      <div class="type-row">
+        <div class="type-meta"><span class="type-name">Body Large</span><span class="type-token">.t-body-lg</span></div>
+        <div class="type-preview"><p class="t-body-lg">A clear voice that guides the eye through every section without ever competing for attention.</p></div>
+        <div class="type-spec">Inter 400<br/>18px<br/>line 1.5</div>
+      </div>
+
+      <div class="type-row">
+        <div class="type-meta"><span class="type-name">Body</span><span class="type-token">.t-body</span></div>
+        <div class="type-preview"><p class="t-body">Default paragraph. Comfortable for long-form reading and dense interfaces alike.</p></div>
+        <div class="type-spec">Inter 400<br/>16px<br/>line 1.5</div>
+      </div>
+
+      <div class="type-row">
+        <div class="type-meta"><span class="type-name">Body Small</span><span class="type-token">.t-body-sm</span></div>
+        <div class="type-preview"><p class="t-body-sm">Used for captions, helper text, metadata and supporting copy.</p></div>
+        <div class="type-spec">Inter 400<br/>14px<br/>line 1.5</div>
+      </div>
+
+      <div class="type-row">
+        <div class="type-meta"><span class="type-name">Caption</span><span class="type-token">.t-caption</span></div>
+        <div class="type-preview"><p class="t-caption">Image captions, footnotes, microcopy.</p></div>
+        <div class="type-spec">Inter 400<br/>12px<br/>line 1.5</div>
+      </div>
+
+      <div class="type-row">
+        <div class="type-meta"><span class="type-name">Overline</span><span class="type-token">.t-overline</span></div>
+        <div class="type-preview"><span class="t-overline">Eyebrow / Tag / Label</span></div>
+        <div class="type-spec">JetBrains Mono 500<br/>11px<br/>tracking 0.18em</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     3 · MOTION
+═══════════════════════════════════════════ -->
+<section class="section section--dark" id="animations">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-eyebrow">03 · Motion Language</span>
+      <h2 class="section-title">Motion is the <em>narrator.</em></h2>
+      <p class="section-lead">
+        Every transition, every reveal, every micro-interaction follows a
+        small set of tokens — so the entire interface feels like one breath.
+      </p>
+    </div>
+
+    <h3 class="subheading">Motion Gallery</h3>
+    <div class="motion-grid reveal-stagger">
+
+      <div class="motion-card">
+        <span class="motion-card-title">Fade</span>
+        <h4 class="motion-card-name">Fade In</h4>
+        <div class="motion-stage">
+          <div class="dot-red anim-fade"></div>
+          <span class="motion-replay" title="Replay">↻</span>
+        </div>
+        <p class="motion-card-desc">opacity 0 → 1<br/>700ms · ease-out</p>
+      </div>
+
+      <div class="motion-card">
+        <span class="motion-card-title">Fade + Slide</span>
+        <h4 class="motion-card-name">Fade Up</h4>
+        <div class="motion-stage">
+          <div class="dot-red anim-fadeup"></div>
+          <span class="motion-replay" title="Replay">↻</span>
+        </div>
+        <p class="motion-card-desc">translateY(30px → 0)<br/>opacity 0 → 1 · 700ms</p>
+      </div>
+
+      <div class="motion-card">
+        <span class="motion-card-title">Filter</span>
+        <h4 class="motion-card-name">Blur In</h4>
+        <div class="motion-stage">
+          <div class="dot-red anim-blur"></div>
+          <span class="motion-replay" title="Replay">↻</span>
+        </div>
+        <p class="motion-card-desc">blur(20px → 0)<br/>scale 0.96 → 1 · 1200ms</p>
+      </div>
+
+      <div class="motion-card">
+        <span class="motion-card-title">Spring</span>
+        <h4 class="motion-card-name">Scale In</h4>
+        <div class="motion-stage">
+          <div class="dot-red anim-scale"></div>
+          <span class="motion-replay" title="Replay">↻</span>
+        </div>
+        <p class="motion-card-desc">scale 0.4 → 1<br/>700ms · spring</p>
+      </div>
+
+      <div class="motion-card">
+        <span class="motion-card-title">Direction</span>
+        <h4 class="motion-card-name">Slide Right</h4>
+        <div class="motion-stage">
+          <div class="dot-red anim-slide"></div>
+          <span class="motion-replay" title="Replay">↻</span>
+        </div>
+        <p class="motion-card-desc">translateX(-100px → 0)<br/>700ms · ease-out</p>
+      </div>
+
+      <div class="motion-card">
+        <span class="motion-card-title">Continuous</span>
+        <h4 class="motion-card-name">Orbit Rotate</h4>
+        <div class="motion-stage">
+          <div class="anim-rotate" style="width:56px;height:56px;border-radius:50%;border:3px solid var(--color-accent);border-top-color:transparent;"></div>
+          <span class="motion-replay" title="Replay">↻</span>
+        </div>
+        <p class="motion-card-desc">rotate(0 → 360)<br/>6s · linear · loop</p>
+      </div>
+
+      <div class="motion-card">
+        <span class="motion-card-title">Depth</span>
+        <h4 class="motion-card-name">Parallax Layers</h4>
+        <div class="motion-stage parallax-stage">
+          <div class="layer bg anim-parallax-bg"></div>
+          <div class="layer fg anim-parallax-fg"></div>
+          <span class="motion-replay" title="Replay">↻</span>
+        </div>
+        <p class="motion-card-desc">multi-layer translateY<br/>scroll-driven · ease-in-out</p>
+      </div>
+
+      <div class="motion-card">
+        <span class="motion-card-title">Sequence</span>
+        <h4 class="motion-card-name">Stagger Bars</h4>
+        <div class="motion-stage stagger-stage">
+          <div class="bar anim-stagger" style="animation-delay:0ms;"></div>
+          <div class="bar anim-stagger" style="animation-delay:120ms;"></div>
+          <div class="bar anim-stagger" style="animation-delay:240ms;"></div>
+          <span class="motion-replay" title="Replay">↻</span>
+        </div>
+        <p class="motion-card-desc">scaleX 0 → 1, staggered<br/>120ms delay · ease-out</p>
+      </div>
+
+      <div class="motion-card">
+        <span class="motion-card-title">Micro</span>
+        <h4 class="motion-card-name">Magnetic Hover</h4>
+        <div class="motion-stage">
+          <div class="dot-red anim-magnetic"></div>
+          <span class="motion-replay" title="Replay">↻</span>
+        </div>
+        <p class="motion-card-desc">cursor follows · 8px max<br/>240ms · spring overshoot</p>
+      </div>
+
+      <div class="motion-card">
+        <span class="motion-card-title">Interaction</span>
+        <h4 class="motion-card-name">Button Sweep</h4>
+        <div class="motion-stage">
+          <a href="#" class="btn btn--primary">Hover me <span class="arrow">→</span></a>
+        </div>
+        <p class="motion-card-desc">::after sweep + arrow nudge<br/>400ms · ease-out</p>
+      </div>
+
+    </div>
+
+    <h3 class="subheading" style="margin-top: var(--space-16);">Duration Tokens</h3>
+    <table class="token-table">
+      <thead>
+        <tr><th>Token</th><th>Value</th><th>Use case</th><th>Visual</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="token-name">--dur-instant</td><td class="token-value">100ms</td><td>Pressed states, ripple</td><td><span class="token-bar" style="width: 8px;"></span></td></tr>
+        <tr><td class="token-name">--dur-fast</td><td class="token-value">200ms</td><td>Hover, focus, tooltips</td><td><span class="token-bar" style="width: 16px;"></span></td></tr>
+        <tr><td class="token-name">--dur-normal</td><td class="token-value">400ms</td><td>Cards, modals, sweeps</td><td><span class="token-bar" style="width: 32px;"></span></td></tr>
+        <tr><td class="token-name">--dur-slow</td><td class="token-value">700ms</td><td>Page reveals, large transitions</td><td><span class="token-bar" style="width: 56px;"></span></td></tr>
+        <tr><td class="token-name">--dur-ambient</td><td class="token-value">1200ms</td><td>Hero entrances, blur reveals</td><td><span class="token-bar" style="width: 96px;"></span></td></tr>
+        <tr><td class="token-name">--dur-epic</td><td class="token-value">2000ms</td><td>Cinematic moments only</td><td><span class="token-bar" style="width: 160px;"></span></td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="subheading" style="margin-top: var(--space-12);">Easing Tokens</h3>
+    <table class="token-table">
+      <thead>
+        <tr><th>Token</th><th>Value</th><th>Character</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="token-name">--ease-out</td><td class="token-value">cubic-bezier(0.16, 1, 0.3, 1)</td><td>Premium expo-out — default for entrances</td></tr>
+        <tr><td class="token-name">--ease-in</td><td class="token-value">cubic-bezier(0.7, 0, 0.84, 0)</td><td>Sharp departure — for exits</td></tr>
+        <tr><td class="token-name">--ease-in-out</td><td class="token-value">cubic-bezier(0.65, 0, 0.35, 1)</td><td>Symmetrical — for parallax loops</td></tr>
+        <tr><td class="token-name">--ease-spring</td><td class="token-value">cubic-bezier(0.34, 1.56, 0.64, 1)</td><td>Light overshoot — playful confirms</td></tr>
+        <tr><td class="token-name">--ease-smooth</td><td class="token-value">cubic-bezier(0.25, 0.46, 0.45, 0.94)</td><td>Gentle — for ambient motion</td></tr>
+        <tr><td class="token-name">--ease-linear</td><td class="token-value">cubic-bezier(0, 0, 1, 1)</td><td>Constant — only for loops &amp; spinners</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="subheading" style="margin-top: var(--space-12);">Stagger &amp; Delay</h3>
+    <table class="token-table">
+      <thead>
+        <tr><th>Pattern</th><th>Value</th><th>Use case</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="token-name">stagger-tight</td><td class="token-value">40ms · between siblings</td><td>Char-by-char text reveal</td></tr>
+        <tr><td class="token-name">stagger-normal</td><td class="token-value">80ms · between siblings</td><td>Word, list-item reveal</td></tr>
+        <tr><td class="token-name">stagger-loose</td><td class="token-value">160ms · between siblings</td><td>Card grid entrances</td></tr>
+        <tr><td class="token-name">delay-hero</td><td class="token-value">200ms initial · +200ms per layer</td><td>Hero cascade (title → lead → CTA → meta)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     4 · COMPONENTS
+═══════════════════════════════════════════ -->
+<section class="section section--subtle" id="components">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-eyebrow">04 · Component Library</span>
+      <h2 class="section-title">Composable, <em>consistent,</em> alive.</h2>
+      <p class="section-lead">
+        Every component shares the same token language. States are explicit
+        and motion is built-in — no after-the-fact polish required.
+      </p>
+    </div>
+
+    <!-- Buttons -->
+    <h3 class="subheading">Buttons</h3>
+
+    <div class="layout-demo">
+      <div class="layout-demo-label">Primary · Solid red with sweep on hover</div>
+      <div style="display:flex; gap:var(--space-4); flex-wrap:wrap; align-items:center;">
+        <a href="#" class="btn btn--primary">Get started</a>
+        <a href="#" class="btn btn--primary">With arrow <span class="arrow">→</span></a>
+        <a href="#" class="btn btn--primary btn--lg">Large CTA</a>
+        <a href="#" class="btn btn--primary btn--sm">Small</a>
+        <a href="#" class="btn btn--primary btn--loading">Loading</a>
+        <a href="#" class="btn btn--primary btn--disabled" aria-disabled="true">Disabled</a>
+      </div>
+    </div>
+
+    <div class="layout-demo">
+      <div class="layout-demo-label">Secondary · Outlined with vertical fill</div>
+      <div style="display:flex; gap:var(--space-4); flex-wrap:wrap; align-items:center;">
+        <a href="#" class="btn btn--secondary">Learn more</a>
+        <a href="#" class="btn btn--secondary btn--lg">Documentation</a>
+        <a href="#" class="btn btn--secondary btn--loading">Loading</a>
+        <a href="#" class="btn btn--secondary btn--disabled" aria-disabled="true">Disabled</a>
+      </div>
+    </div>
+
+    <div class="layout-demo">
+      <div class="layout-demo-label">Ghost · Underline reveal</div>
+      <div style="display:flex; gap:var(--space-4); flex-wrap:wrap; align-items:center;">
+        <a href="#" class="btn btn--ghost">View all</a>
+        <a href="#" class="btn btn--ghost">Read story <span class="arrow">→</span></a>
+      </div>
+    </div>
+
+    <div class="layout-demo" style="background: var(--ink); border-color: var(--ink);">
+      <div class="layout-demo-label" style="color: rgba(255,255,255,0.45);">On dark background</div>
+      <div style="display:flex; gap:var(--space-4); flex-wrap:wrap; align-items:center;">
+        <a href="#" class="btn btn--primary">Primary</a>
+        <a href="#" class="btn btn--secondary btn--on-dark">Secondary</a>
+        <a href="#" class="btn btn--ghost" style="color:white;">Ghost</a>
+      </div>
+    </div>
+
+    <!-- Navbar -->
+    <h3 class="subheading" style="margin-top: var(--space-16);">Navigation Bar</h3>
+    <div class="layout-demo">
+      <div class="layout-demo-label">Pill navbar with active indicator</div>
+      <nav class="demo-navbar">
+        <div class="demo-navbar-brand">Crimson<span>.</span></div>
+        <div class="demo-navbar-links">
+          <a href="#" class="demo-navbar-link is-active">Overview</a>
+          <a href="#" class="demo-navbar-link">Components</a>
+          <a href="#" class="demo-navbar-link">Tokens</a>
+          <a href="#" class="demo-navbar-link">Motion</a>
+        </div>
+        <a href="#" class="btn btn--primary btn--sm">Sign in</a>
+      </nav>
+    </div>
+
+    <!-- Cards -->
+    <h3 class="subheading" style="margin-top: var(--space-16);">Cards</h3>
+    <div class="card-grid reveal-stagger">
+
+      <div class="card">
+        <div class="card-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        </div>
+        <h3 class="card-title">Composable tokens</h3>
+        <p class="card-desc">Every value lives in CSS variables. Theme it once, propagate everywhere.</p>
+        <a href="#" class="card-link">Read more <span class="arrow">→</span></a>
+      </div>
+
+      <div class="card card--featured">
+        <div class="card-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <h3 class="card-title">Premium motion</h3>
+        <p class="card-desc">A small set of duration and easing tokens that compose into rich, cohesive animation.</p>
+        <a href="#" class="card-link" style="color: var(--color-accent-light);">Read more <span class="arrow">→</span></a>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+        </div>
+        <h3 class="card-title">Clear hierarchy</h3>
+        <p class="card-desc">Type, color and spacing scales designed to guide the eye through every screen.</p>
+        <a href="#" class="card-link">Read more <span class="arrow">→</span></a>
+      </div>
+
+    </div>
+
+    <!-- Forms -->
+    <h3 class="subheading" style="margin-top: var(--space-16);">Forms &amp; Inputs</h3>
+    <div class="grid-2">
+
+      <div class="layout-demo" style="background: var(--surface-1);">
+        <div class="layout-demo-label">Underlined inputs</div>
+        <div class="field">
+          <label for="f-name">Full name</label>
+          <input id="f-name" class="input" type="text" placeholder="Maria Rodriguez" />
+        </div>
+        <div class="field">
+          <label for="f-email">Email</label>
+          <input id="f-email" class="input" type="email" placeholder="you@studio.com" value="hello@crimson.dev" />
+          <span class="field-hint">We'll never share this address.</span>
+        </div>
+        <div class="field field--error">
+          <label for="f-err">Error state</label>
+          <input id="f-err" class="input" type="text" value="invalid value" />
+          <span class="field-hint">Please enter a valid value.</span>
+        </div>
+        <div class="check-row">
+          <input id="f-check" class="check" type="checkbox" checked />
+          <label for="f-check" style="font-family:var(--font-body); font-size:var(--fs-body-sm); color: var(--text-secondary); text-transform:none; letter-spacing:normal;">Subscribe to motion notes</label>
+        </div>
+      </div>
+
+      <div class="layout-demo" style="background: var(--surface-1);">
+        <div class="layout-demo-label">Boxed inputs</div>
+        <div class="field">
+          <label for="f-search">Search</label>
+          <input id="f-search" class="input input--boxed" type="search" placeholder="Search components…" />
+        </div>
+        <div class="field">
+          <label for="f-msg">Message</label>
+          <textarea id="f-msg" class="textarea input--boxed" placeholder="What's on your mind?"></textarea>
+        </div>
+        <div style="display:flex; gap: var(--space-3); margin-top: var(--space-4);">
+          <button class="btn btn--primary btn--sm">Submit</button>
+          <button class="btn btn--ghost btn--sm">Cancel</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     5 · LAYOUT & SPACING
+═══════════════════════════════════════════ -->
+<section class="section" id="layout">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-eyebrow">05 · Layout &amp; Spacing</span>
+      <h2 class="section-title">A 4px <em>system,</em> a 12-column grid.</h2>
+      <p class="section-lead">
+        Predictable rhythm at every scale. Spacing, grids and breakpoints
+        share the same vocabulary so layouts feel intentional, never accidental.
+      </p>
+    </div>
+
+    <h3 class="subheading">Spacing Scale (4px base)</h3>
+    <div class="layout-demo">
+      <div class="space-scale">
+        <div class="space-row"><span class="space-token">--space-1</span><div class="space-bar" style="width: 4px;"></div><span class="space-value">4px</span></div>
+        <div class="space-row"><span class="space-token">--space-2</span><div class="space-bar" style="width: 8px;"></div><span class="space-value">8px</span></div>
+        <div class="space-row"><span class="space-token">--space-3</span><div class="space-bar" style="width: 12px;"></div><span class="space-value">12px</span></div>
+        <div class="space-row"><span class="space-token">--space-4</span><div class="space-bar" style="width: 16px;"></div><span class="space-value">16px</span></div>
+        <div class="space-row"><span class="space-token">--space-6</span><div class="space-bar" style="width: 24px;"></div><span class="space-value">24px</span></div>
+        <div class="space-row"><span class="space-token">--space-8</span><div class="space-bar" style="width: 32px;"></div><span class="space-value">32px</span></div>
+        <div class="space-row"><span class="space-token">--space-12</span><div class="space-bar" style="width: 48px;"></div><span class="space-value">48px</span></div>
+        <div class="space-row"><span class="space-token">--space-16</span><div class="space-bar" style="width: 64px;"></div><span class="space-value">64px</span></div>
+        <div class="space-row"><span class="space-token">--space-24</span><div class="space-bar" style="width: 96px;"></div><span class="space-value">96px</span></div>
+        <div class="space-row"><span class="space-token">--space-32</span><div class="space-bar" style="width: 128px;"></div><span class="space-value">128px</span></div>
+        <div class="space-row"><span class="space-token">--space-48</span><div class="space-bar" style="width: 192px;"></div><span class="space-value">192px</span></div>
+      </div>
+    </div>
+
+    <h3 class="subheading">Grid Patterns</h3>
+
+    <div class="layout-demo">
+      <div class="layout-demo-label">12-column grid · gap 12px · max-width 1280px</div>
+      <div class="grid-12">
+        <div class="col-block">1</div><div class="col-block">2</div><div class="col-block">3</div><div class="col-block">4</div>
+        <div class="col-block">5</div><div class="col-block">6</div><div class="col-block">7</div><div class="col-block">8</div>
+        <div class="col-block">9</div><div class="col-block">10</div><div class="col-block">11</div><div class="col-block">12</div>
+      </div>
+    </div>
+
+    <div class="layout-demo">
+      <div class="layout-demo-label">3-column grid · gap 16px · for card layouts</div>
+      <div class="grid-3">
+        <div class="col-block">Column</div>
+        <div class="col-block">Column</div>
+        <div class="col-block">Column</div>
+      </div>
+    </div>
+
+    <div class="layout-demo">
+      <div class="layout-demo-label">2-column split · gap 24px · for content + media</div>
+      <div class="grid-2">
+        <div class="col-block">Content</div>
+        <div class="col-block">Media</div>
+      </div>
+    </div>
+
+    <div class="layout-demo">
+      <div class="layout-demo-label">Asymmetric 2/1 · gap 24px · for editorial layouts</div>
+      <div class="grid-asym">
+        <div class="col-block">Primary 2fr</div>
+        <div class="col-block">Sidebar 1fr</div>
+      </div>
+    </div>
+
+    <h3 class="subheading">Breakpoints</h3>
+    <div class="bp-grid">
+      <div class="bp-card">
+        <div class="bp-name">XS · Mobile</div>
+        <div class="bp-range">0 – 479px</div>
+        <p class="bp-desc">Single column, condensed type, full-width components.</p>
+      </div>
+      <div class="bp-card">
+        <div class="bp-name">SM · Mobile L</div>
+        <div class="bp-range">480 – 767px</div>
+        <p class="bp-desc">Looser spacing, optional 2-column grids for cards.</p>
+      </div>
+      <div class="bp-card">
+        <div class="bp-name">MD · Tablet</div>
+        <div class="bp-range">768 – 1023px</div>
+        <p class="bp-desc">3-column grids unlock, navbar expands.</p>
+      </div>
+      <div class="bp-card">
+        <div class="bp-name">LG · Desktop</div>
+        <div class="bp-range">1024 – 1439px</div>
+        <p class="bp-desc">Full 12-column grid, display type at full size.</p>
+      </div>
+      <div class="bp-card">
+        <div class="bp-name">XL · Wide</div>
+        <div class="bp-range">1440px+</div>
+        <p class="bp-desc">Container caps at 1280px, generous whitespace.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     6 · GUIDELINES
+═══════════════════════════════════════════ -->
+<section class="section section--subtle" id="guidelines">
+  <div class="container">
+    <div class="reveal">
+      <span class="section-eyebrow">06 · Guidelines</span>
+      <h2 class="section-title">Principles for <em>using</em> the system.</h2>
+      <p class="section-lead">
+        Practical rules that keep the visual language intact across products,
+        teams and time.
+      </p>
+    </div>
+
+    <h3 class="subheading">Color</h3>
+    <div class="guideline-grid reveal-stagger">
+      <div class="guideline do">
+        <div class="guideline-icon">✓</div>
+        <div class="guideline-label">Do</div>
+        <p class="guideline-text">Use red as a single, deliberate accent — for primary actions, focus, and emotional emphasis.</p>
+      </div>
+      <div class="guideline dont">
+        <div class="guideline-icon">×</div>
+        <div class="guideline-label">Don't</div>
+        <p class="guideline-text">Don't paint surfaces in red. Reserve it for moments that matter; over-use dilutes the system.</p>
+      </div>
+      <div class="guideline do">
+        <div class="guideline-icon">✓</div>
+        <div class="guideline-label">Do</div>
+        <p class="guideline-text">Pair red with deep ink and generous white to maintain a premium, editorial contrast.</p>
+      </div>
+      <div class="guideline dont">
+        <div class="guideline-icon">×</div>
+        <div class="guideline-label">Don't</div>
+        <p class="guideline-text">Don't introduce new accent colors. The system is intentionally monochromatic with one warm signal.</p>
+      </div>
+    </div>
+
+    <h3 class="subheading" style="margin-top: var(--space-12);">Typography</h3>
+    <div class="guideline-grid reveal-stagger">
+      <div class="guideline do">
+        <div class="guideline-icon">✓</div>
+        <div class="guideline-label">Do</div>
+        <p class="guideline-text">Use Fraunces italic to highlight a single emotional word inside a serif heading.</p>
+      </div>
+      <div class="guideline dont">
+        <div class="guideline-icon">×</div>
+        <div class="guideline-label">Don't</div>
+        <p class="guideline-text">Don't mix serif and sans inside the same heading. Let the families do their job.</p>
+      </div>
+      <div class="guideline do">
+        <div class="guideline-icon">✓</div>
+        <div class="guideline-label">Do</div>
+        <p class="guideline-text">Cap line length around 60 characters for body, 24 for display headings.</p>
+      </div>
+    </div>
+
+    <h3 class="subheading" style="margin-top: var(--space-12);">Motion</h3>
+    <div class="guideline-grid reveal-stagger">
+      <div class="guideline do">
+        <div class="guideline-icon">✓</div>
+        <div class="guideline-label">Do</div>
+        <p class="guideline-text">Lead with <code style="font-family:var(--font-mono); font-size:12px; color:var(--color-accent);">--ease-out</code> for entrances. It's the system's voice.</p>
+      </div>
+      <div class="guideline dont">
+        <div class="guideline-icon">×</div>
+        <div class="guideline-label">Don't</div>
+        <p class="guideline-text">Don't animate everything. Motion should clarify hierarchy, not compete with content.</p>
+      </div>
+      <div class="guideline do">
+        <div class="guideline-icon">✓</div>
+        <div class="guideline-label">Do</div>
+        <p class="guideline-text">Honor <code style="font-family:var(--font-mono); font-size:12px; color:var(--color-accent);">prefers-reduced-motion</code>. Replace transforms with simple fades.</p>
+      </div>
+      <div class="guideline dont">
+        <div class="guideline-icon">×</div>
+        <div class="guideline-label">Don't</div>
+        <p class="guideline-text">Don't chain more than 3 sequenced reveals on the same screen. The eye gets tired.</p>
+      </div>
+    </div>
+
+    <h3 class="subheading" style="margin-top: var(--space-12);">Components &amp; Spacing</h3>
+    <div class="guideline-grid reveal-stagger">
+      <div class="guideline do">
+        <div class="guideline-icon">✓</div>
+        <div class="guideline-label">Do</div>
+        <p class="guideline-text">Compose layouts using only the spacing scale. Custom values break the rhythm.</p>
+      </div>
+      <div class="guideline do">
+        <div class="guideline-icon">✓</div>
+        <div class="guideline-label">Do</div>
+        <p class="guideline-text">Always provide hover, focus-visible, active, disabled and loading states for interactive components.</p>
+      </div>
+      <div class="guideline dont">
+        <div class="guideline-icon">×</div>
+        <div class="guideline-label">Don't</div>
+        <p class="guideline-text">Don't fork components per page. Extend variants in the system itself.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════ -->
+<footer class="ds-footer">
+  <div class="container">
+    <div class="ds-footer-grid">
+      <div>
+        <div class="ds-footer-brand">Crimson<span>.</span></div>
+        <p class="ds-footer-tagline">A unified design system synthesizing structural clarity with editorial elegance — built for premium product experiences.</p>
+      </div>
+      <div class="ds-footer-col">
+        <h4>System</h4>
+        <ul>
+          <li><a href="#colors">Colors</a></li>
+          <li><a href="#typography">Typography</a></li>
+          <li><a href="#animations">Motion</a></li>
+        </ul>
+      </div>
+      <div class="ds-footer-col">
+        <h4>Library</h4>
+        <ul>
+          <li><a href="#components">Components</a></li>
+          <li><a href="#layout">Layout</a></li>
+          <li><a href="#guidelines">Guidelines</a></li>
+        </ul>
+      </div>
+      <div class="ds-footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="#">Figma library</a></li>
+          <li><a href="#">Storybook</a></li>
+          <li><a href="#">Changelog</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ds-footer-bottom">
+      <span>© 2026 Crimson Design System · v1.0.0</span>
+      <span>Synthesized from Tunnel &amp; Monso Water</span>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ═══════════════════════════════════════════
+     SCRIPTS · SCROLL REVEAL & PARALLAX
+═══════════════════════════════════════════ -->
+<script>
+(function() {
+  // Respect reduced motion
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced) {
+    document.querySelectorAll('.reveal, .reveal-blur, .reveal-stagger').forEach(function(el){
+      el.classList.add('is-in');
+    });
+    return;
+  }
+
+  // IntersectionObserver for reveals
+  var io = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-in');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal, .reveal-blur, .reveal-stagger').forEach(function(el){
+    io.observe(el);
+  });
+
+  // Parallax orbs in hero
+  var parallaxEls = document.querySelectorAll('[data-parallax]');
+  if (parallaxEls.length) {
+    var ticking = false;
+    window.addEventListener('scroll', function() {
+      if (!ticking) {
+        requestAnimationFrame(function() {
+          var scrollY = window.scrollY;
+          parallaxEls.forEach(function(el) {
+            var speed = parseFloat(el.dataset.parallax) || 0.2;
+            el.style.transform = 'translate3d(0, ' + (scrollY * speed) + 'px, 0)';
+          });
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+  }
+
+  // Magnetic buttons (subtle cursor follow)
+  document.querySelectorAll('.btn--primary').forEach(function(btn) {
+    btn.addEventListener('mousemove', function(e) {
+      var r = btn.getBoundingClientRect();
+      var x = e.clientX - r.left - r.width / 2;
+      var y = e.clientY - r.top - r.height / 2;
+      btn.style.transform = 'translate(' + (x * 0.12) + 'px, ' + (y * 0.18) + 'px)';
+    });
+    btn.addEventListener('mouseleave', function() {
+      btn.style.transform = '';
+    });
+  });
+
+  // Motion replay buttons — restart the demo animation
+  document.querySelectorAll('.motion-replay').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var stage = btn.closest('.motion-stage');
+      if (!stage) return;
+      stage.querySelectorAll('[class*="anim-"]').forEach(function(el) {
+        var animName = el.style.animation || getComputedStyle(el).animation;
+        el.style.animation = 'none';
+        // force reflow
+        void el.offsetHeight;
+        el.style.animation = '';
+      });
+    });
+  });
+
+  // Smooth scroll for nav anchors with offset
+  document.querySelectorAll('a[href^="#"]').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      var href = link.getAttribute('href');
+      if (href.length < 2) return;
+      var target = document.querySelector(href);
+      if (!target) return;
+      e.preventDefault();
+      var topnavH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--topnav-h'));
+      var top = target.getBoundingClientRect().top + window.scrollY - topnavH - 12;
+      window.scrollTo({ top: top, behavior: 'smooth' });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

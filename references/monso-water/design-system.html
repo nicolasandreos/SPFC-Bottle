@@ -1,0 +1,1581 @@
+<!DOCTYPE html>
+<html class="w-mod-js w-mod-ix wf-petrona-n4-active wf-petrona-n7-active wf-petrona-n6-active wf-jost-n6-active wf-jost-n4-active wf-prompt-n5-active wf-prompt-n4-active wf-active" data-wf-domain="monso-water-cda072820c786c5db2240084e4d.webflow.io" data-wf-page="64c94d25eec46ffc427b71ca" data-wf-site="64c94d25eec46ffc427b71c9" style="scroll-behavior: auto;">
+<head>
+  <meta charset="utf-8"/>
+  <title>Monso Water — Design System</title>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <link href="assets/monso-water-cda072820c786c5db2_5d3e5aa90db9.css" rel="stylesheet" type="text/css"/>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="anonymous" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <script src="assets/webfont_3a3adf980c7d.js" type="text/javascript"></script>
+  <link href="assets/css_6c6578d742a0.css" media="all" rel="stylesheet"/>
+  <script type="text/javascript">WebFont.load({ google: { families: ["Petrona:100,200,300,regular,500,600,700,800,900","Jost:100,200,300,regular,500,600,700,800,900","Prompt:100,200,300,regular,500,600,700,800,900"] } });</script>
+  <script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script>
+
+  <style data-scroll-fix="true">
+    html, body { overflow: auto !important; overflow-x: hidden !important; height: auto !important; min-height: 100% !important; opacity: 1 !important; visibility: visible !important; }
+    body, .wrapper, main, .page, .content { opacity: 1 !important; visibility: visible !important; transform: none !important; }
+    .loader, .preloader, .loading { display: none !important; }
+  </style>
+
+  <style>
+    /* =========================================================
+       DESIGN SYSTEM DOC LAYER — only prefixed .ds-* classes
+       No overrides to original component styles
+       ========================================================= */
+    :root {
+      --ds-nav-h: 44px;
+    }
+
+    /* ── DS Top Nav ── */
+    .ds-topnav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 99999;
+      height: var(--ds-nav-h);
+      background: #061560;
+      border-bottom: 2px solid #22b6ff;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      gap: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .ds-topnav::-webkit-scrollbar { display: none; }
+    .ds-topnav-logo {
+      font-family: Petrona, sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: #22b6ff;
+      margin-right: 16px;
+      flex-shrink: 0;
+      letter-spacing: .5px;
+      white-space: nowrap;
+    }
+    .ds-topnav-sep {
+      width: 1px;
+      height: 20px;
+      background: rgba(255,255,255,.15);
+      margin-right: 4px;
+      flex-shrink: 0;
+    }
+    .ds-topnav a {
+      font-family: Prompt, sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      color: rgba(255,255,255,.6);
+      text-decoration: none;
+      padding: 0 14px;
+      height: var(--ds-nav-h);
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+      transition: color .3s, background .3s;
+      flex-shrink: 0;
+      border-right: 1px solid rgba(255,255,255,.07);
+    }
+    .ds-topnav a:first-of-type { border-left: 1px solid rgba(255,255,255,.07); }
+    .ds-topnav a:hover { color: #95dec9; background: rgba(255,255,255,.04); }
+
+    /* ── Page offset for DS nav ── */
+    .page-wrapper { padding-top: var(--ds-nav-h) !important; }
+
+    /* ── DS section containers ── */
+    .ds-doc-section {
+      background: #fff;
+      padding: 80px 0;
+    }
+    .ds-doc-section + .ds-doc-section {
+      border-top: 1px solid rgba(14,44,114,.07);
+    }
+    .ds-doc-section.ds-bg-subtle {
+      background: rgba(47,127,239,.03);
+    }
+    .ds-doc-section.ds-bg-dark {
+      background: #0e2c72;
+    }
+    .ds-doc-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+    .ds-section-eyebrow {
+      display: block;
+      font-family: Prompt, sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: #22b6ff;
+      margin-bottom: 6px;
+    }
+    .ds-bg-dark .ds-section-eyebrow { color: #95dec9; }
+    .ds-section-heading {
+      font-family: Petrona, sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: #0e2c72;
+      margin: 0 0 52px;
+      line-height: 1.2;
+    }
+    .ds-bg-dark .ds-section-heading { color: #fff; }
+
+    /* ── Typography table ── */
+    .ds-type-table { width: 100%; }
+    .ds-type-row {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding: 28px 0;
+      border-top: 1px solid rgba(14,44,114,.07);
+    }
+    .ds-type-row:last-child { border-bottom: 1px solid rgba(14,44,114,.07); }
+    .ds-type-meta {
+      width: 156px;
+      flex-shrink: 0;
+    }
+    .ds-type-style-name {
+      font-family: Prompt, sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(14,44,114,.45);
+      display: block;
+    }
+    .ds-type-class-name {
+      font-family: Prompt, sans-serif;
+      font-size: 10px;
+      color: rgba(34,182,255,.8);
+      margin-top: 3px;
+      display: block;
+    }
+    .ds-type-preview {
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+    }
+    .ds-type-spec {
+      width: 130px;
+      flex-shrink: 0;
+      text-align: right;
+      font-family: Prompt, sans-serif;
+      font-size: 11px;
+      color: rgba(14,44,114,.38);
+      line-height: 1.7;
+    }
+    .ds-dark-bg {
+      background: #0e2c72;
+      border-radius: 8px;
+      padding: 12px 16px;
+      display: inline-block;
+    }
+
+    /* ── Color swatches ── */
+    .ds-color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 20px;
+      margin-bottom: 48px;
+    }
+    .ds-color-grid + .ds-section-subheading { margin-top: 24px; }
+    .ds-swatch {
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 16px rgba(14,44,114,.08);
+    }
+    .ds-swatch-block { height: 90px; }
+    .ds-swatch-info {
+      padding: 12px 14px;
+      background: #fff;
+      border-top: 1px solid rgba(14,44,114,.07);
+    }
+    .ds-swatch-name {
+      font-family: Petrona, sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: #0e2c72;
+      margin-bottom: 2px;
+    }
+    .ds-swatch-value {
+      font-family: Prompt, sans-serif;
+      font-size: 11px;
+      color: rgba(14,44,114,.45);
+    }
+    .ds-section-subheading {
+      font-family: Petrona, sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: #0e2c72;
+      margin: 40px 0 20px;
+    }
+    .ds-bg-dark .ds-section-subheading { color: #fff; }
+    .ds-gradient-strip {
+      height: 90px;
+      border-radius: 12px;
+      margin-bottom: 8px;
+    }
+    .ds-surface-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+    }
+    .ds-surface-card {
+      border-radius: 12px;
+      border: 1px solid rgba(14,44,114,.1);
+      overflow: hidden;
+    }
+    .ds-surface-preview { height: 80px; }
+    .ds-surface-info { padding: 12px 14px; background: #fff; border-top: 1px solid rgba(14,44,114,.07); }
+    .ds-surface-name { font-family: Petrona, sans-serif; font-size: 13px; font-weight: 600; color: #0e2c72; margin-bottom: 2px; }
+    .ds-surface-desc { font-family: Prompt, sans-serif; font-size: 11px; color: rgba(14,44,114,.45); }
+
+    /* ── Component section ── */
+    .ds-component-block {
+      padding: 36px 0;
+      border-top: 1px solid rgba(14,44,114,.07);
+    }
+    .ds-component-block:last-child { border-bottom: 1px solid rgba(14,44,114,.07); }
+    .ds-component-block-title {
+      font-family: Prompt, sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(14,44,114,.45);
+      margin-bottom: 24px;
+    }
+    .ds-states-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .ds-state-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .ds-state-label {
+      font-family: Prompt, sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: rgba(14,44,114,.38);
+    }
+    /* Simulated hover for static display */
+    .ds-sim-hover.primary-button {
+      color: #000 !important;
+      background-color: #95dec9 !important;
+    }
+    .ds-sim-hover.cta-button {
+      color: #fff !important;
+      background-color: #22b6ff !important;
+    }
+
+    /* Works card demo override: remove max-width constraints for demo */
+    .ds-card-demo .works-description-text { max-width: none; }
+
+    /* Comparison check icons row */
+    .ds-icon-states-row {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    /* ── Layout section ── */
+    .ds-layout-demo-wrap {
+      margin-bottom: 32px;
+    }
+    .ds-layout-demo-label {
+      font-family: Prompt, sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(14,44,114,.45);
+      margin-bottom: 12px;
+    }
+    .ds-layout-demo-frame {
+      border: 1px solid rgba(14,44,114,.1);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .ds-layout-demo-inner {
+      padding: 24px;
+      background: rgba(47,127,239,.025);
+    }
+    .ds-col-block {
+      background: rgba(34,182,255,.1);
+      border: 1px solid rgba(34,182,255,.25);
+      border-radius: 6px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: Prompt, sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      color: #22b6ff;
+    }
+    .ds-spacing-table { width: 100%; border-collapse: collapse; }
+    .ds-spacing-table td {
+      padding: 10px 12px;
+      font-family: Prompt, sans-serif;
+      font-size: 12px;
+      color: rgba(14,44,114,.6);
+      border-top: 1px solid rgba(14,44,114,.07);
+      vertical-align: middle;
+    }
+    .ds-spacing-table td:first-child { color: #0e2c72; font-weight: 600; width: 180px; }
+    .ds-spacing-viz { display: inline-flex; align-items: center; gap: 6px; }
+    .ds-spacing-bar { height: 12px; background: rgba(149,222,201,.5); border: 1px solid #95dec9; border-radius: 2px; }
+    .ds-spacing-val { font-family: Prompt, sans-serif; font-size: 11px; color: rgba(14,44,114,.45); }
+
+    /* ── Motion section ── */
+    .ds-motion-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 24px;
+    }
+    .ds-motion-card {
+      border: 1px solid rgba(14,44,114,.1);
+      border-radius: 12px;
+      padding: 32px 24px;
+      text-align: center;
+      background: #fff;
+    }
+    .ds-motion-card-title {
+      font-family: Prompt, sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(14,44,114,.45);
+      margin-bottom: 20px;
+    }
+    .ds-motion-card-desc {
+      font-family: Prompt, sans-serif;
+      font-size: 12px;
+      color: rgba(14,44,114,.45);
+      margin-top: 14px;
+      line-height: 1.6;
+    }
+    /* Demo animations */
+    @keyframes ds-fadeSlideUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes ds-fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes ds-scaleIn {
+      from { opacity: 0; transform: scale3d(.5,.5,1); filter: blur(10px); }
+      to   { opacity: 1; transform: scale3d(1,1,1); filter: blur(0); }
+    }
+    @keyframes ds-parallaxFloat {
+      0%   { transform: translateX(-60px); }
+      50%  { transform: translateX(60px); }
+      100% { transform: translateX(-60px); }
+    }
+    @keyframes ds-rotate {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+    .ds-anim-fadeslide {
+      animation: ds-fadeSlideUp 1.2s cubic-bezier(.25,.46,.45,.94) infinite alternate;
+    }
+    .ds-anim-scalein {
+      animation: ds-scaleIn 1.5s ease infinite alternate;
+    }
+    .ds-anim-float {
+      animation: ds-parallaxFloat 3s ease-in-out infinite;
+    }
+    .ds-anim-rotate {
+      animation: ds-rotate 4s linear infinite;
+    }
+    .ds-motion-demo-el {
+      width: 60px;
+      height: 60px;
+      background: #0e2c72;
+      border-radius: 12px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .ds-motion-demo-btn {
+      display: inline-block;
+    }
+    .ds-motion-demo-circle {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: #95dec9;
+      margin: 0 auto;
+    }
+
+    /* ── Icons section ── */
+    .ds-icon-grid {
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+      align-items: flex-start;
+    }
+    .ds-icon-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .ds-icon-label {
+      font-family: Prompt, sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: rgba(14,44,114,.38);
+    }
+    .ds-icon-size-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .ds-icon-size-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Scrollable hero wrapper (contains the full original header+hero) */
+    #section-hero .page-wrapper {
+      padding-top: 0 !important;
+    }
+    #section-hero .navbar {
+      position: relative !important;
+      top: auto !important;
+    }
+  </style>
+</head>
+
+<body style="scroll-behavior: auto;">
+
+  <!-- ═══════════════════════════════════════
+       DS TOP NAVIGATION
+  ═══════════════════════════════════════ -->
+  <nav class="ds-topnav" role="navigation" aria-label="Design System Navigation">
+    <span class="ds-topnav-logo">DS — Monso Water</span>
+    <div class="ds-topnav-sep"></div>
+    <a href="#section-hero">Hero</a>
+    <a href="#section-typography">Typography</a>
+    <a href="#section-colors">Colors</a>
+    <a href="#section-components">Components</a>
+    <a href="#section-layout">Layout</a>
+    <a href="#section-motion">Motion</a>
+    <a href="#section-icons">Icons</a>
+  </nav>
+
+  <!-- ═══════════════════════════════════════
+       0 · HERO — EXACT CLONE (TEXT ADAPTED)
+  ═══════════════════════════════════════ -->
+  <div id="section-hero">
+    <div class="page-wrapper" style="opacity:1;">
+
+      <!-- Original Navbar — cloned exactly -->
+      <div class="navbar w-nav" data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" style="will-change: background; background-color: rgba(255,255,255,0);">
+        <div class="container">
+          <div class="nav-content">
+            <div class="nav-left-content">
+              <a aria-current="page" aria-label="home" class="nav-logo-wrap w-nav-brand w--current" href="#">
+                <img alt="Monso Water" loading="lazy" src="assets/64c94d25eec46ffc427b71fa_Logo_7cb426354e19.png"/>
+              </a>
+            </div>
+            <div class="nav-right-content">
+              <nav class="nav-menu-wrapper w-nav-menu" role="navigation">
+                <div class="nav-dropdown w-dropdown" data-delay="0" data-hover="false">
+                  <div class="nav-dropdown-toggle-button w-dropdown-toggle" role="button" tabindex="0">
+                    <div class="nav-dropdown-text-block">Water Purifier</div>
+                    <div class="nav-dropdown-icon"></div>
+                  </div>
+                </div>
+                <div class="nav-dropdown w-dropdown" data-delay="0" data-hover="false">
+                  <div class="nav-dropdown-toggle-button w-dropdown-toggle" role="button" tabindex="0">
+                    <div class="nav-dropdown-text-block">Accessories</div>
+                    <div class="nav-dropdown-icon"></div>
+                  </div>
+                </div>
+                <div class="nav-dropdown w-dropdown" data-delay="0" data-hover="false">
+                  <div class="nav-dropdown-toggle-button w-dropdown-toggle" role="button" tabindex="0">
+                    <div class="nav-dropdown-text-block">Service</div>
+                    <div class="nav-dropdown-icon"></div>
+                  </div>
+                </div>
+                <a class="nav-link w-nav-link" href="#">Satisfaction Guarantee</a>
+                <a class="nav-link w-nav-link" href="#">Rental System</a>
+                <a class="nav-link mb0 w-nav-link" href="#">Waterist</a>
+              </nav>
+              <div class="nav-account-button-wrap">
+                <a class="nav-account-button-link-block w-inline-block" href="#">
+                  <img alt="" class="nav-account-img" loading="lazy" src="assets/64c94d25eec46ffc427b71f5_Accou_ddc372762348.svg"/>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Banner Section — exact HTML clone, text adapted -->
+      <section class="section banner-section">
+        <div class="container">
+          <div class="banner-content">
+            <div class="banner-left-content">
+              <div class="banner-text-wrapper">
+                <h1 class="banner-title">Monso Design System</h1>
+                <p class="banner-description-text">A living pattern library documenting every token, component, and motion behavior that shapes the Monso Water experience.</p>
+                <div class="button-wrapper">
+                  <a class="primary-button w-inline-block" href="#section-typography">
+                    <div>Explore the System</div>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="banner-right-content" style="transform: translate3d(0px,0px,0px) scale3d(1,1,1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg,0deg); transform-style: preserve-3d;">
+              <img alt="Monso Water product" class="banner-image" loading="lazy"
+                sizes="(max-width: 767px) 94vw, (max-width: 991px) 96vw, (max-width: 1919px) 33vw, 536px"
+                src="assets/64c94d25eec46ffc427b71fc_Banne_d6d5a2822805.png"
+                srcset="assets/64c94d25eec46ffc427b71fc_Banne_ad0d454f793a.png 500w, assets/64c94d25eec46ffc427b71fc_Banne_43ce5b786518.png 537w"/>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div><!-- /.page-wrapper -->
+  </div><!-- /#section-hero -->
+
+
+  <!-- ═══════════════════════════════════════
+       1 · TYPOGRAPHY
+  ═══════════════════════════════════════ -->
+  <div id="section-typography" class="ds-doc-section">
+    <div class="ds-doc-container">
+      <span class="ds-section-eyebrow">01 — Typography</span>
+      <h2 class="ds-section-heading">Type Scale</h2>
+
+      <div class="ds-type-table">
+
+        <!-- H1 / Banner Title -->
+        <div class="ds-type-row">
+          <div class="ds-type-meta">
+            <span class="ds-type-style-name">Heading 1</span>
+            <span class="ds-type-class-name">.banner-title</span>
+          </div>
+          <div class="ds-type-preview">
+            <h1 class="banner-title" style="margin:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Monso</h1>
+          </div>
+          <div class="ds-type-spec">
+            Petrona<br/>
+            110px / 115px<br/>
+            Weight 600
+          </div>
+        </div>
+
+        <!-- H2 / Section Title (feature-title / product-section-title) -->
+        <div class="ds-type-row">
+          <div class="ds-type-meta">
+            <span class="ds-type-style-name">Heading 2</span>
+            <span class="ds-type-class-name">.feature-title</span>
+          </div>
+          <div class="ds-type-preview">
+            <h2 class="feature-title" style="margin:0;">Pure Water Technology</h2>
+          </div>
+          <div class="ds-type-spec">
+            Petrona<br/>
+            62px / 72px<br/>
+            Weight 700
+          </div>
+        </div>
+
+        <!-- H2 / CTA Title -->
+        <div class="ds-type-row">
+          <div class="ds-type-meta">
+            <span class="ds-type-style-name">Heading 2 Alt</span>
+            <span class="ds-type-class-name">.cta-title</span>
+          </div>
+          <div class="ds-type-preview">
+            <h2 class="cta-title" style="margin:0;">Ready For Pure Water?</h2>
+          </div>
+          <div class="ds-type-spec">
+            Petrona<br/>
+            62px / 72px<br/>
+            Weight 600
+          </div>
+        </div>
+
+        <!-- H3 / Works Title -->
+        <div class="ds-type-row">
+          <div class="ds-type-meta">
+            <span class="ds-type-style-name">Heading 3</span>
+            <span class="ds-type-class-name">.works-title</span>
+          </div>
+          <div class="ds-type-preview">
+            <h3 class="works-title" style="margin:0;">Start Your Rental Today</h3>
+          </div>
+          <div class="ds-type-spec">
+            Petrona<br/>
+            30px / 40px<br/>
+            Weight 600
+          </div>
+        </div>
+
+        <!-- H3 / Card Name / Functionalities -->
+        <div class="ds-type-row">
+          <div class="ds-type-meta">
+            <span class="ds-type-style-name">Heading 3 Bold</span>
+            <span class="ds-type-class-name">.functionalities-name</span>
+          </div>
+          <div class="ds-type-preview">
+            <h3 class="functionalities-name" style="margin:0; color:#0e2c72;">Joy of Drinking Water</h3>
+          </div>
+          <div class="ds-type-spec">
+            Petrona<br/>
+            24px / 34px<br/>
+            Weight 700
+          </div>
+        </div>
+
+        <!-- H3 / Footer Section Title (white text — dark bg preview) -->
+        <div class="ds-type-row">
+          <div class="ds-type-meta">
+            <span class="ds-type-style-name">Heading 3 Light</span>
+            <span class="ds-type-class-name">.footer-menu-title</span>
+          </div>
+          <div class="ds-type-preview">
+            <div class="ds-dark-bg">
+              <h3 class="footer-menu-title" style="margin:0;">Water Purifier</h3>
+            </div>
+          </div>
+          <div class="ds-type-spec">
+            Petrona<br/>
+            24px / 100%<br/>
+            Weight 600
+          </div>
+        </div>
+
+        <!-- H4 / Benefits Title -->
+        <div class="ds-type-row">
+          <div class="ds-type-meta">
+            <span class="ds-type-style-name">Heading 4</span>
+            <span class="ds-type-class-name">.benefits-title</span>
+          </div>
+          <div class="ds-type-preview">
+            <h4 class="benefits-title" style="margin:0;">Instant Hot Water</h4>
+          </div>
+          <div class="ds-type-spec">
+            Petrona<br/>
+            24px / auto<br/>
+            Weight 700
+          </div>
+        </div>
+
+        <!-- Body Large -->
+        <div class="ds-type-row">
+          <div class="ds-type-meta">
+            <span class="ds-type-style-name">Body Large</span>
+            <span class="ds-type-class-name">.banner-description-text</span>
+          </div>
+          <div class="ds-type-preview">
+            <p class="banner-description-text" style="margin:0; max-width:none;">In one smart system, you can enjoy purified water with the push of a button.</p>
+          </div>
+          <div class="ds-type-spec">
+            Arial/sans<br/>
+            18px / 28px<br/>
+            Weight 500
+          </div>
+        </div>
+
+        <!-- Body Regular -->
+        <div class="ds-type-row">
+          <div class="ds-type-meta">
+            <span class="ds-type-style-name">Body Regular</span>
+            <span class="ds-type-class-name">.works-description-text</span>
+          </div>
+          <div class="ds-type-preview">
+            <p class="works-description-text" style="margin:0; max-width:none;">Choose the model that suits your needs and checkout with the secure payment portal.</p>
+          </div>
+          <div class="ds-type-spec">
+            Arial/sans<br/>
+            18px / 28px<br/>
+            Weight 400
+          </div>
+        </div>
+
+        <!-- Body Small -->
+        <div class="ds-type-row">
+          <div class="ds-type-meta">
+            <span class="ds-type-style-name">Body Small</span>
+            <span class="ds-type-class-name">.functionalities-description-text</span>
+          </div>
+          <div class="ds-type-preview">
+            <p class="functionalities-description-text" style="margin:0;">Three-step filtration technology, get purified water with no limescale. Enjoy the pure taste all the time.</p>
+          </div>
+          <div class="ds-type-spec">
+            Arial/sans<br/>
+            16px / 26px<br/>
+            Weight 400
+          </div>
+        </div>
+
+        <!-- Body XS / Feature list -->
+        <div class="ds-type-row">
+          <div class="ds-type-meta">
+            <span class="ds-type-style-name">Body XS</span>
+            <span class="ds-type-class-name">.feature-list-text</span>
+          </div>
+          <div class="ds-type-preview">
+            <p class="feature-list-text" style="margin:0; max-width:none;">Our unique reverse osmosis filtration process includes three separate water filters that remove all bad components found in tap water.</p>
+          </div>
+          <div class="ds-type-spec">
+            Arial/sans<br/>
+            14px / 20px<br/>
+            Weight 400
+          </div>
+        </div>
+
+        <!-- Bold inline -->
+        <div class="ds-type-row">
+          <div class="ds-type-meta">
+            <span class="ds-type-style-name">Bold Inline</span>
+            <span class="ds-type-class-name">.feature-list-text-bold</span>
+          </div>
+          <div class="ds-type-preview">
+            <span class="feature-list-text-bold">Our unique reverse osmosis filtration and purification</span>
+          </div>
+          <div class="ds-type-spec">
+            Arial/sans<br/>
+            18px / auto<br/>
+            Weight 500
+          </div>
+        </div>
+
+        <!-- Nav Link -->
+        <div class="ds-type-row">
+          <div class="ds-type-meta">
+            <span class="ds-type-style-name">Nav Link</span>
+            <span class="ds-type-class-name">.nav-link</span>
+          </div>
+          <div class="ds-type-preview">
+            <div class="ds-dark-bg">
+              <a class="nav-link" href="#" style="display:inline-block;">Satisfaction Guarantee</a>
+            </div>
+          </div>
+          <div class="ds-type-spec">
+            Prompt<br/>
+            16px / 26px<br/>
+            Weight 500
+          </div>
+        </div>
+
+        <!-- Footer link -->
+        <div class="ds-type-row">
+          <div class="ds-type-meta">
+            <span class="ds-type-style-name">Footer Link</span>
+            <span class="ds-type-class-name">.footer-menu-text-link</span>
+          </div>
+          <div class="ds-type-preview">
+            <div class="ds-dark-bg">
+              <a class="footer-menu-text-link" href="#">Delivery &amp; Installation</a>
+            </div>
+          </div>
+          <div class="ds-type-spec">
+            Arial/sans<br/>
+            18px / 28px<br/>
+            Weight 400
+          </div>
+        </div>
+
+        <!-- Comparison table name -->
+        <div class="ds-type-row">
+          <div class="ds-type-meta">
+            <span class="ds-type-style-name">Table Label</span>
+            <span class="ds-type-class-name">.comparison-table-name</span>
+          </div>
+          <div class="ds-type-preview">
+            <div class="comparison-table-name">Unlimited Filtered Water</div>
+          </div>
+          <div class="ds-type-spec">
+            Petrona<br/>
+            18px / auto<br/>
+            Weight 600
+          </div>
+        </div>
+
+      </div><!-- /.ds-type-table -->
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════
+       2 · COLORS & SURFACES
+  ═══════════════════════════════════════ -->
+  <div id="section-colors" class="ds-doc-section ds-bg-subtle">
+    <div class="ds-doc-container">
+      <span class="ds-section-eyebrow">02 — Colors &amp; Surfaces</span>
+      <h2 class="ds-section-heading">Color Palette</h2>
+
+      <!-- Core palette -->
+      <div class="ds-color-grid">
+        <div class="ds-swatch">
+          <div class="ds-swatch-block" style="background:#0e2c72;"></div>
+          <div class="ds-swatch-info">
+            <div class="ds-swatch-name">Midnight Blue</div>
+            <div class="ds-swatch-value">--midnight-blue · #0e2c72</div>
+          </div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch-block" style="background:#22b6ff;"></div>
+          <div class="ds-swatch-info">
+            <div class="ds-swatch-name">Vivid Cerulean</div>
+            <div class="ds-swatch-value">Accent · #22b6ff</div>
+          </div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch-block" style="background:#95dec9;"></div>
+          <div class="ds-swatch-info">
+            <div class="ds-swatch-name">Medium Aquamarine</div>
+            <div class="ds-swatch-value">--medium-aquamarine · #95dec9</div>
+          </div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch-block" style="background:#fff; border: 1px solid rgba(14,44,114,.1);"></div>
+          <div class="ds-swatch-info">
+            <div class="ds-swatch-name">White</div>
+            <div class="ds-swatch-value">Background · #ffffff</div>
+          </div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch-block" style="background:rgba(14,44,114,.8);"></div>
+          <div class="ds-swatch-info">
+            <div class="ds-swatch-name">Blue 80%</div>
+            <div class="ds-swatch-value">Body text · rgba(14,44,114,.8)</div>
+          </div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch-block" style="background:rgba(14,44,114,.12);"></div>
+          <div class="ds-swatch-info">
+            <div class="ds-swatch-name">Blue 12%</div>
+            <div class="ds-swatch-value">Dividers · rgba(14,44,114,.12)</div>
+          </div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch-block" style="background:rgba(47,127,239,.03);"></div>
+          <div class="ds-swatch-info">
+            <div class="ds-swatch-name">Section Wash</div>
+            <div class="ds-swatch-value">Functionalities bg · rgba(47,127,239,.03)</div>
+          </div>
+        </div>
+        <div class="ds-swatch">
+          <div class="ds-swatch-block" style="background:rgba(6,21,96,.06);"></div>
+          <div class="ds-swatch-info">
+            <div class="ds-swatch-name">Shadow Blue</div>
+            <div class="ds-swatch-value">Card shadow · rgba(6,21,96,.06)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Surfaces -->
+      <h3 class="ds-section-subheading">Surfaces &amp; Backgrounds</h3>
+      <div class="ds-surface-grid">
+        <div class="ds-surface-card">
+          <div class="ds-surface-preview" style="background:#fff; border-bottom:1px solid rgba(14,44,114,.07);"></div>
+          <div class="ds-surface-info">
+            <div class="ds-surface-name">Page / Card</div>
+            <div class="ds-surface-desc">#ffffff — base surface</div>
+          </div>
+        </div>
+        <div class="ds-surface-card">
+          <div class="ds-surface-preview" style="background:rgba(47,127,239,.03);"></div>
+          <div class="ds-surface-info">
+            <div class="ds-surface-name">Section Wash</div>
+            <div class="ds-surface-desc">rgba(47,127,239,.03) — functionalities</div>
+          </div>
+        </div>
+        <div class="ds-surface-card">
+          <div class="ds-surface-preview" style="background:#0e2c72;"></div>
+          <div class="ds-surface-info">
+            <div class="ds-surface-name">Dark Surface</div>
+            <div class="ds-surface-desc">#0e2c72 — nav, footer</div>
+          </div>
+        </div>
+        <div class="ds-surface-card">
+          <div class="ds-surface-preview" style="background:#fff; border:2.54px solid #22b6ff; border-radius:12px;"></div>
+          <div class="ds-surface-info">
+            <div class="ds-surface-name">Product Frame</div>
+            <div class="ds-surface-desc">2.54px solid #22b6ff — banner image border</div>
+          </div>
+        </div>
+        <div class="ds-surface-card">
+          <div class="ds-surface-preview" style="background:#fff; box-shadow: 3px 5px 60px rgba(6,21,96,.06); border:1px solid rgba(178,183,187,.4);"></div>
+          <div class="ds-surface-info">
+            <div class="ds-surface-name">Works Card</div>
+            <div class="ds-surface-desc">1px border + 60px shadow</div>
+          </div>
+        </div>
+        <div class="ds-surface-card">
+          <div class="ds-surface-preview" style="background:#95dec9;"></div>
+          <div class="ds-surface-info">
+            <div class="ds-surface-name">Highlight Badge</div>
+            <div class="ds-surface-desc">#95dec9 — badge, number wrap</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Borders -->
+      <h3 class="ds-section-subheading">Borders &amp; Dividers</h3>
+      <div style="display:flex; flex-direction:column; gap:16px;">
+        <div style="display:flex; align-items:center; gap:20px;">
+          <div style="width:120px; height:2px; background:rgba(14,44,114,.13);"></div>
+          <span style="font-family:Prompt,sans-serif;font-size:12px;color:rgba(14,44,114,.5);">rgba(14,44,114,.13) — comparison table borders</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:20px;">
+          <div style="width:120px; height:2px; background:rgba(14,44,114,.12);"></div>
+          <span style="font-family:Prompt,sans-serif;font-size:12px;color:rgba(14,44,114,.5);">rgba(14,44,114,.12) — benefits dividers</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:20px;">
+          <div style="width:120px; height:2px; background:rgba(178,183,187,.4);"></div>
+          <span style="font-family:Prompt,sans-serif;font-size:12px;color:rgba(14,44,114,.5);">rgba(178,183,187,.4) — card borders</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:20px;">
+          <div style="width:120px; height:2px; background:#22b6ff;"></div>
+          <span style="font-family:Prompt,sans-serif;font-size:12px;color:rgba(14,44,114,.5);">#22b6ff — product image border, accent</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:20px;">
+          <div style="width:120px; height:2px; background:rgba(255,255,255,.1);"></div>
+          <span style="font-family:Prompt,sans-serif;font-size:12px;color:rgba(14,44,114,.5);">rgba(255,255,255,.1) — footer divider</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════
+       3 · UI COMPONENTS
+  ═══════════════════════════════════════ -->
+  <div id="section-components" class="ds-doc-section">
+    <div class="ds-doc-container">
+      <span class="ds-section-eyebrow">03 — UI Components</span>
+      <h2 class="ds-section-heading">Component Library</h2>
+
+      <!-- Primary Button -->
+      <div class="ds-component-block">
+        <div class="ds-component-block-title">Primary Button — .primary-button</div>
+        <div class="ds-states-row">
+          <div class="ds-state-item">
+            <a class="primary-button w-inline-block" href="#" tabindex="-1"><div>Discover The System</div></a>
+            <span class="ds-state-label">Default</span>
+          </div>
+          <div class="ds-state-item">
+            <a class="primary-button ds-sim-hover w-inline-block" href="#" tabindex="-1"><div>Discover The System</div></a>
+            <span class="ds-state-label">Hover</span>
+          </div>
+        </div>
+        <div style="margin-top:16px; font-family:Prompt,sans-serif; font-size:12px; color:rgba(14,44,114,.4); line-height:1.6;">
+          bg: #22b6ff → hover: #95dec9 &nbsp;·&nbsp; text: #fff → hover: #000 &nbsp;·&nbsp; border-radius: 100px &nbsp;·&nbsp; padding: 22px 32px &nbsp;·&nbsp; transition: all 0.45s
+        </div>
+      </div>
+
+      <!-- CTA Button -->
+      <div class="ds-component-block">
+        <div class="ds-component-block-title">CTA Button — .cta-button</div>
+        <div class="ds-states-row" style="background:#0e2c72; padding:24px; border-radius:12px; width:fit-content;">
+          <div class="ds-state-item">
+            <a class="cta-button w-inline-block" href="#" tabindex="-1"><div>Shop for home</div></a>
+            <span class="ds-state-label" style="color:rgba(255,255,255,.4);">Default</span>
+          </div>
+          <div class="ds-state-item">
+            <a class="cta-button ds-sim-hover w-inline-block" href="#" tabindex="-1"><div>Shop for home</div></a>
+            <span class="ds-state-label" style="color:rgba(255,255,255,.4);">Hover</span>
+          </div>
+        </div>
+        <div style="margin-top:16px; font-family:Prompt,sans-serif; font-size:12px; color:rgba(14,44,114,.4); line-height:1.6;">
+          bg: #fff → hover: #22b6ff &nbsp;·&nbsp; text: #0e2c72 → hover: #fff &nbsp;·&nbsp; border-radius: 100px &nbsp;·&nbsp; padding: 22px 32px &nbsp;·&nbsp; transition: all 0.45s
+        </div>
+      </div>
+
+      <!-- Navigation Bar -->
+      <div class="ds-component-block">
+        <div class="ds-component-block-title">Navigation Bar — .navbar + .nav-content</div>
+        <div style="border-radius:12px; overflow:hidden; border:1px solid rgba(14,44,114,.1);">
+          <div class="nav-content" style="position:relative; border-radius:0;">
+            <div class="nav-left-content">
+              <a class="nav-logo-wrap w-inline-block" href="#">
+                <img alt="Logo" loading="lazy" src="assets/64c94d25eec46ffc427b71fa_Logo_7cb426354e19.png"/>
+              </a>
+            </div>
+            <div class="nav-right-content">
+              <nav class="nav-menu-wrapper" style="display:flex;">
+                <div class="nav-dropdown-toggle-button" style="cursor:default;">
+                  <div class="nav-dropdown-text-block">Water Purifier</div>
+                  <div class="nav-dropdown-icon"></div>
+                </div>
+                <a class="nav-link" href="#" style="padding:0 16px;">Rental System</a>
+                <a class="nav-link" href="#" style="padding:0 16px;">Waterist</a>
+              </nav>
+              <div class="nav-account-button-wrap">
+                <a class="nav-account-button-link-block w-inline-block" href="#">
+                  <img alt="" class="nav-account-img" loading="lazy" src="assets/64c94d25eec46ffc427b71f5_Accou_ddc372762348.svg"/>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:16px; font-family:Prompt,sans-serif; font-size:12px; color:rgba(14,44,114,.4); line-height:1.6;">
+          bg: #0e2c72 &nbsp;·&nbsp; border-radius: 15px &nbsp;·&nbsp; padding: 15px 25px &nbsp;·&nbsp; font: Prompt 16px/500 &nbsp;·&nbsp; hover text: #95dec9
+        </div>
+      </div>
+
+      <!-- Works Card -->
+      <div class="ds-component-block">
+        <div class="ds-component-block-title">Works Card — .works-single-wrapper</div>
+        <div style="max-width: 310px;" class="ds-card-demo">
+          <div class="works-single-wrapper">
+            <div class="works-image-number">
+              <div class="works-image-wrap">
+                <img alt="" class="works-image-shape" loading="lazy" src="assets/64c94d25eec46ffc427b722d_Produ_516da4ac6d7f.png"/>
+                <img alt="" class="works-image" loading="lazy" src="assets/64c94d25eec46ffc427b722e_Works_f9acb04c6595.png"/>
+              </div>
+              <div class="works-number-wrap">
+                <div class="works-number">01</div>
+              </div>
+            </div>
+            <div class="works-text-wrapper">
+              <h3 class="works-title">Start Your Rental With One Click</h3>
+              <p class="works-description-text">Choose the model that suits your needs and checkout with the secure payment portal.</p>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:16px; font-family:Prompt,sans-serif; font-size:12px; color:rgba(14,44,114,.4); line-height:1.6;">
+          bg: #fff &nbsp;·&nbsp; border: 1px solid rgba(178,183,187,.4) &nbsp;·&nbsp; border-radius: 15px &nbsp;·&nbsp; shadow: 3px 5px 60px rgba(6,21,96,.06) &nbsp;·&nbsp; number badge: #95dec9 circle
+        </div>
+      </div>
+
+      <!-- Functionalities Card -->
+      <div class="ds-component-block">
+        <div class="ds-component-block-title">Functionalities Card — .functionalities-single-wrapper</div>
+        <div style="max-width:260px;">
+          <div class="functionalities-single-wrapper" style="transform:none; opacity:1;">
+            <div class="functionalities-image-wrapper">
+              <img alt="" class="functionalities-image-bg one" loading="lazy" src="assets/64c94d25eec46ffc427b71fd_Bubbl_bd3b134d7f06.png" style="opacity:1;"/>
+              <img alt="" class="functionalities-image" loading="lazy" src="assets/64c94d25eec46ffc427b71ff_Funct_58940d1ad902.svg"/>
+            </div>
+            <div class="functionalities-text-wrapper">
+              <h3 class="functionalities-name" style="color:#0e2c72;">Joy of Drinking Water</h3>
+              <p class="functionalities-description-text" style="color:rgba(14,44,114,.8);">Three-step filtration technology, get purified water with no limescale.</p>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:16px; font-family:Prompt,sans-serif; font-size:12px; color:rgba(14,44,114,.4); line-height:1.6;">
+          border-radius: 20px &nbsp;·&nbsp; padding: 35px 30px 30px &nbsp;·&nbsp; text-align: center &nbsp;·&nbsp; icon wrapper: 175×175px &nbsp;·&nbsp; hover reveals .functionalities-shape
+        </div>
+      </div>
+
+      <!-- Comparison Check Icons -->
+      <div class="ds-component-block">
+        <div class="ds-component-block-title">Comparison Check Box — .comparison-table-check-box</div>
+        <div class="ds-icon-states-row">
+          <div class="ds-state-item">
+            <div class="comparison-table-check-box" style="opacity:1; transform:none;">
+              <img alt="check" class="comparison-table-check-image" loading="lazy" src="assets/64c94d25eec46ffc427b7234_Compa_cf3aaf21c01b.svg"/>
+            </div>
+            <span class="ds-state-label">Check (positive)</span>
+          </div>
+          <div class="ds-state-item">
+            <div class="comparison-table-check-box cross" style="opacity:1; transform:none;">
+              <img alt="cross" class="comparison-table-check-image" loading="lazy" src="assets/64c94d25eec46ffc427b7235_Compa_bed8084d8df1.svg"/>
+            </div>
+            <span class="ds-state-label">Cross (negative)</span>
+          </div>
+          <div class="ds-state-item">
+            <div class="feature-list-check-box-wrap">
+              <img alt="check" class="feature-list-checkbox-image" loading="lazy" src="assets/64c94d25eec46ffc427b7234_Compa_cf3aaf21c01b.svg"/>
+            </div>
+            <span class="ds-state-label">Feature list badge</span>
+          </div>
+        </div>
+        <div style="margin-top:16px; font-family:Prompt,sans-serif; font-size:12px; color:rgba(14,44,114,.4); line-height:1.6;">
+          .comparison-table-check-box: SVG icon container &nbsp;·&nbsp; .cross variant for negative &nbsp;·&nbsp; .feature-list-check-box-wrap: 30×30px #95dec9 circle badge
+        </div>
+      </div>
+
+      <!-- Best Choice Badge -->
+      <div class="ds-component-block">
+        <div class="ds-component-block-title">Best Choice Badge — .best-choice-wrap</div>
+        <div style="max-width:200px; position:relative; padding-top:44px; border:1px solid rgba(14,44,114,.1); border-radius:8px; overflow:hidden;">
+          <div class="best-choice-wrap" style="position:absolute; top:0; left:0; right:0;">Best Choice</div>
+          <div style="padding:16px; font-family:Petrona,sans-serif; font-size:20px; font-weight:600; color:#22b6ff; text-align:center;">Monso</div>
+        </div>
+        <div style="margin-top:16px; font-family:Prompt,sans-serif; font-size:12px; color:rgba(14,44,114,.4); line-height:1.6;">
+          bg: #95dec9 &nbsp;·&nbsp; text: #0e2c72 &nbsp;·&nbsp; font: Petrona 18px/500 &nbsp;·&nbsp; padding: 14px &nbsp;·&nbsp; absolutely pinned to column top
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════
+       4 · LAYOUT & SPACING
+  ═══════════════════════════════════════ -->
+  <div id="section-layout" class="ds-doc-section ds-bg-subtle">
+    <div class="ds-doc-container">
+      <span class="ds-section-eyebrow">04 — Layout &amp; Spacing</span>
+      <h2 class="ds-section-heading">Grid &amp; Spacing System</h2>
+
+      <!-- Container -->
+      <div class="ds-layout-demo-wrap">
+        <div class="ds-layout-demo-label">Container — .container</div>
+        <div class="ds-layout-demo-frame">
+          <div class="ds-layout-demo-inner">
+            <div style="border:2px dashed rgba(34,182,255,.4); border-radius:6px; padding:20px; text-align:center; position:relative;">
+              <span style="font-family:Prompt,sans-serif; font-size:11px; color:#22b6ff; font-weight:600; letter-spacing:1px;">max-width: 1350px &nbsp;·&nbsp; padding: 0 15px &nbsp;·&nbsp; margin: 0 auto</span>
+              <div style="position:absolute;top:0;left:0;bottom:0;width:15px;background:rgba(34,182,255,.12); border-right:1px dashed rgba(34,182,255,.3);"></div>
+              <div style="position:absolute;top:0;right:0;bottom:0;width:15px;background:rgba(34,182,255,.12); border-left:1px dashed rgba(34,182,255,.3);"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4-Column Grid (functionalities, benefits, works) -->
+      <div class="ds-layout-demo-wrap">
+        <div class="ds-layout-demo-label">4-Column Grid — .functionalities-content-grid / .works-grid (gap: 20–35px)</div>
+        <div class="ds-layout-demo-frame">
+          <div class="ds-layout-demo-inner">
+            <div class="w-layout-grid functionalities-content-grid">
+              <div class="ds-col-block">Col 1</div>
+              <div class="ds-col-block">Col 2</div>
+              <div class="ds-col-block">Col 3</div>
+              <div class="ds-col-block">Col 4</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4-Column grid with unequal cols (benefits) -->
+      <div class="ds-layout-demo-wrap">
+        <div class="ds-layout-demo-label">4-Column Uneven Grid — .benefits-grid (1fr 1.2fr 1.1fr 1.3fr, gap: 86px)</div>
+        <div class="ds-layout-demo-frame">
+          <div class="ds-layout-demo-inner">
+            <div class="w-layout-grid benefits-grid">
+              <div class="ds-col-block">1fr</div>
+              <div class="ds-col-block">1.2fr</div>
+              <div class="ds-col-block">1.1fr</div>
+              <div class="ds-col-block">1.3fr</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2-Column flex split (banner layout) -->
+      <div class="ds-layout-demo-wrap">
+        <div class="ds-layout-demo-label">2-Column Flex Split — .banner-content (flex, justify-content: space-between, gap: 75px)</div>
+        <div class="ds-layout-demo-frame">
+          <div class="ds-layout-demo-inner">
+            <div style="display:flex; justify-content:space-between; gap:75px;">
+              <div class="ds-col-block" style="width:660px; flex-shrink:0;">Left — 660px (text)</div>
+              <div class="ds-col-block" style="width:537px; flex-shrink:0;">Right — 537px (image)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Comparison table grid -->
+      <div class="ds-layout-demo-wrap">
+        <div class="ds-layout-demo-label">6-Column Comparison Grid — .comparison-table-grid (1.3fr 1fr 1fr 1fr 1fr .9fr)</div>
+        <div class="ds-layout-demo-frame">
+          <div class="ds-layout-demo-inner">
+            <div class="w-layout-grid comparison-table-grid">
+              <div class="ds-col-block">1.3fr (label)</div>
+              <div class="ds-col-block">1fr</div>
+              <div class="ds-col-block">1fr</div>
+              <div class="ds-col-block">1fr</div>
+              <div class="ds-col-block">1fr</div>
+              <div class="ds-col-block">.9fr</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Spacing tokens -->
+      <h3 class="ds-section-subheading">Key Spacing Values</h3>
+      <table class="ds-spacing-table">
+        <tr>
+          <td>Section padding</td>
+          <td>
+            <div class="ds-spacing-viz">
+              <div class="ds-spacing-bar" style="width:130px;"></div>
+              <span class="ds-spacing-val">130–205px top / 150–210px bottom</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Container padding</td>
+          <td>
+            <div class="ds-spacing-viz">
+              <div class="ds-spacing-bar" style="width:15px;"></div>
+              <span class="ds-spacing-val">15px horizontal</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Nav padding</td>
+          <td>
+            <div class="ds-spacing-viz">
+              <div class="ds-spacing-bar" style="width:30px;"></div>
+              <span class="ds-spacing-val">15px vertical / 25px horizontal</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Button padding</td>
+          <td>
+            <div class="ds-spacing-viz">
+              <div class="ds-spacing-bar" style="width:32px;"></div>
+              <span class="ds-spacing-val">22px vertical / 32px horizontal</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Card padding</td>
+          <td>
+            <div class="ds-spacing-viz">
+              <div class="ds-spacing-bar" style="width:35px;"></div>
+              <span class="ds-spacing-val">25–35px (works card) / 35px (functionalities card)</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Icon wrapper</td>
+          <td>
+            <div class="ds-spacing-viz">
+              <div class="ds-spacing-bar" style="width:80px;"></div>
+              <span class="ds-spacing-val">175×175px (functionalities / benefits)</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Border radius</td>
+          <td>
+            <div style="display:flex; gap:16px; flex-wrap:wrap;">
+              <span style="font-family:Prompt,sans-serif;font-size:12px;color:rgba(14,44,114,.5);">15px — cards, nav</span>
+              <span style="font-family:Prompt,sans-serif;font-size:12px;color:rgba(14,44,114,.5);">20px — functionalities cards</span>
+              <span style="font-family:Prompt,sans-serif;font-size:12px;color:rgba(14,44,114,.5);">30px — feature sections</span>
+              <span style="font-family:Prompt,sans-serif;font-size:12px;color:rgba(14,44,114,.5);">73px — banner image</span>
+              <span style="font-family:Prompt,sans-serif;font-size:12px;color:rgba(14,44,114,.5);">100px — buttons, badges</span>
+            </div>
+          </td>
+        </tr>
+      </table>
+
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════
+       5 · MOTION & INTERACTION
+  ═══════════════════════════════════════ -->
+  <div id="section-motion" class="ds-doc-section">
+    <div class="ds-doc-container">
+      <span class="ds-section-eyebrow">05 — Motion &amp; Interaction</span>
+      <h2 class="ds-section-heading">Motion Gallery</h2>
+
+      <div class="ds-motion-grid">
+
+        <!-- Button hover transition -->
+        <div class="ds-motion-card">
+          <div class="ds-motion-card-title">Button Hover</div>
+          <div style="display:flex; justify-content:center;">
+            <a class="primary-button w-inline-block" href="#" style="pointer-events:auto;"><div>Hover me</div></a>
+          </div>
+          <div class="ds-motion-card-desc">
+            transition: all 0.45s<br/>
+            bg: #22b6ff → #95dec9<br/>
+            color: #fff → #000
+          </div>
+        </div>
+
+        <!-- CTA button hover -->
+        <div class="ds-motion-card" style="background:#0e2c72;">
+          <div class="ds-motion-card-title" style="color:rgba(255,255,255,.4);">CTA Button Hover</div>
+          <div style="display:flex; justify-content:center;">
+            <a class="cta-button w-inline-block" href="#"><div>Hover me</div></a>
+          </div>
+          <div class="ds-motion-card-desc" style="color:rgba(255,255,255,.35);">
+            transition: all 0.45s<br/>
+            bg: #fff → #22b6ff<br/>
+            color: #0e2c72 → #fff
+          </div>
+        </div>
+
+        <!-- Nav link hover -->
+        <div class="ds-motion-card" style="background:#0e2c72;">
+          <div class="ds-motion-card-title" style="color:rgba(255,255,255,.4);">Nav Link Hover</div>
+          <div style="display:flex; justify-content:center;">
+            <a class="nav-link" href="#" style="display:inline-block;">Hover me</a>
+          </div>
+          <div class="ds-motion-card-desc" style="color:rgba(255,255,255,.35);">
+            transition: all 0.45s<br/>
+            color: #fff → #95dec9
+          </div>
+        </div>
+
+        <!-- Scroll entrance — fade + slide up (IX2) -->
+        <div class="ds-motion-card">
+          <div class="ds-motion-card-title">Entrance — Fade Slide Up</div>
+          <div style="display:flex; justify-content:center;">
+            <div class="ds-motion-demo-el ds-anim-fadeslide">
+              <img alt="" src="assets/64c94d25eec46ffc427b71ff_Funct_58940d1ad902.svg" style="width:32px; height:32px;"/>
+            </div>
+          </div>
+          <div class="ds-motion-card-desc">
+            translateY(40px) → 0<br/>
+            opacity: 0 → 1<br/>
+            easing: cubic-bezier(.25,.46,.45,.94)
+          </div>
+        </div>
+
+        <!-- Product slider scale (IX2) -->
+        <div class="ds-motion-card">
+          <div class="ds-motion-card-title">Slider Item — Scale + Blur</div>
+          <div style="display:flex; justify-content:center;">
+            <div class="ds-motion-demo-el ds-anim-scalein" style="background:rgba(14,44,114,.08);">
+              <img alt="" src="assets/64c94d25eec46ffc427b71ff_Funct_58940d1ad902.svg" style="width:32px; height:32px;"/>
+            </div>
+          </div>
+          <div class="ds-motion-card-desc">
+            scale3d(.5,.5,1) + blur(22px)<br/>
+            → scale3d(1,1,1) + blur(0)<br/>
+            duration: 500ms ease
+          </div>
+        </div>
+
+        <!-- Parallax float -->
+        <div class="ds-motion-card">
+          <div class="ds-motion-card-title">Parallax Float (Feature)</div>
+          <div style="display:flex; justify-content:center;">
+            <div class="ds-motion-demo-circle ds-anim-float"></div>
+          </div>
+          <div class="ds-motion-card-desc">
+            translateX(-60px to 60px)<br/>
+            will-change: transform<br/>
+            driven by scroll position
+          </div>
+        </div>
+
+        <!-- Rotating circle (feature section) -->
+        <div class="ds-motion-card">
+          <div class="ds-motion-card-title">Orbit Rotate (Feature)</div>
+          <div style="display:flex; justify-content:center;">
+            <div class="ds-anim-rotate" style="width:60px; height:60px; border-radius:50%; border: 3px solid #22b6ff; border-top-color:#95dec9; box-sizing:border-box;"></div>
+          </div>
+          <div class="ds-motion-card-desc">
+            transform: rotate(Ndeg)<br/>
+            will-change: transform<br/>
+            driven by scroll position
+          </div>
+        </div>
+
+        <!-- Footer link hover -->
+        <div class="ds-motion-card" style="background:#0e2c72;">
+          <div class="ds-motion-card-title" style="color:rgba(255,255,255,.4);">Footer Link Hover</div>
+          <div style="display:flex; justify-content:center;">
+            <a class="footer-menu-text-link" href="#">Hover me</a>
+          </div>
+          <div class="ds-motion-card-desc" style="color:rgba(255,255,255,.35);">
+            transition: all 0.45s<br/>
+            color: rgba(255,255,255,.8) → #95dec9
+          </div>
+        </div>
+
+      </div><!-- /.ds-motion-grid -->
+
+      <!-- Transition tokens summary -->
+      <h3 class="ds-section-subheading" style="margin-top:52px;">Transition Tokens</h3>
+      <table class="ds-spacing-table">
+        <tr>
+          <td>Base Transition</td>
+          <td style="font-family:Prompt,sans-serif; font-size:12px; color:rgba(14,44,114,.55);">transition: all 0.45s — applied to all interactive elements (buttons, nav links, footer links)</td>
+        </tr>
+        <tr>
+          <td>Slider Duration</td>
+          <td style="font-family:Prompt,sans-serif; font-size:12px; color:rgba(14,44,114,.55);">500ms ease — product slider slide transition</td>
+        </tr>
+        <tr>
+          <td>IX2 Entrance</td>
+          <td style="font-family:Prompt,sans-serif; font-size:12px; color:rgba(14,44,114,.55);">Webflow Interactions 2 — scroll-triggered translateY + opacity fade, triggered on element enter viewport</td>
+        </tr>
+        <tr>
+          <td>Parallax</td>
+          <td style="font-family:Prompt,sans-serif; font-size:12px; color:rgba(14,44,114,.55);">Mouse/scroll-driven translateX/Y on feature images — will-change: transform</td>
+        </tr>
+        <tr>
+          <td>Slider Scale</td>
+          <td style="font-family:Prompt,sans-serif; font-size:12px; color:rgba(14,44,114,.55);">scale3d(.5,.5,1) + blur(22px) → scale3d(1,1,1) + blur(0) on active product slide</td>
+        </tr>
+      </table>
+
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════
+       6 · ICONS
+  ═══════════════════════════════════════ -->
+  <div id="section-icons" class="ds-doc-section ds-bg-subtle">
+    <div class="ds-doc-container">
+      <span class="ds-section-eyebrow">06 — Icons</span>
+      <h2 class="ds-section-heading">Icon System</h2>
+
+      <!-- Check / Cross pair -->
+      <h3 class="ds-section-subheading">Comparison Icons</h3>
+      <p style="font-family:Prompt,sans-serif; font-size:14px; color:rgba(14,44,114,.55); margin-bottom:32px; line-height:1.6;">
+        Used in the comparison table and feature list. SVG assets embedded via &lt;img&gt; tags. The container class controls the background color.
+      </p>
+
+      <div class="ds-icon-size-row" style="margin-bottom:48px;">
+        <!-- Default sizes -->
+        <div class="ds-icon-size-item">
+          <div class="comparison-table-check-box" style="opacity:1; transform:none;">
+            <img alt="check" class="comparison-table-check-image" loading="lazy" src="assets/64c94d25eec46ffc427b7234_Compa_cf3aaf21c01b.svg"/>
+          </div>
+          <span class="ds-icon-label">Check · default</span>
+        </div>
+        <div class="ds-icon-size-item">
+          <div class="comparison-table-check-box cross" style="opacity:1; transform:none;">
+            <img alt="cross" class="comparison-table-check-image" loading="lazy" src="assets/64c94d25eec46ffc427b7235_Compa_bed8084d8df1.svg"/>
+          </div>
+          <span class="ds-icon-label">Cross · default</span>
+        </div>
+        <!-- Feature list badge variant -->
+        <div class="ds-icon-size-item">
+          <div class="feature-list-check-box-wrap">
+            <img alt="check" class="feature-list-checkbox-image" loading="lazy" src="assets/64c94d25eec46ffc427b7234_Compa_cf3aaf21c01b.svg"/>
+          </div>
+          <span class="ds-icon-label">Feature badge</span>
+        </div>
+      </div>
+
+      <!-- Usage in context -->
+      <h3 class="ds-section-subheading">Icon in Context</h3>
+      <div style="max-width:600px;">
+        <div class="feature-list-wrapper">
+          <div class="feature-list-check-box-wrap">
+            <img alt="" class="feature-list-checkbox-image" loading="lazy" src="assets/64c94d25eec46ffc427b7234_Compa_cf3aaf21c01b.svg"/>
+          </div>
+          <p class="feature-list-text">
+            <span class="feature-list-text-bold">Our unique reverse osmosis filtration : </span>
+            Three-step filtration process removes all bad components found in tap water and helps prevent limescale build-up.
+          </p>
+        </div>
+        <div class="feature-list-wrapper">
+          <div class="feature-list-check-box-wrap">
+            <img alt="" class="feature-list-checkbox-image" loading="lazy" src="assets/64c94d25eec46ffc427b7234_Compa_cf3aaf21c01b.svg"/>
+          </div>
+          <p class="feature-list-text">
+            <span class="feature-list-text-bold">The result?</span> Delicious, pure water for you and your family.
+          </p>
+        </div>
+      </div>
+
+      <!-- Account icon -->
+      <h3 class="ds-section-subheading" style="margin-top:48px;">Navigation Icons</h3>
+      <div class="ds-icon-grid">
+        <div class="ds-icon-item">
+          <div class="nav-account-button-link-block w-inline-block" style="display:flex; pointer-events:none;">
+            <img alt="" class="nav-account-img" loading="lazy" src="assets/64c94d25eec46ffc427b71f5_Accou_ddc372762348.svg"/>
+          </div>
+          <span class="ds-icon-label">Account — .nav-account-img</span>
+        </div>
+        <div class="ds-icon-item">
+          <div style="background:#0e2c72; border-radius:8px; padding:12px;">
+            <div class="nav-account-button-link-block w-inline-block" style="display:flex; pointer-events:none;">
+              <img alt="" class="nav-account-img" loading="lazy" src="assets/64c94d25eec46ffc427b71f5_Accou_ddc372762348.svg"/>
+            </div>
+          </div>
+          <span class="ds-icon-label">On dark bg</span>
+        </div>
+      </div>
+
+      <!-- Color inheritance note -->
+      <div style="margin-top:40px; padding:20px 24px; background:#fff; border-radius:10px; border:1px solid rgba(14,44,114,.1);">
+        <div style="font-family:Petrona,sans-serif; font-size:16px; font-weight:600; color:#0e2c72; margin-bottom:8px;">Icon Color Inheritance</div>
+        <div style="font-family:Prompt,sans-serif; font-size:13px; color:rgba(14,44,114,.55); line-height:1.7;">
+          All icons in this system are SVG files embedded via <code style="background:rgba(14,44,114,.06); padding:2px 6px; border-radius:3px; font-size:12px;">&lt;img&gt;</code> tags with fixed internal SVG colors.
+          The check icon uses <strong style="color:#0e2c72;">#95dec9</strong> (aquamarine) as background fill.
+          The cross icon uses a neutral/red fill. Container background and border-radius are controlled by the wrapper class.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Footer spacer -->
+  <div style="background:#0e2c72; padding:40px 0; text-align:center;">
+    <div style="font-family:Petrona,sans-serif; font-size:16px; font-weight:500; color:rgba(255,255,255,.5);">
+      Monso Water — Design System v2 &nbsp;·&nbsp; <span style="color:#95dec9;">All styles sourced from original CSS</span>
+    </div>
+  </div>
+
+  <script src="assets/jquery-3_171a6580481b.js" type="text/javascript"></script>
+  <script src="assets/webflow_495b7864ab76.js" type="text/javascript"></script>
+
+  <script>
+    // Smooth scroll for DS nav anchors
+    document.querySelectorAll('.ds-topnav a[href^="#"]').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        var target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Active state on DS nav
+    var sections = ['section-hero','section-typography','section-colors','section-components','section-layout','section-motion','section-icons'];
+    var navLinks = document.querySelectorAll('.ds-topnav a');
+    window.addEventListener('scroll', function() {
+      var scrollY = window.scrollY + 80;
+      sections.forEach(function(id, i) {
+        var el = document.getElementById(id);
+        if (el && scrollY >= el.offsetTop) {
+          navLinks.forEach(function(l) { l.style.color = ''; });
+          if (navLinks[i]) navLinks[i].style.color = '#95dec9';
+        }
+      });
+    }, { passive: true });
+
+    // Restart DS animations on intersection
+    if ('IntersectionObserver' in window) {
+      var animEls = document.querySelectorAll('.ds-anim-fadeslide, .ds-anim-scalein, .ds-anim-float, .ds-anim-rotate');
+      var obs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            var el = entry.target;
+            var cls = el.className;
+            el.style.animationPlayState = 'running';
+          }
+        });
+      }, { threshold: 0.1 });
+      animEls.forEach(function(el) { obs.observe(el); });
+    }
+  </script>
+
+</body>
+</html>

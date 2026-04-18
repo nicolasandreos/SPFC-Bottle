@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html class="w-mod-js wf-lato-n4-active wf-lato-n7-active wf-lato-n3-active wf-lato-n9-active wf-active" lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Tunnel — Design System v2</title>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+
+<!-- Exact same stylesheets/fonts as the reference site -->
+<link href="assets/tunnel-ed-copy_cbc45460e282.css" rel="stylesheet" type="text/css"/>
+<link href="assets/css_b801e0fd274f.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="anonymous" href="https://fonts.gstatic.com" rel="preconnect"/>
+<script src="assets/webfont_3a3adf980c7d.js" type="text/javascript"></script>
+<script type="text/javascript">
+WebFont.load({google:{families:["Lato:100,100italic,300,300italic,400,400italic,700,700italic,900,900italic"]}});
+</script>
+
+<style>
+/* ── SplitType scaffolding (from original) ── */
+[text-split] { opacity: 0; }
+.word {
+  overflow: hidden;
+  padding-bottom: 0.1em;
+  margin-bottom: -0.1em;
+  transform-origin: bottom;
+}
+
+/* ────────────────────────────────────────────
+   DS SHELL — anchored top-nav for the doc
+   Everything under .ds- namespace is doc-only
+   and never re-styles original classes.
+   ──────────────────────────────────────────── */
+.ds-topbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0 1.25rem;
+  height: 44px;
+  background-color: #051e19;
+  border-bottom: 1px solid rgba(191,255,199,0.15);
+  overflow-x: auto;
+}
+.ds-topbar-brand {
+  font-family: Lato, sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #bfffc7;
+  padding-right: 1rem;
+  margin-right: auto;
+  white-space: nowrap;
+}
+.ds-topbar a {
+  color: rgba(255,255,255,0.45);
+  font-family: Lato, sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 0.3rem 0.6rem;
+  border-radius: 0.375rem;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+.ds-topbar a:hover {
+  color: #bfffc7;
+  background-color: rgba(191,255,199,0.08);
+}
+body { padding-top: 44px; scroll-behavior: smooth; background-color: #072a24; }
+.navbar.w-nav { top: 44px !important; }
+.nav-dummy { height: calc(5.125rem + 44px) !important; }
+
+/* Section heading scaffolding */
+.ds-eyebrow {
+  font-family: Lato, sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(191,255,199,0.5);
+  margin-bottom: 0.625rem;
+}
+.ds-h {
+  font-family: Lato, sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #bfffc7;
+  margin: 0 0 0.75rem;
+}
+.ds-sub {
+  font-family: Figtree, sans-serif;
+  font-size: 1rem;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.5;
+  margin: 0 0 3rem;
+  max-width: 56ch;
+}
+.ds-mini {
+  font-family: Lato, sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(191,255,199,0.45);
+  margin: 0 0 1.25rem;
+}
+.ds-rule {
+  height: 1px;
+  background-image: linear-gradient(to right, rgba(191,255,199,0), rgba(191,255,199,0.22) 50%, rgba(191,255,199,0));
+  margin: 3.5rem 0;
+  border: 0;
+}
+.ds-mono {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 0.6875rem;
+  color: rgba(255,255,255,0.35);
+}
+
+/* Typography table */
+.ds-type {
+  border-top: 1px solid rgba(191,255,199,0.12);
+}
+.ds-type__row {
+  display: grid;
+  grid-template-columns: 140px 1fr 160px;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.75rem 0;
+  border-bottom: 1px solid rgba(191,255,199,0.1);
+}
+.ds-type__label {
+  font-family: Lato, sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+}
+.ds-type__preview { min-width: 0; }
+.ds-type__preview > :first-child { margin: 0 !important; }
+.ds-type__spec {
+  text-align: right;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 0.6875rem;
+  color: rgba(255,255,255,0.3);
+}
+
+/* Color palette */
+.ds-colors {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1rem;
+}
+.ds-swatch {
+  border-radius: 0.875rem;
+  overflow: hidden;
+  border: 1px solid rgba(191,255,199,0.08);
+}
+.ds-swatch__chip { height: 88px; }
+.ds-swatch__meta {
+  padding: 0.625rem 0.875rem 0.75rem;
+  background-color: rgba(255,255,255,0.03);
+}
+.ds-swatch__name {
+  display: block;
+  font-family: Lato, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.7);
+}
+.ds-swatch__hex {
+  display: block;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 0.6875rem;
+  color: rgba(255,255,255,0.35);
+  margin-top: 0.125rem;
+}
+
+/* Gradient cards */
+.ds-grads {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+.ds-grad {
+  border-radius: 0.875rem;
+  overflow: hidden;
+  border: 1px solid rgba(191,255,199,0.08);
+}
+.ds-grad__chip { height: 72px; position: relative; }
+.ds-grad__chip .button-grad { position: static; left: auto; right: auto; height: 100%; }
+.ds-grad__meta {
+  padding: 0.625rem 0.875rem 0.75rem;
+  background-color: rgba(255,255,255,0.03);
+}
+.ds-grad__name {
+  display: block;
+  font-family: Lato, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.7);
+}
+.ds-grad__use {
+  display: block;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 0.6875rem;
+  color: rgba(255,255,255,0.35);
+  margin-top: 0.125rem;
+}
+
+/* Surface cards */
+.ds-surfaces {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+}
+.ds-surface {
+  border-radius: 1rem;
+  overflow: hidden;
+  border: 1px solid rgba(191,255,199,0.08);
+}
+.ds-surface__box {
+  height: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Lato, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.ds-surface__label {
+  padding: 0.625rem 0.875rem 0.75rem;
+  background-color: rgba(255,255,255,0.03);
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 0.6875rem;
+  color: rgba(255,255,255,0.45);
+}
+
+/* Component state row */
+.ds-states {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.5rem;
+  align-items: flex-end;
+  margin-bottom: 3rem;
+}
+.ds-states__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+.ds-states__tag {
+  font-family: Lato, sans-serif;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+}
+/* Faux hover/active states for buttons (for display only) */
+.ds-force-hover.button.is-secondary {
+  border-color: #bfffc7 !important;
+  color: #072a24 !important;
+  background-color: #bfffc7 !important;
+}
+.ds-force-active .button-grad { left: 0 !important; opacity: 1 !important; transition: none !important; }
+.ds-force-active .abs-overlay { background-color: rgba(255,255,255,0.12); }
+
+/* Motion cards */
+.ds-motion {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.25rem;
+}
+.ds-motion__card {
+  background-color: rgba(191,255,199,0.03);
+  border: 1px solid rgba(191,255,199,0.1);
+  border-radius: 1rem;
+  padding: 1.75rem;
+}
+.ds-motion__title {
+  font-family: Lato, sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(191,255,199,0.55);
+  margin-bottom: 0.5rem;
+}
+.ds-motion__desc {
+  font-family: Figtree, sans-serif;
+  font-size: 0.8125rem;
+  color: rgba(255,255,255,0.4);
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+.ds-motion__stage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 90px;
+}
+
+/* Layout demo blocks */
+.ds-layout {
+  background-color: rgba(7,42,36,0.05);
+  border: 1px solid rgba(7,42,36,0.12);
+  border-radius: 1rem;
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+}
+.ds-layout__label {
+  font-family: Lato, sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(7,42,36,0.55);
+  margin-bottom: 1.25rem;
+}
+.ds-cont {
+  background-color: rgba(7,42,36,0.06);
+  border: 1px dashed rgba(7,42,36,0.25);
+  border-radius: 0.5rem;
+  padding: 0.875rem 1.25rem;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 0.75rem;
+  color: rgba(7,42,36,0.65);
+}
+.ds-spacer-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.625rem;
+}
+.ds-spacer-vis {
+  background-color: rgba(7,42,36,0.2);
+  border-radius: 0.25rem;
+  height: 1.25rem;
+}
+.ds-spacer-name {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 0.75rem;
+  color: rgba(7,42,36,0.6);
+  min-width: 170px;
+}
+.ds-spacer-val {
+  font-family: Figtree, sans-serif;
+  font-size: 0.75rem;
+  color: rgba(7,42,36,0.4);
+}
+
+/* Icons */
+.ds-icons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+.ds-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 92px;
+}
+.ds-icon__box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background-color: rgba(191,255,199,0.06);
+  border: 1px solid rgba(191,255,199,0.12);
+}
+.ds-icon__name {
+  font-family: Lato, sans-serif;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  text-align: center;
+}
+.ds-icon__size {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 0.625rem;
+  color: rgba(255,255,255,0.22);
+}
+
+@media screen and (max-width: 767px) {
+  .ds-type__row { grid-template-columns: 90px 1fr; }
+  .ds-type__spec { display: none; }
+  .ds-h { font-size: 1.75rem; }
+}
+
+/* Poly card clip-path (mirrors original behavior) */
+.poly-card-wrap { filter: drop-shadow(-8px -8px 4px rgba(7,42,36,0.03)); }
+@media screen and (min-width: 480px) {
+  .poly-card { clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 24px 100%, 0 calc(100% - 24px)); }
+}
+@media screen and (max-width: 479px) {
+  .poly-card { clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px)); }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     DS TOP NAV — anchor links to each section
+     ═══════════════════════════════════════════════════════════════════ -->
+<nav class="ds-topbar" aria-label="Design system sections">
+  <span class="ds-topbar-brand">Tunnel · DS v2</span>
+  <a href="#ds-hero">Hero</a>
+  <a href="#ds-typography">Typography</a>
+  <a href="#ds-colors">Colors</a>
+  <a href="#ds-components">Components</a>
+  <a href="#ds-layout">Layout</a>
+  <a href="#ds-motion">Motion</a>
+  <a href="#ds-icons">Icons</a>
+</nav>
+
+<div class="page-wrapper">
+
+<!-- Global helper embeds (mirrors <div class="global-styles w-embed"> from original) -->
+<div class="global-styles w-embed"><style>
+  body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
+  *[tabindex]:focus-visible, input[type="file"]:focus-visible { outline: 0.125rem solid #4d65ff; outline-offset: 0.125rem; }
+  .pointer-events-off { pointer-events: none; }
+  .pointer-events-on { pointer-events: auto; }
+  .container-medium, .container-small, .container-large { margin-right: auto !important; margin-left: auto !important; }
+  .hide { display: none !important; }
+</style></div>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     ORIGINAL NAVBAR — identical markup to index.html
+     ═══════════════════════════════════════════════════════════════════ -->
+<div class="navbar w-nav" data-animation="default" data-collapse="medium" data-duration="400" data-easing="ease" data-easing2="ease" role="banner">
+  <div>
+    <div class="nav-wrapper">
+      <a aria-current="page" aria-label="home" class="brand-logo-link w-nav-brand w--current" href="#ds-hero">
+        <div aria-label="homepage" class="brand-logo w-embed">
+          <svg fill="none" height="100%" viewBox="0 0 118 32" width="100%" xmlns="http://www.w3.org/2000/svg">
+            <path d="M25.8258 6.78481H19.3612C17.7553 6.78481 16.4525 8.08595 16.4525 9.69355V30.4074C16.4525 30.6574 16.2504 30.8611 15.9988 30.8611H11.1948C10.9449 30.8611 10.7411 30.6591 10.7411 30.4074V9.69355C10.7411 8.08766 9.43999 6.78481 7.83239 6.78481H1.36262C1.11266 6.78481 0.908936 6.58279 0.908936 6.33112V1.81135C0.908936 1.5614 1.11095 1.35767 1.36262 1.35767H8.51035C9.04279 1.35767 9.56667 1.46552 10.0512 1.66926C10.4193 1.82505 10.7463 2.06131 11.0219 2.34893L12.8589 4.25785C13.0335 4.43932 13.2612 4.56773 13.5095 4.59341C13.5831 4.60025 13.6567 4.60197 13.7303 4.59341C13.9803 4.56944 14.208 4.44104 14.3826 4.26298L16.2693 2.33181C16.5466 2.04933 16.8719 1.81478 17.2383 1.66241C17.7194 1.4621 18.2381 1.35767 18.7637 1.35767H25.8224C26.0724 1.35767 26.2761 1.55969 26.2761 1.81135V6.33112C26.2761 6.58107 26.0741 6.78481 25.8224 6.78481H25.8258Z" fill="#BFFFC7"/>
+            <path d="M40.8147 10.4881V30.5017C40.8147 30.7414 40.6213 30.9349 40.3816 30.9349H37.3718C36.6562 30.9349 36.1974 30.6113 35.9953 29.9624L35.807 29.2126C35.7283 28.8993 35.3465 28.776 35.1051 28.99C34.8534 29.2109 34.5966 29.4214 34.3347 29.62C33.8895 29.9573 33.4136 30.2483 32.9068 30.4915C32.4001 30.7346 31.8539 30.9246 31.2667 31.0581C30.6795 31.1917 30.0409 31.2602 29.3527 31.2602C28.2193 31.2602 27.2092 31.065 26.3258 30.6729C25.4407 30.2809 24.7028 29.7347 24.1087 29.0328C23.5146 28.3309 23.0627 27.4937 22.7528 26.5212C22.4412 25.5488 22.2871 24.4822 22.2871 23.3215V10.4898C22.2871 10.2501 22.4806 10.0566 22.7202 10.0566H27.4437C27.6834 10.0566 27.8769 10.2501 27.8769 10.4898V23.3215C27.8769 24.4822 28.144 25.3845 28.6764 26.0248C29.2089 26.6668 30.0032 26.9869 31.0561 26.9869C31.8385 26.9869 32.5747 26.814 33.2629 26.4699C33.8998 26.1515 34.5093 25.7252 35.0897 25.1927C35.1787 25.1105 35.2283 24.9941 35.2283 24.8726V10.4881C35.2283 10.2484 35.4218 10.0549 35.6615 10.0549H40.385C40.6247 10.0549 40.8181 10.2484 40.8181 10.4881H40.8147Z" fill="#BFFFC7"/>
+            <path d="M50.0426 11.7671C50.1162 12.0821 50.5014 12.2105 50.7446 11.9965C50.9962 11.7773 51.2547 11.5685 51.5184 11.3716C51.9704 11.0343 52.4497 10.7433 52.9565 10.5001C53.4633 10.257 54.0094 10.0687 54.5966 9.93347C55.1838 9.79821 55.8224 9.73145 56.5107 9.73145C57.644 9.73145 58.6507 9.92662 59.5273 10.3187C60.4055 10.7107 61.1434 11.2569 61.7444 11.9588C62.3453 12.6607 62.7973 13.4979 63.102 14.4703C63.4067 15.4428 63.5574 16.5094 63.5574 17.6701V30.5018C63.5574 30.7415 63.3639 30.935 63.1243 30.935H58.4213C58.1816 30.935 57.9882 30.7415 57.9882 30.5018V17.6701C57.9882 16.5094 57.7177 15.6071 57.1784 14.9668C56.6374 14.3248 55.8413 14.0047 54.7884 14.0047C54.0043 14.0047 53.2698 14.1742 52.5816 14.5114C51.943 14.8247 51.3335 15.2545 50.7531 15.7989C50.6658 15.8811 50.6179 15.9958 50.6179 16.1156V30.5018C50.6179 30.7415 50.4244 30.935 50.1847 30.935H45.4612C45.2215 30.935 45.0281 30.7415 45.0281 30.5018V10.4882C45.0281 10.2485 45.2215 10.055 45.4612 10.055H48.471C49.1626 10.055 49.6249 10.37 49.8577 10.9966L50.0443 11.7653L50.0426 11.7671Z" fill="#BFFFC7"/>
+            <path d="M72.6038 11.7671C72.6774 12.0821 73.0626 12.2105 73.3057 11.9965C73.5574 11.7773 73.8159 11.5685 74.0795 11.3716C74.5315 11.0343 75.0109 10.7433 75.5177 10.5001C76.0244 10.257 76.5706 10.0687 77.1578 9.93347C77.745 9.79821 78.3836 9.73145 79.0718 9.73145C80.2052 9.73145 81.2119 9.92662 82.0884 10.3187C82.9667 10.7107 83.7046 11.2569 84.3055 11.9588C84.9064 12.6607 85.3584 13.4979 85.6632 14.4703C85.9679 15.4428 86.1186 16.5094 86.1186 17.6701V30.5018C86.1186 30.7415 85.9251 30.935 85.6855 30.935H80.9825C80.7428 30.935 80.5494 30.7415 80.5494 30.5018V17.6701C80.5494 16.5094 80.2789 15.6071 79.7396 14.9668C79.1986 14.3248 78.4025 14.0047 77.3496 14.0047C76.5655 14.0047 75.831 14.1742 75.1428 14.5114C74.5042 14.8247 73.8947 15.2545 73.3143 15.7989C73.227 15.8811 73.1791 15.9958 73.1791 16.1156V30.5018C73.1791 30.7415 72.9856 30.935 72.7459 30.935H68.0224C67.7827 30.935 67.5893 30.7415 67.5893 30.5018V10.4882C67.5893 10.2485 67.7827 10.055 68.0224 10.055H71.0322C71.7238 10.055 72.1861 10.37 72.4189 10.9966L72.6055 11.7653L72.6038 11.7671Z" fill="#BFFFC7"/>
+            <path d="M104.576 20.4875C104.576 21.736 104.352 22.8956 103.904 23.9639C103.456 25.0338 102.83 25.9603 102.026 26.7427C101.222 27.5268 100.261 28.1397 99.1431 28.5813C98.0248 29.0246 96.8038 29.2454 95.4802 29.2454C94.1565 29.2454 92.9356 29.0246 91.8172 28.5813C90.6989 28.1397 89.7382 27.5268 88.9336 26.7427C88.1307 25.9603 87.5024 25.0338 87.0555 23.9639C86.6086 22.8956 86.3843 21.736 86.3843 20.4875C86.3843 19.239 86.6086 18.0794 87.0555 17.0111C87.5024 15.9412 88.1307 15.0147 88.9336 14.2323C89.7382 13.4482 90.6989 12.8353 91.8172 12.3937C92.9356 11.9504 94.1565 11.7296 95.4802 11.7296C96.8038 11.7296 98.0248 11.9504 99.1431 12.3937C100.261 12.8353 101.222 13.4482 102.026 14.2323C102.83 15.0147 103.456 15.9412 103.904 17.0111C104.352 18.0794 104.576 19.239 104.576 20.4875ZM99.3006 20.4875C99.3006 19.7558 99.1807 19.0965 98.9409 18.5063C98.7012 17.9178 98.3741 17.4165 97.9612 17.0045C97.5483 16.5924 97.0654 16.2756 96.5141 16.057C95.9629 15.8368 95.3706 15.7275 94.7405 15.7275C94.1104 15.7275 93.518 15.8368 92.9668 16.057C92.4155 16.2756 91.9326 16.5924 91.5197 17.0045C91.1068 17.4165 90.7797 17.9178 90.54 18.5063C90.3002 19.0965 90.1803 19.7558 90.1803 20.4875C90.1803 21.2192 90.3002 21.8785 90.54 22.4687C90.7797 23.0572 91.1068 23.5585 91.5197 23.9706C91.9326 24.3826 92.4155 24.6994 92.9668 24.918C93.518 25.1382 94.1104 25.2476 94.7405 25.2476C95.3706 25.2476 95.9629 25.1382 96.5141 24.918C97.0654 24.6994 97.5483 24.3826 97.9612 23.9706C98.3741 23.5585 98.7012 23.0572 98.9409 22.4687C99.1807 21.8785 99.3006 21.2192 99.3006 20.4875Z" fill="#BFFFC7"/>
+            <path d="M117.091 30.9349H114.062C113.375 30.9349 112.908 30.6215 112.663 29.9913L106.409 11.2262C106.328 10.9831 106.453 10.7208 106.695 10.6301C106.756 10.6079 106.822 10.5977 106.887 10.5977H111.61C112.297 10.5977 112.763 10.9111 112.999 11.5413L116.552 22.9213C116.633 23.1644 116.959 23.1644 117.04 22.9213L120.593 11.5413C120.829 10.9111 121.296 10.5977 121.982 10.5977H126.706C126.948 10.5977 127.145 10.7941 127.145 11.0372C127.145 11.1022 127.131 11.167 127.103 11.2262L120.849 29.9913C120.613 30.6215 120.147 30.9349 119.46 30.9349H117.091Z" fill="#BFFFC7"/>
+          </svg>
+        </div>
+      </a>
+      <nav class="nav-menu w-nav-menu" role="navigation">
+        <div class="div-block-2">
+          <div class="nav-link-wrap">
+            <a class="nav-link w-nav-link" href="#ds-components">How it Works</a>
+            <a class="nav-link w-nav-link" href="#ds-motion">Contact Us</a>
+            <div class="nav-cta-wrap">
+              <a class="button is-secondary w-button" href="#ds-hero">Book a Demo</a>
+              <div class="button-grad green-blue-grad" style="opacity:0;"></div>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="nav-dummy background-color-dark-green"></div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     0 — HERO  (exact structural clone; text adapted)
+     ═══════════════════════════════════════════════════════════════════ -->
+<main class="main-wrapper">
+
+<section class="padding-section-medium background-color-dark-green overflow-hidden center-align" id="ds-hero">
+  <div class="container-large">
+
+    <div class="spacer-xhuge z-index-1 less-spacer">
+      <img alt="" class="grad-line-ani-image white-triangle" loading="lazy" src="assets/6542501ff4623293befc0bc8_hero-_136d2409c746.svg"/>
+    </div>
+
+    <div class="z-index-1 padding-right-extra">
+      <h1 class="_50-ch" letters-fade-in="" text-split="">
+        The <span class="inline-text">Tunnel</span> design system — tokens, components and <span class="inline-text">motion</span>, documented
+      </h1>
+      <div class="abs-card-line-div">
+        <img alt="" class="grad-line-ani-image width-100per-img" loading="lazy" src="assets/6542501ff4623293befc0bc6_hero-_588923cc0e6a.svg"/>
+      </div>
+    </div>
+
+    <div class="spacer-small"></div>
+
+    <p class="text-size-medium" text-split="" words-slide-from-right="">
+      Every color, typeface, surface and animation from the product — <span class="inline-text">live and reusable</span>
+    </p>
+
+    <div class="spacer-medium"></div>
+
+    <div class="cta-wrapper">
+      <div class="cta-wrap">
+        <a class="button w-button" href="#ds-components">Explore Components</a>
+        <div class="button-grad green-blue-grad"></div>
+        <div class="abs-overlay"></div>
+      </div>
+    </div>
+
+    <div class="spacer-huge horizontal-flex less-spacer-mobile">
+      <img alt="" class="grad-line-ani-image width-100per" loading="lazy" src="assets/6542501ff4623293befc0bc7_hero-_e6d755510cbf.svg"/>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     1 — TYPOGRAPHY
+     ═══════════════════════════════════════════════════════════════════ -->
+<section class="padding-section-large background-color-dark-green" id="ds-typography">
+  <div class="container-large">
+
+    <p class="ds-eyebrow">01 · Foundation</p>
+    <h2 class="ds-h">Typography</h2>
+    <p class="ds-sub">Lato powers every display and body style. Scale, weight and rhythm are drawn directly from the reference — nothing is normalized.</p>
+
+    <div class="ds-type">
+
+      <!-- Heading 1 -->
+      <div class="ds-type__row">
+        <span class="ds-type__label">Heading 1</span>
+        <div class="ds-type__preview">
+          <h1 class="heading-style-h1">Connect your ERP to your bank</h1>
+        </div>
+        <span class="ds-type__spec">48px / 53px · 700</span>
+      </div>
+
+      <!-- Heading 2 -->
+      <div class="ds-type__row">
+        <span class="ds-type__label">Heading 2</span>
+        <div class="ds-type__preview">
+          <h2 class="heading-style-h2">Payment automation, end to end</h2>
+        </div>
+        <span class="ds-type__spec">40px / 48px · 700</span>
+      </div>
+
+      <!-- Heading 3 -->
+      <div class="ds-type__row">
+        <span class="ds-type__label">Heading 3</span>
+        <div class="ds-type__preview">
+          <h3 class="heading-style-h3">A flat subscription fee</h3>
+        </div>
+        <span class="ds-type__spec">32px / 38px · 700</span>
+      </div>
+
+      <!-- Heading 4 -->
+      <div class="ds-type__row">
+        <span class="ds-type__label">Heading 4</span>
+        <div class="ds-type__preview">
+          <h4 class="heading-style-h4">Built for equipment manufacturers</h4>
+        </div>
+        <span class="ds-type__spec">24px / 34px · 700</span>
+      </div>
+
+      <!-- Bold L -->
+      <div class="ds-type__row">
+        <span class="ds-type__label">Bold L</span>
+        <div class="ds-type__preview">
+          <p class="text-size-medium text-weight-bold">Save every vendor payment hour</p>
+        </div>
+        <span class="ds-type__spec">24px / 29px · 700</span>
+      </div>
+
+      <!-- Bold M -->
+      <div class="ds-type__row">
+        <span class="ds-type__label">Bold M</span>
+        <div class="ds-type__preview">
+          <p class="text-weight-bold">Zero transaction fees</p>
+        </div>
+        <span class="ds-type__spec">16px / 19px · 700</span>
+      </div>
+
+      <!-- Bold S -->
+      <div class="ds-type__row">
+        <span class="ds-type__label">Bold S</span>
+        <div class="ds-type__preview">
+          <p class="text-size-small text-weight-bold">Real-time sync</p>
+        </div>
+        <span class="ds-type__spec">14px / 17px · 700</span>
+      </div>
+
+      <!-- Paragraph / large body -->
+      <div class="ds-type__row">
+        <span class="ds-type__label">Paragraph</span>
+        <div class="ds-type__preview">
+          <p class="text-size-medium">Payment automation built for equipment manufacturers</p>
+        </div>
+        <span class="ds-type__spec">24px / 29px · 400</span>
+      </div>
+
+      <!-- Regular L -->
+      <div class="ds-type__row">
+        <span class="ds-type__label">Regular L</span>
+        <div class="ds-type__preview">
+          <p class="text-size-medium text-weight-normal">Move money with confidence across your stack</p>
+        </div>
+        <span class="ds-type__spec">24px / 29px · 400</span>
+      </div>
+
+      <!-- Regular M -->
+      <div class="ds-type__row">
+        <span class="ds-type__label">Regular M</span>
+        <div class="ds-type__preview">
+          <p>Connect your ERP to your bank and make cost-effective vendor payments with zero transaction fees.</p>
+        </div>
+        <span class="ds-type__spec">16px / 24px · 400</span>
+      </div>
+
+      <!-- Regular S -->
+      <div class="ds-type__row">
+        <span class="ds-type__label">Regular S</span>
+        <div class="ds-type__preview">
+          <p class="text-size-small">© 2023 Tunnel. All rights reserved.</p>
+        </div>
+        <span class="ds-type__spec">14px / 21px · 400</span>
+      </div>
+
+      <!-- Inline highlight (appears inside hero headings) -->
+      <div class="ds-type__row">
+        <span class="ds-type__label">Inline</span>
+        <div class="ds-type__preview">
+          <h3 class="heading-style-h3">Make <span class="inline-text">cost-effective</span> payments</h3>
+        </div>
+        <span class="ds-type__spec">span.inline-text</span>
+      </div>
+
+      <!-- Opacity 50 variant -->
+      <div class="ds-type__row">
+        <span class="ds-type__label">Dimmed H3</span>
+        <div class="ds-type__preview">
+          <h3 class="heading-style-h3 text-weight-normal opacity-50per">We charge a flat subscription fee</h3>
+        </div>
+        <span class="ds-type__spec">.text-weight-normal.opacity-50per</span>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     2 — COLORS & SURFACES
+     ═══════════════════════════════════════════════════════════════════ -->
+<section class="padding-section-large background-color-dark-green" id="ds-colors">
+  <div class="container-large">
+
+    <p class="ds-eyebrow">02 · Foundation</p>
+    <h2 class="ds-h">Colors &amp; Surfaces</h2>
+    <p class="ds-sub">Every token declared in <span class="ds-mono">:root</span> — plus the gradients, overlays and surfaces that compose every view.</p>
+
+    <!-- Palette -->
+    <p class="ds-mini">Palette tokens</p>
+    <div class="ds-colors">
+      <div class="ds-swatch">
+        <div class="ds-swatch__chip" style="background-color:#072a24;border-bottom:1px solid rgba(191,255,199,0.15);"></div>
+        <div class="ds-swatch__meta"><span class="ds-swatch__name">Dark Green</span><span class="ds-swatch__hex">--dark-green · #072a24</span></div>
+      </div>
+      <div class="ds-swatch">
+        <div class="ds-swatch__chip" style="background-color:#bfffc7;"></div>
+        <div class="ds-swatch__meta"><span class="ds-swatch__name">Neon Green</span><span class="ds-swatch__hex">--neon-green · #bfffc7</span></div>
+      </div>
+      <div class="ds-swatch">
+        <div class="ds-swatch__chip" style="background-color:#c9ff57;"></div>
+        <div class="ds-swatch__meta"><span class="ds-swatch__name">Green</span><span class="ds-swatch__hex">--green · #c9ff57</span></div>
+      </div>
+      <div class="ds-swatch">
+        <div class="ds-swatch__chip" style="background-color:#b7f2f5;"></div>
+        <div class="ds-swatch__meta"><span class="ds-swatch__name">Blue</span><span class="ds-swatch__hex">--blue · #b7f2f5</span></div>
+      </div>
+      <div class="ds-swatch">
+        <div class="ds-swatch__chip" style="background-color:#ffeece;"></div>
+        <div class="ds-swatch__meta"><span class="ds-swatch__name">Cream</span><span class="ds-swatch__hex">--cream · #ffeece</span></div>
+      </div>
+      <div class="ds-swatch">
+        <div class="ds-swatch__chip" style="background-color:#ffc556;"></div>
+        <div class="ds-swatch__meta"><span class="ds-swatch__name">Yellow</span><span class="ds-swatch__hex">--yellow · #ffc556</span></div>
+      </div>
+      <div class="ds-swatch">
+        <div class="ds-swatch__chip" style="background-color:#ffe9dd;"></div>
+        <div class="ds-swatch__meta"><span class="ds-swatch__name">Light Pink</span><span class="ds-swatch__hex">--light-pink · #ffe9dd</span></div>
+      </div>
+      <div class="ds-swatch">
+        <div class="ds-swatch__chip" style="background-color:#d2e1fd;"></div>
+        <div class="ds-swatch__meta"><span class="ds-swatch__name">Light Purple</span><span class="ds-swatch__hex">--light-purple · #d2e1fd</span></div>
+      </div>
+      <div class="ds-swatch">
+        <div class="ds-swatch__chip" style="background-color:#28787d;"></div>
+        <div class="ds-swatch__meta"><span class="ds-swatch__name">Teal</span><span class="ds-swatch__hex">--teal · #28787d</span></div>
+      </div>
+      <div class="ds-swatch">
+        <div class="ds-swatch__chip" style="background-color:#1e4897;"></div>
+        <div class="ds-swatch__meta"><span class="ds-swatch__name">Violet</span><span class="ds-swatch__hex">--violet · #1e4897</span></div>
+      </div>
+      <div class="ds-swatch">
+        <div class="ds-swatch__chip" style="background-color:#9d242d;"></div>
+        <div class="ds-swatch__meta"><span class="ds-swatch__name">Maroon</span><span class="ds-swatch__hex">--maroon · #9d242d</span></div>
+      </div>
+      <div class="ds-swatch">
+        <div class="ds-swatch__chip" style="background-color:#ffffff;border-bottom:1px solid rgba(191,255,199,0.15);"></div>
+        <div class="ds-swatch__meta"><span class="ds-swatch__name">White</span><span class="ds-swatch__hex">--white · #ffffff</span></div>
+      </div>
+    </div>
+
+    <hr class="ds-rule"/>
+
+    <!-- Gradients -->
+    <p class="ds-mini">Gradients &amp; section grads</p>
+    <div class="ds-grads">
+
+      <div class="ds-grad">
+        <div class="ds-grad__chip background-color-green-grad"></div>
+        <div class="ds-grad__meta"><span class="ds-grad__name">Green Grad (section)</span><span class="ds-grad__use">.background-color-green-grad</span></div>
+      </div>
+
+      <div class="ds-grad">
+        <div class="ds-grad__chip"><div class="button-grad green-blue-grad"></div></div>
+        <div class="ds-grad__meta"><span class="ds-grad__name">Green → Blue</span><span class="ds-grad__use">.button-grad.green-blue-grad · CTA hover</span></div>
+      </div>
+
+      <div class="ds-grad">
+        <div class="ds-grad__chip"><div class="button-grad green-purple-grad"></div></div>
+        <div class="ds-grad__meta"><span class="ds-grad__name">Green → Purple</span><span class="ds-grad__use">.button-grad.green-purple-grad · white-text CTA</span></div>
+      </div>
+
+      <div class="ds-grad">
+        <div class="ds-grad__chip"><div class="button-grad green-cream-grad"></div></div>
+        <div class="ds-grad__meta"><span class="ds-grad__name">Green → Cream</span><span class="ds-grad__use">.button-grad.green-cream-grad · tertiary CTA</span></div>
+      </div>
+
+      <div class="ds-grad">
+        <div class="ds-grad__chip" style="background-color:#bfffc7;display:flex;align-items:center;justify-content:center;">
+          <div class="tag-line" style="background-image:linear-gradient(to right, rgba(7,42,36,0), #072a24 50%, rgba(7,42,36,0));height:1px;width:80%;"></div>
+        </div>
+        <div class="ds-grad__meta"><span class="ds-grad__name">Tag Line</span><span class="ds-grad__use">.tag-line · soft divider</span></div>
+      </div>
+
+      <div class="ds-grad">
+        <div class="ds-grad__chip" style="background-color:#072a24;display:flex;align-items:center;justify-content:center;">
+          <div class="tag-line white-grad-line" style="background-image:linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,0.6) 50%, rgba(255,255,255,0));height:1px;width:80%;"></div>
+        </div>
+        <div class="ds-grad__meta"><span class="ds-grad__name">Tag Line White</span><span class="ds-grad__use">.tag-line.white-grad-line</span></div>
+      </div>
+
+    </div>
+
+    <hr class="ds-rule"/>
+
+    <!-- Surfaces -->
+    <p class="ds-mini">Surfaces &amp; backgrounds</p>
+    <div class="ds-surfaces">
+      <div class="ds-surface">
+        <div class="ds-surface__box background-color-dark-green" style="color:rgba(255,255,255,0.5);border:1px solid rgba(191,255,199,0.15);">Page</div>
+        <div class="ds-surface__label">.background-color-dark-green</div>
+      </div>
+      <div class="ds-surface">
+        <div class="ds-surface__box" style="background-image:linear-gradient(to bottom, #bfffc7, rgba(255,255,255,0) 50%);color:rgba(7,42,36,0.55);">Section Grad</div>
+        <div class="ds-surface__label">.padding-section-large.background-color-green-grad</div>
+      </div>
+      <div class="ds-surface">
+        <div class="ds-surface__box" style="background-image:linear-gradient(rgba(191,255,199,0.6), rgba(255,255,255,0));color:rgba(7,42,36,0.55);">Grad Opacity</div>
+        <div class="ds-surface__label">.grad-opacity variant</div>
+      </div>
+      <div class="ds-surface">
+        <div class="ds-surface__box poly-card" style="min-height:110px;max-height:110px;border-radius:0;color:rgba(7,42,36,0.55);">Poly Card</div>
+        <div class="ds-surface__label">.poly-card · chamfered neon</div>
+      </div>
+      <div class="ds-surface">
+        <div class="ds-surface__box border-heading-wrap" style="background:#fff;color:rgba(7,42,36,0.55);">Border Wrap</div>
+        <div class="ds-surface__label">.border-heading-wrap</div>
+      </div>
+      <div class="ds-surface">
+        <div class="ds-surface__box" style="background-color:#bfffc7;color:rgba(7,42,36,0.55);">Neon (footer)</div>
+        <div class="ds-surface__label">.footer · neon-green panel</div>
+      </div>
+    </div>
+
+    <hr class="ds-rule"/>
+
+    <!-- Borders & dividers -->
+    <p class="ds-mini">Borders &amp; dividers</p>
+    <div style="display:flex;flex-direction:column;gap:1.25rem;">
+      <div>
+        <p class="ds-mono" style="margin:0 0 0.5rem;">.seperator-line — 1px, currentColor</p>
+        <div class="seperator-line" style="background-color:rgba(191,255,199,0.3);height:1px;width:100%;"></div>
+      </div>
+      <div>
+        <p class="ds-mono" style="margin:0 0 0.5rem;">.tag-line — dark gradient rule</p>
+        <div class="tag-line" style="background-image:linear-gradient(to right, rgba(191,255,199,0), rgba(191,255,199,0.4) 50%, rgba(191,255,199,0));height:1px;width:60%;margin:0 auto;"></div>
+      </div>
+      <div>
+        <p class="ds-mono" style="margin:0 0 0.5rem;">.tag-line.white-grad-line — white gradient rule</p>
+        <div class="tag-line white-grad-line" style="background-image:linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,0.45) 50%, rgba(255,255,255,0));height:1px;width:80%;margin:0 auto;"></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     3 — UI COMPONENTS
+     ═══════════════════════════════════════════════════════════════════ -->
+<section class="padding-section-large background-color-dark-green" id="ds-components">
+  <div class="container-large">
+
+    <p class="ds-eyebrow">03 · Components</p>
+    <h2 class="ds-h">UI Components</h2>
+    <p class="ds-sub">Every interactive surface in the product, rendered with its original markup. Hover the live primary CTA to trigger the gradient-slide animation.</p>
+
+    <!-- Primary CTA -->
+    <p class="ds-mini">Primary CTA — .cta-wrap &gt; .button.w-button + .button-grad.green-blue-grad + .abs-overlay</p>
+    <div class="ds-states">
+      <div class="ds-states__item">
+        <div class="cta-wrapper">
+          <div class="cta-wrap">
+            <a class="button w-button" href="#">Book a Demo</a>
+            <div class="button-grad green-blue-grad"></div>
+            <div class="abs-overlay"></div>
+          </div>
+        </div>
+        <span class="ds-states__tag">Default · hover to animate</span>
+      </div>
+      <div class="ds-states__item">
+        <div class="cta-wrapper">
+          <div class="cta-wrap ds-force-active">
+            <a class="button w-button" href="#">Book a Demo</a>
+            <div class="button-grad green-blue-grad"></div>
+            <div class="abs-overlay"></div>
+          </div>
+        </div>
+        <span class="ds-states__tag">Hover (forced)</span>
+      </div>
+      <div class="ds-states__item">
+        <div class="cta-wrapper">
+          <div class="cta-wrap" style="opacity:0.4;pointer-events:none;">
+            <a class="button w-button" href="#">Book a Demo</a>
+            <div class="button-grad green-blue-grad"></div>
+            <div class="abs-overlay"></div>
+          </div>
+        </div>
+        <span class="ds-states__tag">Disabled</span>
+      </div>
+    </div>
+
+    <!-- White-text CTA -->
+    <p class="ds-mini">White-text CTA — .button.white-text + .button-grad.green-purple-grad + .abs-overlay.less-opacity</p>
+    <div class="ds-states">
+      <div class="ds-states__item">
+        <div class="cta-wrapper">
+          <div class="cta-wrap">
+            <a class="button white-text w-button" href="#">Book a Demo</a>
+            <div class="button-grad green-purple-grad"></div>
+            <div class="abs-overlay less-opacity"></div>
+          </div>
+        </div>
+        <span class="ds-states__tag">Default · hover to animate</span>
+      </div>
+      <div class="ds-states__item">
+        <div class="cta-wrapper">
+          <div class="cta-wrap ds-force-active">
+            <a class="button white-text w-button" href="#">Book a Demo</a>
+            <div class="button-grad green-purple-grad"></div>
+            <div class="abs-overlay less-opacity"></div>
+          </div>
+        </div>
+        <span class="ds-states__tag">Hover (forced)</span>
+      </div>
+    </div>
+
+    <!-- Secondary (nav) -->
+    <p class="ds-mini">Secondary — .button.is-secondary (outline pill, used in navbar)</p>
+    <div class="ds-states">
+      <div class="ds-states__item">
+        <div class="nav-cta-wrap">
+          <a class="button is-secondary w-button" href="#">Book a Demo</a>
+          <div class="button-grad green-blue-grad" style="opacity:0;"></div>
+        </div>
+        <span class="ds-states__tag">Default</span>
+      </div>
+      <div class="ds-states__item">
+        <div class="nav-cta-wrap">
+          <a class="button is-secondary w-button ds-force-hover" href="#">Book a Demo</a>
+          <div class="button-grad green-blue-grad" style="opacity:0;"></div>
+        </div>
+        <span class="ds-states__tag">Hover</span>
+      </div>
+      <div class="ds-states__item">
+        <div class="nav-cta-wrap" style="opacity:0.4;pointer-events:none;">
+          <a class="button is-secondary w-button" href="#">Book a Demo</a>
+        </div>
+        <span class="ds-states__tag">Disabled</span>
+      </div>
+    </div>
+
+    <hr class="ds-rule"/>
+
+    <!-- Inputs -->
+    <p class="ds-mini">Input fields — .field-wrap + .input (bottom-border, neon-green)</p>
+    <div style="display:flex;gap:2.5rem;flex-wrap:wrap;margin-bottom:1rem;">
+      <div style="flex:1;min-width:240px;max-width:360px;">
+        <div class="field-wrap" style="position:relative;padding-top:1.5rem;">
+          <label class="label" style="position:static;font-family:Lato,sans-serif;font-size:0.75rem;font-weight:500;color:rgba(255,255,255,0.5);margin-bottom:0.25rem;display:block;">Full Name</label>
+          <input class="input" placeholder="e.g. Alex Chen" type="text" value=""/>
+        </div>
+        <span class="ds-states__tag">Default</span>
+      </div>
+      <div style="flex:1;min-width:240px;max-width:360px;">
+        <div class="field-wrap" style="position:relative;padding-top:1.5rem;">
+          <label class="label" style="position:static;font-family:Lato,sans-serif;font-size:0.75rem;font-weight:500;color:#bfffc7;margin-bottom:0.25rem;display:block;">Email Address</label>
+          <input class="input" style="border-bottom-color:#c9ff57;outline:none;" placeholder="you@company.com" type="email" value="alex@company.com"/>
+        </div>
+        <span class="ds-states__tag">Focus</span>
+      </div>
+      <div style="flex:1;min-width:240px;max-width:360px;">
+        <div class="field-wrap" style="position:relative;padding-top:1.5rem;">
+          <label class="label" style="position:static;font-family:Lato,sans-serif;font-size:0.75rem;font-weight:500;color:rgba(255,120,120,0.85);margin-bottom:0.25rem;display:block;">Email Address</label>
+          <input class="input" style="border-bottom-color:rgba(255,120,120,0.75);" placeholder="you@company.com" type="email" value="invalid-email"/>
+        </div>
+        <span class="ds-states__tag">Error</span>
+      </div>
+    </div>
+
+    <hr class="ds-rule"/>
+
+    <!-- Poly card -->
+    <p class="ds-mini">Poly Card — .poly-card-wrap &gt; .poly-card (neon-green with chamfered corners)</p>
+    <div class="poly-card-wrap" style="max-width:520px;margin-bottom:1rem;">
+      <div class="poly-card" style="min-height:220px;padding:2rem;">
+        <div class="card-content">
+          <h4 class="heading-style-h4" style="color:#072a24;margin:0 0 0.5rem;">Real-time ERP sync</h4>
+          <p style="color:rgba(7,42,36,0.65);font-size:0.9375rem;line-height:1.5;margin:0;">Push invoices and vendor data from your ERP to the bank with zero manual reconciliation.</p>
+        </div>
+      </div>
+    </div>
+
+    <hr class="ds-rule"/>
+
+    <!-- Navbar -->
+    <p class="ds-mini">Navbar — .navbar.w-nav (dark-green pill with brand, links, CTA)</p>
+    <div style="position:relative;margin-bottom:1rem;">
+      <div style="position:relative;background-color:#072a24;border-radius:0.875rem;padding:0.5rem 0.75rem 0.5rem 1.25rem;display:flex;align-items:center;max-width:860px;border:1px solid rgba(191,255,199,0.1);">
+        <div style="flex:none;margin-right:auto;">
+          <svg fill="none" height="24" viewBox="0 0 118 32" width="88" xmlns="http://www.w3.org/2000/svg">
+            <path d="M25.8258 6.78481H19.3612C17.7553 6.78481 16.4525 8.08595 16.4525 9.69355V30.4074C16.4525 30.6574 16.2504 30.8611 15.9988 30.8611H11.1948C10.9449 30.8611 10.7411 30.6591 10.7411 30.4074V9.69355C10.7411 8.08766 9.43999 6.78481 7.83239 6.78481H1.36262C1.11266 6.78481 0.908936 6.58279 0.908936 6.33112V1.81135C0.908936 1.5614 1.11095 1.35767 1.36262 1.35767H25.8224C26.0724 1.35767 26.2761 1.55969 26.2761 1.81135V6.33112C26.2761 6.58107 26.0741 6.78481 25.8224 6.78481H25.8258Z" fill="#BFFFC7"/>
+            <path d="M40.8147 10.4881V30.5017C40.8147 30.7414 40.6213 30.9349 40.3816 30.9349H37.3718C36.6562 30.9349 36.1974 30.6113 35.9953 29.9624L35.807 29.2126C35.7283 28.8993 35.3465 28.776 35.1051 28.99C34.8534 29.2109 34.5966 29.4214 34.3347 29.62C33.8895 29.9573 33.4136 30.2483 32.9068 30.4915C32.4001 30.7346 31.8539 30.9246 31.2667 31.0581C30.6795 31.1917 30.0409 31.2602 29.3527 31.2602C28.2193 31.2602 27.2092 31.065 26.3258 30.6729C25.4407 30.2809 24.7028 29.7347 24.1087 29.0328C23.5146 28.3309 23.0627 27.4937 22.7528 26.5212C22.4412 25.5488 22.2871 24.4822 22.2871 23.3215V10.4898C22.2871 10.2501 22.4806 10.0566 22.7202 10.0566H27.4437C27.6834 10.0566 27.8769 10.2501 27.8769 10.4898V23.3215C27.8769 24.4822 28.144 25.3845 28.6764 26.0248C29.2089 26.6668 30.0032 26.9869 31.0561 26.9869C31.8385 26.9869 32.5747 26.814 33.2629 26.4699C33.8998 26.1515 34.5093 25.7252 35.0897 25.1927C35.1787 25.1105 35.2283 24.9941 35.2283 24.8726V10.4881C35.2283 10.2484 35.4218 10.0549 35.6615 10.0549H40.385C40.6247 10.0549 40.8181 10.2484 40.8181 10.4881H40.8147Z" fill="#BFFFC7"/>
+          </svg>
+        </div>
+        <div class="nav-link-wrap" style="gap:2rem;display:flex;align-items:center;margin:0;width:auto;">
+          <a class="nav-link w-nav-link" href="#" style="padding:0;text-decoration:none;">How it Works</a>
+          <a class="nav-link w-nav-link" href="#" style="padding:0;text-decoration:none;">Contact Us</a>
+          <div class="nav-cta-wrap">
+            <a class="button is-secondary w-button" href="#">Book a Demo</a>
+            <div class="button-grad green-blue-grad" style="opacity:0;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="ds-rule"/>
+
+    <!-- Footer -->
+    <p class="ds-mini">Footer — .padding-section-small.footer (neon-green panel, logo, links, social)</p>
+    <div style="border-radius:1.25rem;overflow:hidden;max-width:860px;">
+      <footer class="padding-section-small footer" style="background-color:#bfffc7;">
+        <div class="container-large" style="max-width:none;">
+          <div class="footer-logo">
+            <a class="footer-link-block w-inline-block" href="#">
+              <img alt="Tunnel Logo" class="brand-logo" loading="lazy" src="assets/6542501ff4623293befc0bd2_tunne_877ec43cd4b7.svg" style="height:28px;width:auto;"/>
+            </a>
+          </div>
+          <div class="spacer-medium"></div>
+          <div class="footer-links-wrap">
+            <a class="footer-link" href="#">How it Works</a>
+            <a class="footer-link" href="#">Contact Us</a>
+            <a class="social-link w-inline-block" href="#" aria-label="LinkedIn">
+              <div class="social-icon w-embed">
+                <svg fill="none" height="100%" viewBox="0 0 29 29" width="100%" xmlns="http://www.w3.org/2000/svg">
+                  <path clip-rule="evenodd" d="M5.87653 4.31738C4.91026 4.31738 4.12695 5.10069 4.12695 6.06696V23.5627C4.12695 24.529 4.91026 25.3123 5.87653 25.3123H23.3723C24.3385 25.3123 25.1219 24.529 25.1219 23.5627V6.06696C25.1219 5.10069 24.3385 4.31738 23.3723 4.31738H5.87653ZM10.5663 8.98609C10.5728 10.1014 9.73797 10.7887 8.74727 10.7838C7.81398 10.7789 7.00042 10.0358 7.00535 8.98774C7.01027 8.00196 7.78938 7.20973 8.8014 7.23269C9.82818 7.25566 10.5728 8.00852 10.5663 8.98609ZM14.9507 12.2042H12.0097V22.1883H15.1163V17.0773C15.1213 16.7902 15.1344 16.4918 15.2082 16.2178C15.4853 15.1943 16.4056 14.5333 17.4324 14.6958C18.0917 14.799 18.528 15.1812 18.7117 15.8029C18.8249 16.1915 18.8758 16.6098 18.8807 17.015C18.894 18.2369 18.8921 19.4588 18.8902 20.6808C18.8895 21.1122 18.8888 21.5437 18.8888 21.975V22.1866H22.0053V16.413C22.0086 15.8176 21.9446 15.2304 21.7986 14.6547C21.5805 13.7985 21.1295 13.0899 20.3963 12.5782C19.8763 12.214 19.3055 11.9795 18.6675 11.9532C17.4782 11.9067 16.5859 12.1484 15.2098 13.2768L14.9507 13.5968V12.2042ZM7.25478 22.1915H10.3466V12.2107H7.25478V22.1915Z" fill="currentColor" fill-rule="evenodd"/>
+                </svg>
+              </div>
+            </a>
+          </div>
+          <div class="spacer-small"></div>
+          <div class="seperator-line background-color-dark-green" style="background-color:#072a24;height:1px;width:100%;"></div>
+          <div class="spacer-small"></div>
+          <div class="footer-sub-link-wrap">
+            <div class="footer-links-wrap left-align">
+              <a class="footer-link sub-link" href="#">Website Design by Everything Design</a>
+            </div>
+            <div class="footer-links-wrap left-align">
+              <div class="text-size-small">© 2023 Tunnel. All rights reserved.</div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     4 — LAYOUT & SPACING  (on green-grad section — mirrors product)
+     ═══════════════════════════════════════════════════════════════════ -->
+<section class="padding-section-large background-color-green-grad" id="ds-layout">
+  <div class="container-large">
+
+    <p class="ds-eyebrow" style="color:rgba(7,42,36,0.55);">04 · Structure</p>
+    <h2 class="ds-h" style="color:#072a24;">Layout &amp; Spacing</h2>
+    <p class="ds-sub" style="color:rgba(7,42,36,0.55);">Containers, section padding, spacer scale and the grid patterns that repeat across every view.</p>
+
+    <!-- Containers -->
+    <div class="ds-layout">
+      <p class="ds-layout__label">Containers — width: 90% · centered</p>
+      <div style="display:flex;flex-direction:column;gap:0.625rem;">
+        <div class="ds-cont">.container-large — max-width 80rem (1280px)</div>
+        <div class="ds-cont" style="max-width:64rem;margin-left:auto;margin-right:auto;width:100%;">.container-medium — max-width 64rem (1024px)</div>
+        <div class="ds-cont" style="max-width:48rem;margin-left:auto;margin-right:auto;width:100%;">.container-small — max-width 48rem (768px)</div>
+      </div>
+    </div>
+
+    <!-- Section padding -->
+    <div class="ds-layout">
+      <p class="ds-layout__label">Section padding</p>
+      <div class="ds-spacer-row"><div class="ds-spacer-vis" style="width:128px;"></div><span class="ds-spacer-name">.padding-section-large</span><span class="ds-spacer-val">8rem · 8rem</span></div>
+      <div class="ds-spacer-row"><div class="ds-spacer-vis" style="width:80px;"></div><span class="ds-spacer-name">.padding-section-medium</span><span class="ds-spacer-val">5rem · 5rem</span></div>
+      <div class="ds-spacer-row"><div class="ds-spacer-vis" style="width:48px;"></div><span class="ds-spacer-name">.padding-section-small</span><span class="ds-spacer-val">3rem · 3rem</span></div>
+    </div>
+
+    <!-- Spacer scale -->
+    <div class="ds-layout">
+      <p class="ds-layout__label">Spacer scale — vertical rhythm</p>
+      <div class="ds-spacer-row"><div class="ds-spacer-vis" style="width:2px;height:2px;"></div><span class="ds-spacer-name">.spacer-tiny</span><span class="ds-spacer-val">0.125rem · 2px</span></div>
+      <div class="ds-spacer-row"><div class="ds-spacer-vis" style="width:4px;"></div><span class="ds-spacer-name">.spacer-xxsmall</span><span class="ds-spacer-val">0.25rem · 4px</span></div>
+      <div class="ds-spacer-row"><div class="ds-spacer-vis" style="width:8px;"></div><span class="ds-spacer-name">.spacer-xsmall</span><span class="ds-spacer-val">0.5rem · 8px</span></div>
+      <div class="ds-spacer-row"><div class="ds-spacer-vis" style="width:16px;"></div><span class="ds-spacer-name">.spacer-small</span><span class="ds-spacer-val">1rem · 16px</span></div>
+      <div class="ds-spacer-row"><div class="ds-spacer-vis" style="width:32px;"></div><span class="ds-spacer-name">.spacer-medium</span><span class="ds-spacer-val">2rem · 32px</span></div>
+      <div class="ds-spacer-row"><div class="ds-spacer-vis" style="width:48px;"></div><span class="ds-spacer-name">.spacer-large</span><span class="ds-spacer-val">3rem · 48px</span></div>
+      <div class="ds-spacer-row"><div class="ds-spacer-vis" style="width:64px;"></div><span class="ds-spacer-name">.spacer-xlarge</span><span class="ds-spacer-val">4rem · 64px</span></div>
+      <div class="ds-spacer-row"><div class="ds-spacer-vis" style="width:96px;"></div><span class="ds-spacer-name">.spacer-huge</span><span class="ds-spacer-val">6rem · 96px</span></div>
+      <div class="ds-spacer-row"><div class="ds-spacer-vis" style="width:128px;"></div><span class="ds-spacer-name">.spacer-xhuge</span><span class="ds-spacer-val">8rem · 128px</span></div>
+      <div class="ds-spacer-row"><div class="ds-spacer-vis" style="width:192px;"></div><span class="ds-spacer-name">.spacer-xxhuge</span><span class="ds-spacer-val">12rem · 192px</span></div>
+    </div>
+
+    <!-- Grid pattern: multi-method 3-col -->
+    <div class="ds-layout">
+      <p class="ds-layout__label">.multi-method-wrapper — 3-column grid · 2rem gap</p>
+      <div class="multi-method-wrapper">
+        <div class="multi-method-card padding-medium border-radius" style="background-color:rgba(7,42,36,0.1);padding:1.5rem;">
+          <h4 class="heading-style-h4" style="margin:0 0 0.5rem;color:#072a24;">Connect ERP</h4>
+          <p class="text-size-small" style="margin:0;color:rgba(7,42,36,0.55);">Push invoices in real time</p>
+        </div>
+        <div class="multi-method-card padding-medium border-radius" style="background-color:rgba(7,42,36,0.1);padding:1.5rem;">
+          <h4 class="heading-style-h4" style="margin:0 0 0.5rem;color:#072a24;">Approve &amp; Pay</h4>
+          <p class="text-size-small" style="margin:0;color:rgba(7,42,36,0.55);">Flat fee, no per-transaction</p>
+        </div>
+        <div class="multi-method-card padding-medium border-radius" style="background-color:rgba(7,42,36,0.1);padding:1.5rem;">
+          <h4 class="heading-style-h4" style="margin:0 0 0.5rem;color:#072a24;">Reconcile</h4>
+          <p class="text-size-small" style="margin:0;color:rgba(7,42,36,0.55);">Auto-matched to your books</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero layout pattern -->
+    <div class="ds-layout">
+      <p class="ds-layout__label">Hero layout — .padding-section-medium.center-align · flex column · container-large</p>
+      <div style="background-color:#072a24;border-radius:0.75rem;padding:2rem;text-align:center;">
+        <div style="width:60%;height:8px;background:rgba(191,255,199,0.12);border-radius:4px;margin:0 auto 1rem;"></div>
+        <div style="width:80%;height:24px;background:rgba(191,255,199,0.2);border-radius:4px;margin:0 auto 0.5rem;"></div>
+        <div style="width:70%;height:24px;background:rgba(191,255,199,0.2);border-radius:4px;margin:0 auto 1.5rem;"></div>
+        <div style="width:40%;height:10px;background:rgba(191,255,199,0.1);border-radius:4px;margin:0 auto 1.5rem;"></div>
+        <div style="display:inline-block;width:160px;height:44px;background:#fff;border-radius:0.625rem;"></div>
+      </div>
+    </div>
+
+    <!-- Flex patterns -->
+    <div class="ds-layout">
+      <p class="ds-layout__label">Flex helpers</p>
+      <div style="display:flex;flex-direction:column;gap:1rem;">
+        <div>
+          <span class="ds-mono" style="color:rgba(7,42,36,0.55);display:block;margin-bottom:0.375rem;">.flex-vertical.center-align</span>
+          <div class="flex-vertical center-align" style="background-color:rgba(7,42,36,0.08);border-radius:0.5rem;padding:1rem;gap:0.5rem;">
+            <div style="background-color:rgba(7,42,36,0.16);padding:0.5rem 1rem;border-radius:0.25rem;font-family:Figtree,sans-serif;font-size:0.75rem;color:rgba(7,42,36,0.65);">Item A</div>
+            <div style="background-color:rgba(7,42,36,0.16);padding:0.5rem 1rem;border-radius:0.25rem;font-family:Figtree,sans-serif;font-size:0.75rem;color:rgba(7,42,36,0.65);">Item B</div>
+          </div>
+        </div>
+        <div>
+          <span class="ds-mono" style="color:rgba(7,42,36,0.55);display:block;margin-bottom:0.375rem;">.horizontal-flex.space-between</span>
+          <div class="horizontal-flex" style="justify-content:space-between;background-color:rgba(7,42,36,0.08);border-radius:0.5rem;padding:1rem;">
+            <div style="background-color:rgba(7,42,36,0.16);padding:0.5rem 1rem;border-radius:0.25rem;font-family:Figtree,sans-serif;font-size:0.75rem;color:rgba(7,42,36,0.65);">Left</div>
+            <div style="background-color:rgba(7,42,36,0.16);padding:0.5rem 1rem;border-radius:0.25rem;font-family:Figtree,sans-serif;font-size:0.75rem;color:rgba(7,42,36,0.65);">Right</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     5 — MOTION & INTERACTION
+     ═══════════════════════════════════════════════════════════════════ -->
+<section class="padding-section-large background-color-dark-green" id="ds-motion">
+  <div class="container-large">
+
+    <p class="ds-eyebrow">05 · Behavior</p>
+    <h2 class="ds-h">Motion &amp; Interaction</h2>
+    <p class="ds-sub">All entrance motion is driven by GSAP + ScrollTrigger, wired to SplitType-decomposed characters and words. Hover transitions are Webflow IX or plain CSS.</p>
+
+    <div class="ds-motion">
+
+      <!-- letters-fade-in -->
+      <div class="ds-motion__card">
+        <p class="ds-motion__title">letters-fade-in</p>
+        <p class="ds-motion__desc">Each character fades in over 0.8s (power1.out, staggered 0.8s). Triggers at 80% viewport.</p>
+        <div class="ds-motion__stage">
+          <h3 class="heading-style-h3" letters-fade-in="" text-split="" style="margin:0;text-align:center;">Design System</h3>
+        </div>
+      </div>
+
+      <!-- words-slide-from-right -->
+      <div class="ds-motion__card">
+        <p class="ds-motion__title">words-slide-from-right</p>
+        <p class="ds-motion__desc">Words slide in from 1em right, fading. 0.6s · power2.out · 0.2s total stagger.</p>
+        <div class="ds-motion__stage">
+          <p class="text-size-medium" words-slide-from-right="" text-split="" style="margin:0;text-align:center;">Built for your brand</p>
+        </div>
+      </div>
+
+      <!-- scrub-each-word -->
+      <div class="ds-motion__card">
+        <p class="ds-motion__title">scrub-each-word</p>
+        <p class="ds-motion__desc">Each word's opacity scrubs 0.2 → 1 with scroll. Start 90%, end center.</p>
+        <div class="ds-motion__stage">
+          <p class="heading-style-h5 text-weight-normal" scrub-each-word="" text-split="" style="margin:0;text-align:center;opacity:0.5;">Scroll to reveal each word gradually</p>
+        </div>
+      </div>
+
+      <!-- Button grad slide -->
+      <div class="ds-motion__card">
+        <p class="ds-motion__title">Button · gradient slide</p>
+        <p class="ds-motion__desc">.button-grad slides from left:-100% → 0 on hover · 0.4s · power2.out. Opacity fades in.</p>
+        <div class="ds-motion__stage">
+          <div class="cta-wrapper">
+            <div class="cta-wrap">
+              <a class="button w-button" href="#">Hover me</a>
+              <div class="button-grad green-blue-grad"></div>
+              <div class="abs-overlay"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nav link hover -->
+      <div class="ds-motion__card">
+        <p class="ds-motion__title">Nav link · color transition</p>
+        <p class="ds-motion__desc">.nav-link color transitions from rgba(255,255,255,.5) → --neon-green. <span class="ds-mono">transition: all 0.2s</span></p>
+        <div class="ds-motion__stage" style="gap:2rem;">
+          <a class="nav-link w-nav-link" href="#" style="padding:0;text-decoration:none;">Default</a>
+          <a class="nav-link w-nav-link" href="#" style="padding:0;text-decoration:none;color:#bfffc7;">Hovered</a>
+        </div>
+      </div>
+
+      <!-- Secondary button hover -->
+      <div class="ds-motion__card">
+        <p class="ds-motion__title">Secondary · fill-invert hover</p>
+        <p class="ds-motion__desc">.button.is-secondary:hover — border &amp; bg become --neon-green; color flips to --dark-green.</p>
+        <div class="ds-motion__stage" style="gap:1.5rem;">
+          <div class="nav-cta-wrap">
+            <a class="button is-secondary w-button" href="#">Hover me</a>
+            <div class="button-grad green-blue-grad" style="opacity:0;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grad line animation -->
+      <div class="ds-motion__card">
+        <p class="ds-motion__title">Grad-line SVG entrance</p>
+        <p class="ds-motion__desc">.grad-line-ani-image — decorative SVGs animated by Webflow IX on scroll (translate &amp; scale).</p>
+        <div class="ds-motion__stage">
+          <img alt="" class="grad-line-ani-image width-100per" src="assets/6542501ff4623293befc0bc7_hero-_e6d755510cbf.svg" style="max-width:220px;"/>
+        </div>
+      </div>
+
+      <!-- Poly-card clip -->
+      <div class="ds-motion__card">
+        <p class="ds-motion__title">Poly-card · clip-path</p>
+        <p class="ds-motion__desc">Responsive clip-path polygon chamfers corners (24px desktop / 16px mobile). Drop-shadow on wrapper.</p>
+        <div class="ds-motion__stage">
+          <div class="poly-card-wrap" style="width:220px;">
+            <div class="poly-card" style="min-height:90px;max-height:90px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SplitType setup -->
+      <div class="ds-motion__card">
+        <p class="ds-motion__title">SplitType setup</p>
+        <p class="ds-motion__desc">[text-split] elements are decomposed into .word &gt; .char spans on DOMContentLoaded before GSAP runs.</p>
+        <div class="ds-motion__stage">
+          <div class="ds-mono" style="line-height:1.8;font-size:0.75rem;color:rgba(255,255,255,0.5);text-align:left;">
+            [text-split] → opacity 0<br/>
+            .word → overflow hidden<br/>
+            .char → inline-block<br/>
+            gsap.set → opacity 1
+          </div>
+        </div>
+      </div>
+
+      <!-- Navbar collapse -->
+      <div class="ds-motion__card">
+        <p class="ds-motion__title">Navbar · collapse</p>
+        <p class="ds-motion__desc">.navbar.w-nav uses Webflow's built-in collapse animation on breakpoint medium.</p>
+        <div class="ds-motion__stage">
+          <div class="ds-mono" style="line-height:1.8;font-size:0.75rem;color:rgba(255,255,255,0.5);text-align:left;">
+            data-animation="default"<br/>
+            data-duration="400"<br/>
+            data-easing="ease"<br/>
+            data-collapse="medium"
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     6 — ICONS
+     ═══════════════════════════════════════════════════════════════════ -->
+<section class="padding-section-large background-color-dark-green" id="ds-icons">
+  <div class="container-large">
+
+    <p class="ds-eyebrow">06 · Iconography</p>
+    <h2 class="ds-h">Icons</h2>
+    <p class="ds-sub">Inline SVG with <span class="ds-mono">fill="currentColor"</span> — every icon inherits its color from the parent. Used in footer social links and throughout the product.</p>
+
+    <p class="ds-mini">Social icons · .social-icon.w-embed (30×30 container · fill: currentColor)</p>
+    <div class="ds-icons" style="margin-bottom:2rem;">
+
+      <div class="ds-icon">
+        <div class="ds-icon__box">
+          <div class="social-icon w-embed" style="color:#fff;width:32px;height:32px;">
+            <svg fill="none" height="100%" viewBox="0 0 29 29" width="100%" xmlns="http://www.w3.org/2000/svg">
+              <path clip-rule="evenodd" d="M5.87653 4.31738C4.91026 4.31738 4.12695 5.10069 4.12695 6.06696V23.5627C4.12695 24.529 4.91026 25.3123 5.87653 25.3123H23.3723C24.3385 25.3123 25.1219 24.529 25.1219 23.5627V6.06696C25.1219 5.10069 24.3385 4.31738 23.3723 4.31738H5.87653ZM10.5663 8.98609C10.5728 10.1014 9.73797 10.7887 8.74727 10.7838C7.81398 10.7789 7.00042 10.0358 7.00535 8.98774C7.01027 8.00196 7.78938 7.20973 8.8014 7.23269C9.82818 7.25566 10.5728 8.00852 10.5663 8.98609ZM14.9507 12.2042H12.0097V22.1883H15.1163V17.0773C15.1213 16.7902 15.1344 16.4918 15.2082 16.2178C15.4853 15.1943 16.4056 14.5333 17.4324 14.6958C18.0917 14.799 18.528 15.1812 18.7117 15.8029C18.8249 16.1915 18.8758 16.6098 18.8807 17.015C18.894 18.2369 18.8921 19.4588 18.8902 20.6808C18.8895 21.1122 18.8888 21.5437 18.8888 21.975V22.1866H22.0053V16.413C22.0086 15.8176 21.9446 15.2304 21.7986 14.6547C21.5805 13.7985 21.1295 13.0899 20.3963 12.5782C19.8763 12.214 19.3055 11.9795 18.6675 11.9532C17.4782 11.9067 16.5859 12.1484 15.2098 13.2768L14.9507 13.5968V12.2042ZM7.25478 22.1915H10.3466V12.2107H7.25478V22.1915Z" fill="currentColor" fill-rule="evenodd"/>
+            </svg>
+          </div>
+        </div>
+        <span class="ds-icon__name">LinkedIn</span>
+        <span class="ds-icon__size">29 · currentColor</span>
+      </div>
+
+      <div class="ds-icon">
+        <div class="ds-icon__box">
+          <div class="social-icon w-embed" style="color:#fff;width:32px;height:32px;">
+            <svg fill="none" height="100%" viewBox="0 0 29 29" width="100%" xmlns="http://www.w3.org/2000/svg">
+              <path d="M25.8019 8.93674C25.6691 8.44383 25.4094 7.99431 25.0489 7.63292C24.6883 7.27153 24.2394 7.01088 23.7468 6.87691C21.9202 6.37536 14.6128 6.3672 14.6128 6.3672C14.6128 6.3672 7.30656 6.35903 5.47884 6.83842C4.98653 6.97855 4.53852 7.24289 4.17781 7.60605C3.8171 7.96922 3.5558 8.41901 3.419 8.91225C2.93728 10.7388 2.93262 14.5272 2.93262 14.5272C2.93262 14.5272 2.92795 18.3343 3.40617 20.1422C3.67444 21.1418 4.46175 21.9314 5.46251 22.2009C7.30773 22.7024 14.5953 22.7106 14.5953 22.7106C14.5953 22.7106 21.9027 22.7187 23.7293 22.2405C24.222 22.1068 24.6714 21.8467 25.0329 21.4861C25.3943 21.1254 25.6554 20.6767 25.7903 20.1842C26.2731 18.3588 26.2766 14.5715 26.2766 14.5715C26.2766 14.5715 26.3 10.7633 25.8019 8.93674ZM12.2754 18.0369L12.2812 11.0386L18.3546 14.5436L12.2754 18.0369Z" fill="currentColor"/>
+            </svg>
+          </div>
+        </div>
+        <span class="ds-icon__name">YouTube</span>
+        <span class="ds-icon__size">29 · currentColor</span>
+      </div>
+
+      <div class="ds-icon">
+        <div class="ds-icon__box">
+          <div class="social-icon w-embed" style="color:#fff;width:32px;height:32px;">
+            <svg fill="none" height="100%" viewBox="0 0 29 29" width="100%" xmlns="http://www.w3.org/2000/svg">
+              <path d="M26.3135 14.886C26.3135 8.40487 21.0915 3.15088 14.6497 3.15088C8.20792 3.15088 2.98584 8.40487 2.98584 14.886C2.98584 20.7432 7.25112 25.5982 12.8272 26.4786V18.2782H9.86569V14.886H12.8272V12.3006C12.8272 9.3595 14.5686 7.73491 17.2328 7.73491C18.509 7.73491 19.8437 7.96412 19.8437 7.96412V10.8521H18.373C16.9241 10.8521 16.4722 11.7567 16.4722 12.6848V14.886H19.707L19.19 18.2782H16.4722V26.4786C22.0483 25.5982 26.3135 20.7435 26.3135 14.886Z" fill="currentColor"/>
+            </svg>
+          </div>
+        </div>
+        <span class="ds-icon__name">Facebook</span>
+        <span class="ds-icon__size">29 · currentColor</span>
+      </div>
+
+      <div class="ds-icon">
+        <div class="ds-icon__box">
+          <div class="social-icon w-embed" style="color:#bfffc7;width:32px;height:32px;">
+            <svg fill="none" height="100%" viewBox="0 0 29 29" width="100%" xmlns="http://www.w3.org/2000/svg">
+              <path clip-rule="evenodd" d="M5.87653 4.31738C4.91026 4.31738 4.12695 5.10069 4.12695 6.06696V23.5627C4.12695 24.529 4.91026 25.3123 5.87653 25.3123H23.3723C24.3385 25.3123 25.1219 24.529 25.1219 23.5627V6.06696C25.1219 5.10069 24.3385 4.31738 23.3723 4.31738H5.87653ZM10.5663 8.98609C10.5728 10.1014 9.73797 10.7887 8.74727 10.7838C7.81398 10.7789 7.00042 10.0358 7.00535 8.98774C7.01027 8.00196 7.78938 7.20973 8.8014 7.23269C9.82818 7.25566 10.5728 8.00852 10.5663 8.98609ZM14.9507 12.2042H12.0097V22.1883H15.1163V17.0773C15.1213 16.7902 15.1344 16.4918 15.2082 16.2178C15.4853 15.1943 16.4056 14.5333 17.4324 14.6958C18.0917 14.799 18.528 15.1812 18.7117 15.8029C18.8249 16.1915 18.8758 16.6098 18.8807 17.015C18.894 18.2369 18.8921 19.4588 18.8902 20.6808C18.8895 21.1122 18.8888 21.5437 18.8888 21.975V22.1866H22.0053V16.413C22.0086 15.8176 21.9446 15.2304 21.7986 14.6547C21.5805 13.7985 21.1295 13.0899 20.3963 12.5782C19.8763 12.214 19.3055 11.9795 18.6675 11.9532C17.4782 11.9067 16.5859 12.1484 15.2098 13.2768L14.9507 13.5968V12.2042ZM7.25478 22.1915H10.3466V12.2107H7.25478V22.1915Z" fill="currentColor" fill-rule="evenodd"/>
+            </svg>
+          </div>
+        </div>
+        <span class="ds-icon__name">Neon tint</span>
+        <span class="ds-icon__size">color: --neon-green</span>
+      </div>
+
+      <div class="ds-icon">
+        <div class="ds-icon__box">
+          <div class="social-icon w-embed" style="color:#28787d;width:32px;height:32px;">
+            <svg fill="none" height="100%" viewBox="0 0 29 29" width="100%" xmlns="http://www.w3.org/2000/svg">
+              <path clip-rule="evenodd" d="M5.87653 4.31738C4.91026 4.31738 4.12695 5.10069 4.12695 6.06696V23.5627C4.12695 24.529 4.91026 25.3123 5.87653 25.3123H23.3723C24.3385 25.3123 25.1219 24.529 25.1219 23.5627V6.06696C25.1219 5.10069 24.3385 4.31738 23.3723 4.31738H5.87653ZM10.5663 8.98609C10.5728 10.1014 9.73797 10.7887 8.74727 10.7838C7.81398 10.7789 7.00042 10.0358 7.00535 8.98774C7.01027 8.00196 7.78938 7.20973 8.8014 7.23269C9.82818 7.25566 10.5728 8.00852 10.5663 8.98609ZM14.9507 12.2042H12.0097V22.1883H15.1163V17.0773C15.1213 16.7902 15.1344 16.4918 15.2082 16.2178C15.4853 15.1943 16.4056 14.5333 17.4324 14.6958C18.0917 14.799 18.528 15.1812 18.7117 15.8029C18.8249 16.1915 18.8758 16.6098 18.8807 17.015C18.894 18.2369 18.8921 19.4588 18.8902 20.6808C18.8895 21.1122 18.8888 21.5437 18.8888 21.975V22.1866H22.0053V16.413C22.0086 15.8176 21.9446 15.2304 21.7986 14.6547C21.5805 13.7985 21.1295 13.0899 20.3963 12.5782C19.8763 12.214 19.3055 11.9795 18.6675 11.9532C17.4782 11.9067 16.5859 12.1484 15.2098 13.2768L14.9507 13.5968V12.2042ZM7.25478 22.1915H10.3466V12.2107H7.25478V22.1915Z" fill="currentColor" fill-rule="evenodd"/>
+            </svg>
+          </div>
+        </div>
+        <span class="ds-icon__name">Teal · hover</span>
+        <span class="ds-icon__size">.social-link:hover</span>
+      </div>
+
+      <div class="ds-icon">
+        <div class="ds-icon__box" style="background-color:#bfffc7;border-color:rgba(7,42,36,0.15);">
+          <div class="social-icon w-embed" style="color:#072a24;width:32px;height:32px;">
+            <svg fill="none" height="100%" viewBox="0 0 29 29" width="100%" xmlns="http://www.w3.org/2000/svg">
+              <path clip-rule="evenodd" d="M5.87653 4.31738C4.91026 4.31738 4.12695 5.10069 4.12695 6.06696V23.5627C4.12695 24.529 4.91026 25.3123 5.87653 25.3123H23.3723C24.3385 25.3123 25.1219 24.529 25.1219 23.5627V6.06696C25.1219 5.10069 24.3385 4.31738 23.3723 4.31738H5.87653ZM10.5663 8.98609C10.5728 10.1014 9.73797 10.7887 8.74727 10.7838C7.81398 10.7789 7.00042 10.0358 7.00535 8.98774C7.01027 8.00196 7.78938 7.20973 8.8014 7.23269C9.82818 7.25566 10.5728 8.00852 10.5663 8.98609ZM14.9507 12.2042H12.0097V22.1883H15.1163V17.0773C15.1213 16.7902 15.1344 16.4918 15.2082 16.2178C15.4853 15.1943 16.4056 14.5333 17.4324 14.6958C18.0917 14.799 18.528 15.1812 18.7117 15.8029C18.8249 16.1915 18.8758 16.6098 18.8807 17.015C18.894 18.2369 18.8921 19.4588 18.8902 20.6808C18.8895 21.1122 18.8888 21.5437 18.8888 21.975V22.1866H22.0053V16.413C22.0086 15.8176 21.9446 15.2304 21.7986 14.6547C21.5805 13.7985 21.1295 13.0899 20.3963 12.5782C19.8763 12.214 19.3055 11.9795 18.6675 11.9532C17.4782 11.9067 16.5859 12.1484 15.2098 13.2768L14.9507 13.5968V12.2042ZM7.25478 22.1915H10.3466V12.2107H7.25478V22.1915Z" fill="currentColor" fill-rule="evenodd"/>
+            </svg>
+          </div>
+        </div>
+        <span class="ds-icon__name">On neon</span>
+        <span class="ds-icon__size">footer context</span>
+      </div>
+
+    </div>
+
+    <p class="ds-mini">Size variants</p>
+    <div class="ds-icons" style="margin-bottom:2rem;">
+      <div class="ds-icon">
+        <div class="ds-icon__box">
+          <div class="social-icon w-embed" style="color:#bfffc7;width:16px;height:16px;">
+            <svg fill="none" height="100%" viewBox="0 0 29 29" width="100%" xmlns="http://www.w3.org/2000/svg"><path d="M26.3135 14.886C26.3135 8.40487 21.0915 3.15088 14.6497 3.15088C8.20792 3.15088 2.98584 8.40487 2.98584 14.886C2.98584 20.7432 7.25112 25.5982 12.8272 26.4786V18.2782H9.86569V14.886H12.8272V12.3006C12.8272 9.3595 14.5686 7.73491 17.2328 7.73491C18.509 7.73491 19.8437 7.96412 19.8437 7.96412V10.8521H18.373C16.9241 10.8521 16.4722 11.7567 16.4722 12.6848V14.886H19.707L19.19 18.2782H16.4722V26.4786C22.0483 25.5982 26.3135 20.7435 26.3135 14.886Z" fill="currentColor"/></svg>
+          </div>
+        </div>
+        <span class="ds-icon__name">16</span>
+      </div>
+      <div class="ds-icon">
+        <div class="ds-icon__box">
+          <div class="social-icon w-embed" style="color:#bfffc7;width:24px;height:24px;">
+            <svg fill="none" height="100%" viewBox="0 0 29 29" width="100%" xmlns="http://www.w3.org/2000/svg"><path d="M26.3135 14.886C26.3135 8.40487 21.0915 3.15088 14.6497 3.15088C8.20792 3.15088 2.98584 8.40487 2.98584 14.886C2.98584 20.7432 7.25112 25.5982 12.8272 26.4786V18.2782H9.86569V14.886H12.8272V12.3006C12.8272 9.3595 14.5686 7.73491 17.2328 7.73491C18.509 7.73491 19.8437 7.96412 19.8437 7.96412V10.8521H18.373C16.9241 10.8521 16.4722 11.7567 16.4722 12.6848V14.886H19.707L19.19 18.2782H16.4722V26.4786C22.0483 25.5982 26.3135 20.7435 26.3135 14.886Z" fill="currentColor"/></svg>
+          </div>
+        </div>
+        <span class="ds-icon__name">24</span>
+      </div>
+      <div class="ds-icon">
+        <div class="ds-icon__box">
+          <div class="social-icon w-embed" style="color:#bfffc7;width:32px;height:32px;">
+            <svg fill="none" height="100%" viewBox="0 0 29 29" width="100%" xmlns="http://www.w3.org/2000/svg"><path d="M26.3135 14.886C26.3135 8.40487 21.0915 3.15088 14.6497 3.15088C8.20792 3.15088 2.98584 8.40487 2.98584 14.886C2.98584 20.7432 7.25112 25.5982 12.8272 26.4786V18.2782H9.86569V14.886H12.8272V12.3006C12.8272 9.3595 14.5686 7.73491 17.2328 7.73491C18.509 7.73491 19.8437 7.96412 19.8437 7.96412V10.8521H18.373C16.9241 10.8521 16.4722 11.7567 16.4722 12.6848V14.886H19.707L19.19 18.2782H16.4722V26.4786C22.0483 25.5982 26.3135 20.7435 26.3135 14.886Z" fill="currentColor"/></svg>
+          </div>
+        </div>
+        <span class="ds-icon__name">32</span>
+      </div>
+      <div class="ds-icon">
+        <div class="ds-icon__box">
+          <div class="social-icon w-embed" style="color:#bfffc7;width:48px;height:48px;">
+            <svg fill="none" height="100%" viewBox="0 0 29 29" width="100%" xmlns="http://www.w3.org/2000/svg"><path d="M26.3135 14.886C26.3135 8.40487 21.0915 3.15088 14.6497 3.15088C8.20792 3.15088 2.98584 8.40487 2.98584 14.886C2.98584 20.7432 7.25112 25.5982 12.8272 26.4786V18.2782H9.86569V14.886H12.8272V12.3006C12.8272 9.3595 14.5686 7.73491 17.2328 7.73491C18.509 7.73491 19.8437 7.96412 19.8437 7.96412V10.8521H18.373C16.9241 10.8521 16.4722 11.7567 16.4722 12.6848V14.886H19.707L19.19 18.2782H16.4722V26.4786C22.0483 25.5982 26.3135 20.7435 26.3135 14.886Z" fill="currentColor"/></svg>
+          </div>
+        </div>
+        <span class="ds-icon__name">48</span>
+      </div>
+    </div>
+
+    <hr class="ds-rule"/>
+
+    <p class="ds-mini">Brand logo · .brand-logo.w-embed</p>
+    <div class="ds-icons">
+      <div class="ds-icon">
+        <div class="ds-icon__box" style="padding:1.25rem 2rem;">
+          <div class="brand-logo w-embed" style="width:120px;">
+            <svg fill="none" height="100%" viewBox="0 0 118 32" width="100%" xmlns="http://www.w3.org/2000/svg">
+              <path d="M25.8258 6.78481H19.3612C17.7553 6.78481 16.4525 8.08595 16.4525 9.69355V30.4074C16.4525 30.6574 16.2504 30.8611 15.9988 30.8611H11.1948C10.9449 30.8611 10.7411 30.6591 10.7411 30.4074V9.69355C10.7411 8.08766 9.43999 6.78481 7.83239 6.78481H1.36262C1.11266 6.78481 0.908936 6.58279 0.908936 6.33112V1.81135C0.908936 1.5614 1.11095 1.35767 1.36262 1.35767H25.8224C26.0724 1.35767 26.2761 1.55969 26.2761 1.81135V6.33112C26.2761 6.58107 26.0741 6.78481 25.8224 6.78481H25.8258Z" fill="#BFFFC7"/>
+              <path d="M40.8147 10.4881V30.5017C40.8147 30.7414 40.6213 30.9349 40.3816 30.9349H37.3718C36.6562 30.9349 36.1974 30.6113 35.9953 29.9624L35.807 29.2126C35.7283 28.8993 35.3465 28.776 35.1051 28.99C34.8534 29.2109 34.5966 29.4214 34.3347 29.62C33.8895 29.9573 33.4136 30.2483 32.9068 30.4915C32.4001 30.7346 31.8539 30.9246 31.2667 31.0581C30.6795 31.1917 30.0409 31.2602 29.3527 31.2602C28.2193 31.2602 27.2092 31.065 26.3258 30.6729C25.4407 30.2809 24.7028 29.7347 24.1087 29.0328C23.5146 28.3309 23.0627 27.4937 22.7528 26.5212C22.4412 25.5488 22.2871 24.4822 22.2871 23.3215V10.4898C22.2871 10.2501 22.4806 10.0566 22.7202 10.0566H27.4437C27.6834 10.0566 27.8769 10.2501 27.8769 10.4898V23.3215C27.8769 24.4822 28.144 25.3845 28.6764 26.0248C29.2089 26.6668 30.0032 26.9869 31.0561 26.9869C31.8385 26.9869 32.5747 26.814 33.2629 26.4699C33.8998 26.1515 34.5093 25.7252 35.0897 25.1927C35.1787 25.1105 35.2283 24.9941 35.2283 24.8726V10.4881C35.2283 10.2484 35.4218 10.0549 35.6615 10.0549H40.385C40.6247 10.0549 40.8181 10.2484 40.8181 10.4881H40.8147Z" fill="#BFFFC7"/>
+            </svg>
+          </div>
+        </div>
+        <span class="ds-icon__name">Logo · neon</span>
+        <span class="ds-icon__size">fill: #BFFFC7</span>
+      </div>
+      <div class="ds-icon">
+        <div class="ds-icon__box" style="padding:1.25rem 2rem;background-color:#bfffc7;border-color:rgba(7,42,36,0.15);">
+          <img alt="Tunnel Logo" src="assets/6542501ff4623293befc0bd2_tunne_877ec43cd4b7.svg" style="height:28px;width:auto;"/>
+        </div>
+        <span class="ds-icon__name">Logo · footer</span>
+        <span class="ds-icon__size">on neon-green</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+</div><!-- /page-wrapper -->
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     SCRIPTS — identical chain to the reference site
+     ═══════════════════════════════════════════════════════════════════ -->
+<script src="assets/jquery-3_c6603cd995f3.js" type="text/javascript"></script>
+<script src="assets/webflow_282069b53bcc.js" type="text/javascript"></script>
+<script src="assets/split-type_9231198fc636.es"></script>
+<script src="assets/gsap_538c29ce7651.js"></script>
+<script src="assets/ScrollTrigger_a37e092fdaa2.js"></script>
+<script>
+window.addEventListener("DOMContentLoaded", function () {
+
+  // Decompose [text-split] into words + chars (original pipeline)
+  new SplitType("[text-split]", { types: "words, chars", tagName: "span" });
+
+  function createScrollTrigger(triggerElement, timeline) {
+    ScrollTrigger.create({
+      trigger: triggerElement,
+      start: "top bottom",
+      onLeaveBack: function () { timeline.progress(0); timeline.pause(); }
+    });
+    ScrollTrigger.create({
+      trigger: triggerElement,
+      start: "top 85%",
+      onEnter: function () { timeline.play(); }
+    });
+  }
+
+  // words-slide-from-right
+  $("[words-slide-from-right]").each(function () {
+    var el = this;
+    var tl = gsap.timeline({ paused: true });
+    tl.from($(el).find(".word"), { opacity: 0, x: "1em", duration: 0.6, ease: "power2.out", stagger: { amount: 0.2 } });
+    createScrollTrigger(el, tl);
+  });
+
+  // letters-fade-in
+  $("[letters-fade-in]").each(function () {
+    var el = this;
+    var tl = gsap.timeline({ paused: true });
+    tl.from($(el).find(".char"), { opacity: 0, duration: 0.8, ease: "power1.out", stagger: { amount: 0.8 } });
+    createScrollTrigger(el, tl);
+  });
+
+  // scrub-each-word
+  $("[scrub-each-word]").each(function () {
+    var el = this;
+    var tl = gsap.timeline({
+      scrollTrigger: { trigger: el, start: "top 90%", end: "top center", scrub: true }
+    });
+    tl.from($(el).find(".word"), { opacity: 0.2, duration: 0.2, ease: "power1.out", stagger: { each: 0.4 } });
+  });
+
+  gsap.set("[text-split]", { opacity: 1 });
+
+  // Button gradient slide on hover (original interaction)
+  $(".cta-wrap, .nav-cta-wrap").each(function () {
+    var wrap = $(this);
+    var grad = wrap.find(".button-grad");
+    wrap.on("mouseenter", function () {
+      gsap.to(grad, { left: "0%", duration: 0.4, ease: "power2.out" });
+      gsap.to(grad, { opacity: 1, duration: 0.2 });
+    });
+    wrap.on("mouseleave", function () {
+      gsap.to(grad, { left: "-100%", duration: 0.4, ease: "power2.in" });
+      gsap.to(grad, { opacity: 0, duration: 0.3, delay: 0.1 });
+    });
+  });
+
+});
+</script>
+
+</body>
+</html>
