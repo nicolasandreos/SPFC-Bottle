@@ -517,7 +517,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   text-transform: uppercase;
   color: var(--text-tertiary);
   --p: 0;
-  opacity: calc(1 - var(--p) * 1.4);
+  opacity: 1;
 }
 .hero-cue .line {
   position: relative;
@@ -788,8 +788,18 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   };
 
   let duration = 0;
+  let targetTime = 0.001;
+  let smoothTime = 0.001;
+  let lastSeekAt = 0;
   let fallbackRaf = 0;
   let initialized = false;
+
+  // Seeking every scroll tick is the main source of stutter. The
+  // scroll animation only sets targetTime; this loop eases toward it
+  // and caps actual video seeks to a browser-friendly cadence.
+  const VIDEO_LERP = 0.28;
+  const MIN_SEEK_INTERVAL = 1000 / 30;
+  const SEEK_EPSILON = 0.024;
 
   function setChrome(progress) {
     const p = clamp(progress, 0, 1);
@@ -812,15 +822,25 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     return clamp(-rect.top / scrollable, 0, 1);
   }
 
-  function seekVideo(time) {
+  function seekVideo(time, force = false) {
     if (!duration || !Number.isFinite(time)) return;
     const nextTime = clamp(time, 0.001, Math.max(0.001, duration - 0.04));
+    const now = performance.now();
 
     // Avoid excessive seeks for tiny scroll deltas. This helps Chrome
     // keep decode work predictable while preserving visual sync.
-    if (Math.abs(video.currentTime - nextTime) > 0.012) {
+    if (
+      force ||
+      (now - lastSeekAt >= MIN_SEEK_INTERVAL && Math.abs(video.currentTime - nextTime) > SEEK_EPSILON)
+    ) {
       try { video.currentTime = nextTime; } catch (_) {}
+      lastSeekAt = now;
     }
+  }
+
+  function renderVideoPlayhead() {
+    smoothTime += (targetTime - smoothTime) * VIDEO_LERP;
+    seekVideo(smoothTime);
   }
 
   function setupScrollTrigger() {
@@ -829,7 +849,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
     duration = video.duration || 0;
     heroRuntime.textContent = formatTime(duration);
-    seekVideo(0.001);
+    targetTime = 0.001;
+    smoothTime = 0.001;
+    seekVideo(0.001, true);
 
     if (window.gsap && window.ScrollTrigger) {
       gsap.registerPlugin(ScrollTrigger);
@@ -839,17 +861,20 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
       gsap.to(playhead, {
         time: Math.max(0.001, duration - 0.04),
         ease: 'none',
-        onUpdate: () => seekVideo(playhead.time),
+        onUpdate: () => {
+          targetTime = playhead.time;
+        },
         scrollTrigger: {
           trigger: hero,
           start: 'top top',
           end: 'bottom bottom',
-          scrub: 0.35,
+          scrub: 0.55,
           invalidateOnRefresh: true,
           onUpdate: (self) => setChrome(self.progress)
         }
       });
 
+      gsap.ticker.add(renderVideoPlayhead);
       ScrollTrigger.refresh();
       return;
     }
@@ -859,7 +884,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     const tick = () => {
       const target = heroProgress();
       smoothed += (target - smoothed) * 0.22;
-      seekVideo(smoothed * duration);
+      targetTime = smoothed * duration;
+      renderVideoPlayhead();
       setChrome(smoothed);
 
       if (Math.abs(target - smoothed) > 0.001) {
