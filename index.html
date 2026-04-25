@@ -263,9 +263,24 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .nav-cta { margin-left: var(--space-3); }
 /* CTA inverted on dark bar */
-.nav-cta.btn--primary { background: var(--white); color: var(--ink); }
-.nav-cta.btn--primary::after { background: var(--color-accent); }
-.nav-cta.btn--primary:hover { color: var(--white); }
+.nav-cta.btn--primary {
+  background: var(--white);
+  color: var(--ink);
+  box-shadow: 0 8px 24px rgba(255,255,255,0.10);
+}
+.nav-cta.btn--primary::before { display: none; }
+.nav-cta.btn--primary::after {
+  background: linear-gradient(90deg, var(--color-accent-dark), var(--color-accent));
+  transform: translateX(-101%);
+}
+.nav-cta.btn--primary:hover {
+  color: var(--white);
+  background: var(--white);
+  box-shadow: 0 14px 34px rgba(225, 29, 42, 0.28);
+}
+.nav-cta.btn--primary:hover::after {
+  transform: translateX(0);
+}
 .nav-cta.btn--primary::before {
   left: 18px;
   right: 18px;
@@ -1337,7 +1352,380 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 
 /* =================================================================
-   8 · MOTION-REDUCE
+   8 · PRICING SECTION
+================================================================= */
+.pricing-section {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  padding: clamp(112px, 12vw, 176px) 0;
+  overflow: hidden;
+  background:
+    radial-gradient(760px 520px at 15% 18%, rgba(225, 29, 42, 0.14), transparent 66%),
+    radial-gradient(920px 620px at 92% 12%, rgba(255,255,255,0.06), transparent 68%),
+    linear-gradient(180deg, #050505 0%, var(--black) 58%, #170306 100%);
+  color: var(--white);
+}
+.pricing-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: radial-gradient(ellipse at center, black 0%, transparent 74%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 0%, transparent 74%);
+}
+.pricing-section::after {
+  content: "PRICE";
+  position: absolute;
+  right: -0.08em;
+  bottom: 0.02em;
+  z-index: -1;
+  font-family: var(--font-display);
+  font-size: clamp(160px, 24vw, 440px);
+  font-weight: 600;
+  letter-spacing: -0.12em;
+  line-height: 0.75;
+  color: rgba(255,255,255,0.045);
+  pointer-events: none;
+}
+.pricing-shell {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--container-pad);
+}
+.pricing-header {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(320px, 0.55fr);
+  gap: var(--space-12);
+  align-items: end;
+  margin-bottom: clamp(48px, 7vw, 88px);
+}
+.pricing-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--fs-overline);
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  color: var(--red-400);
+  margin-bottom: var(--space-5);
+}
+.pricing-eyebrow::before {
+  content: "";
+  width: 30px;
+  height: 1px;
+  background: var(--red-400);
+}
+.pricing-title {
+  font-family: var(--font-display);
+  font-size: clamp(44px, 6vw, 92px);
+  font-weight: 300;
+  line-height: 0.96;
+  letter-spacing: var(--ls-tighter);
+  max-width: 12ch;
+}
+.pricing-title em {
+  font-style: italic;
+  color: var(--color-accent-light);
+  font-weight: 500;
+}
+.pricing-lead {
+  color: rgba(255,255,255,0.64);
+  font-size: var(--fs-body-lg);
+  line-height: var(--lh-normal);
+  max-width: 48ch;
+}
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  perspective: 1400px;
+  border: 1px solid rgba(255,255,255,0.10);
+  border-bottom-color: rgba(255,255,255,0.14);
+  background: rgba(0,0,0,0.28);
+}
+.pricing-card {
+  position: relative;
+  min-height: 700px;
+  border-radius: 0;
+  transform-style: preserve-3d;
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+  --rx: 0deg;
+  --ry: 0deg;
+  --tz: 0px;
+  transform: rotateX(var(--rx)) rotateY(var(--ry)) translateZ(var(--tz));
+  transition:
+    transform 160ms var(--ease-out),
+    filter var(--dur-normal) var(--ease-out);
+  will-change: transform;
+}
+.pricing-card + .pricing-card {
+  border-left: 1px solid rgba(255,255,255,0.10);
+}
+.pricing-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.58), transparent);
+  opacity: 0;
+  transition: opacity var(--dur-normal) var(--ease-out);
+  pointer-events: none;
+}
+.pricing-card:hover {
+  --tz: -18px;
+  z-index: 4;
+}
+.pricing-card:hover::before {
+  opacity: 1;
+}
+.pricing-card-inner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(32px, 3.4vw, 48px);
+  border-radius: inherit;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.012)),
+    #020202;
+  border: 0;
+  box-shadow:
+    0 28px 80px rgba(0,0,0,0.28),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+  transform-style: preserve-3d;
+  transition:
+    background var(--dur-normal) var(--ease-out),
+    box-shadow var(--dur-normal) var(--ease-out);
+}
+.pricing-card-inner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(760px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.075), transparent 42%),
+    radial-gradient(560px circle at var(--mouse-x) var(--mouse-y), rgba(225,29,42,0.18), transparent 56%);
+  opacity: 0;
+  transition: opacity var(--dur-normal) var(--ease-out);
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+.pricing-card-inner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.045), transparent 22%, rgba(225,29,42,0.08));
+  opacity: 0;
+  transition: opacity var(--dur-normal) var(--ease-out);
+  pointer-events: none;
+}
+.pricing-card:hover .pricing-card-inner::before,
+.pricing-card:hover .pricing-card-inner::after {
+  opacity: 1;
+}
+.pricing-card.is-featured .pricing-card-inner {
+  background:
+    radial-gradient(760px circle at 72% 0%, rgba(225,29,42,0.34), transparent 52%),
+    linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.014)),
+    #020202;
+  box-shadow:
+    0 0 0 1px rgba(225,29,42,0.32) inset,
+    0 36px 110px rgba(225,29,42,0.18),
+    0 26px 80px rgba(0,0,0,0.42),
+    inset 0 1px 0 rgba(255,255,255,0.10);
+}
+.pricing-card.is-featured::before {
+  background: linear-gradient(90deg, transparent, var(--color-accent-light), transparent);
+}
+.pricing-card > * {
+  transform: translateZ(1px);
+}
+.pricing-tag {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 8px 12px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.72);
+  font-family: var(--font-mono);
+  font-size: var(--fs-overline);
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+}
+.pricing-tag::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  box-shadow: 0 0 14px rgba(225,29,42,0.82);
+}
+.pricing-plan {
+  position: relative;
+  z-index: 1;
+  margin-top: var(--space-8);
+  font-family: var(--font-display);
+  font-size: clamp(30px, 3.2vw, 48px);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-tight);
+}
+.pricing-desc {
+  position: relative;
+  z-index: 1;
+  margin-top: var(--space-4);
+  color: rgba(255,255,255,0.58);
+  line-height: var(--lh-normal);
+  min-height: 64px;
+}
+.pricing-price {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-2);
+  margin-top: var(--space-8);
+  font-family: var(--font-display);
+  font-size: clamp(56px, 6vw, 92px);
+  line-height: 0.86;
+  letter-spacing: var(--ls-tight);
+}
+.pricing-price small {
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: rgba(255,255,255,0.48);
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+.pricing-divider {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 1px;
+  margin: var(--space-8) 0 var(--space-6);
+  background: rgba(255,255,255,0.10);
+}
+.pricing-features {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: var(--space-3);
+  color: rgba(255,255,255,0.62);
+  font-size: var(--fs-body-sm);
+}
+.pricing-features li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+.pricing-features li::before {
+  content: "—";
+  width: auto;
+  height: auto;
+  margin-top: 0;
+  flex: 0 0 auto;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: rgba(225,29,42,0.78);
+  font-family: var(--font-mono);
+}
+.pricing-card .btn {
+  position: relative;
+  z-index: 2;
+  margin-top: auto;
+  width: 100%;
+  min-height: 64px;
+  padding: 20px 28px;
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  letter-spacing: var(--ls-wide);
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.04) inset;
+}
+.pricing-card .btn:hover {
+  transform: translateY(-2px) scale(1.01);
+}
+.pricing-card .btn--on-dark {
+  color: var(--white);
+  border-color: rgba(255,255,255,0.26);
+}
+.pricing-card .btn--on-dark::after {
+  background: var(--white);
+}
+.pricing-card .btn--on-dark:hover {
+  color: var(--ink);
+  border-color: var(--white);
+}
+.pricing-note {
+  margin-top: var(--space-10);
+  display: flex;
+  justify-content: center;
+  color: rgba(255,255,255,0.42);
+  font-family: var(--font-mono);
+  font-size: var(--fs-overline);
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+}
+.pricing-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  filter: blur(12px);
+}
+.pricing-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+  transition:
+    opacity var(--dur-slow) var(--ease-out),
+    transform var(--dur-slow) var(--ease-out),
+    filter var(--dur-slow) var(--ease-out);
+}
+
+@media (max-width: 1040px) {
+  .pricing-header,
+  .pricing-grid {
+    grid-template-columns: 1fr;
+  }
+  .pricing-card + .pricing-card {
+    border-left: 0;
+    border-top: 1px solid rgba(255,255,255,0.10);
+  }
+  .pricing-card {
+    min-height: auto;
+  }
+  .pricing-card-inner {
+    position: relative;
+    min-height: 560px;
+  }
+}
+
+@media (max-width: 640px) {
+  .pricing-section {
+    padding: var(--space-24) 0;
+  }
+  .pricing-card-inner {
+    min-height: auto;
+  }
+}
+
+/* =================================================================
+   9 · MOTION-REDUCE
 ================================================================= */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -1598,6 +1986,82 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
         <span class="feature-chip feature-chip--top red-reveal">visual de coleção</span>
         <span class="feature-chip feature-chip--bottom red-reveal">rotina com identidade</span>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     PRICING — fourth fold
+===================================================== -->
+<section class="pricing-section" id="pricing" aria-label="Planos da garrafa tricolor">
+  <div class="pricing-shell">
+    <div class="pricing-header">
+      <div>
+        <div class="pricing-eyebrow pricing-reveal">Planos e Kits</div>
+        <h2 class="pricing-title pricing-reveal">
+          Escolha como carregar o <em>Tricolor</em>.
+        </h2>
+      </div>
+      <p class="pricing-lead pricing-reveal">
+        Cards inspirados no efeito premium da Finex, agora com a energia do nosso
+        sistema: escuro, vermelho, foco no produto e um hover 3D que afunda o card
+        conforme o mouse se move.
+      </p>
+    </div>
+
+    <div class="pricing-grid">
+      <article class="pricing-card pricing-reveal">
+        <div class="pricing-card-inner">
+          <span class="pricing-tag">Essencial</span>
+          <h3 class="pricing-plan">Garrafa Tricolor</h3>
+          <p class="pricing-desc">Para quem quer entrar na rotina com identidade são-paulina todos os dias.</p>
+          <div class="pricing-price">R$79<small>/un.</small></div>
+          <div class="pricing-divider"></div>
+          <ul class="pricing-features">
+            <li>Garrafa oficial com visual tricolor</li>
+            <li>Ideal para treino, trabalho e jogo</li>
+            <li>Acabamento resistente para uso diário</li>
+          </ul>
+          <a href="#contact" class="btn btn--secondary btn--on-dark">Escolher Essencial</a>
+        </div>
+      </article>
+
+      <article class="pricing-card pricing-reveal is-featured">
+        <div class="pricing-card-inner">
+          <span class="pricing-tag">Mais escolhido</span>
+          <h3 class="pricing-plan">Kit Torcedor</h3>
+          <p class="pricing-desc">O pacote para quem quer usar, presentear e chegar nos dias de jogo com presença.</p>
+          <div class="pricing-price">R$129<small>/kit</small></div>
+          <div class="pricing-divider"></div>
+          <ul class="pricing-features">
+            <li>Garrafa tricolor edição destaque</li>
+            <li>Embalagem premium para presente</li>
+            <li>Prioridade nos próximos lançamentos</li>
+            <li>Melhor custo-benefício da coleção</li>
+          </ul>
+          <a href="#contact" class="btn btn--primary">Garantir Kit</a>
+        </div>
+      </article>
+
+      <article class="pricing-card pricing-reveal">
+        <div class="pricing-card-inner">
+          <span class="pricing-tag">Colecionador</span>
+          <h3 class="pricing-plan">Pack Família</h3>
+          <p class="pricing-desc">Para dividir o orgulho com quem também vive o São Paulo dentro e fora do estádio.</p>
+          <div class="pricing-price">R$219<small>/pack</small></div>
+          <div class="pricing-divider"></div>
+          <ul class="pricing-features">
+            <li>3 unidades para casa, treino e viagem</li>
+            <li>Desconto progressivo no pacote</li>
+            <li>Perfeito para presentear torcedores</li>
+          </ul>
+          <a href="#contact" class="btn btn--secondary btn--on-dark">Montar Pack</a>
+        </div>
+      </article>
+    </div>
+
+    <div class="pricing-note pricing-reveal">
+      Compra segura • edição limitada • envio para todo o Brasil
     </div>
   </div>
 </section>
@@ -2020,6 +2484,72 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
       observer.disconnect();
     });
   }, { threshold: 0.25 });
+
+  observer.observe(section);
+})();
+
+/* =================================================================
+   PRICING MOTION + 3D DEPTH CARDS
+================================================================= */
+(() => {
+  const section = document.querySelector('.pricing-section');
+  if (!section) return;
+
+  const revealItems = section.querySelectorAll('.pricing-reveal');
+  const cards = section.querySelectorAll('.pricing-card');
+
+  cards.forEach((card) => {
+    card.addEventListener('pointermove', (event) => {
+      const rect = card.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+      const px = x / rect.width - 0.5;
+      const py = y / rect.height - 0.5;
+
+      card.style.setProperty('--mouse-x', `${x}px`);
+      card.style.setProperty('--mouse-y', `${y}px`);
+      // Flip/depth impression: the face tilts away from the cursor,
+      // as if the card is being pressed into the page.
+      card.style.setProperty('--ry', `${(-px * 12).toFixed(2)}deg`);
+      card.style.setProperty('--rx', `${(py * 12).toFixed(2)}deg`);
+    });
+
+    card.addEventListener('pointerleave', () => {
+      card.style.setProperty('--mouse-x', '50%');
+      card.style.setProperty('--mouse-y', '50%');
+      card.style.setProperty('--rx', '0deg');
+      card.style.setProperty('--ry', '0deg');
+    });
+  });
+
+  if (window.gsap && window.ScrollTrigger) {
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.set(revealItems, { opacity: 0, y: 30, filter: 'blur(12px)' });
+    gsap.to(revealItems, {
+      opacity: 1,
+      y: 0,
+      filter: 'blur(0px)',
+      duration: 0.9,
+      ease: 'power3.out',
+      stagger: 0.09,
+      scrollTrigger: {
+        trigger: section,
+        start: 'top 68%',
+        once: true
+      }
+    });
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      revealItems.forEach((item, index) => {
+        setTimeout(() => item.classList.add('is-visible'), index * 80);
+      });
+      observer.disconnect();
+    });
+  }, { threshold: 0.22 });
 
   observer.observe(section);
 })();
