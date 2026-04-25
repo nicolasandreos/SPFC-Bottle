@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Crimson — Cinematic Hero</title>
-<meta name="description" content="A premium, scroll-driven cinematic hero — the bottle morphs as you scroll." />
+<title>Garrafa São Paulo FC</title>
+<meta name="description" content="Uma landing premium para a garrafa tricolor do São Paulo FC: produto, benefícios, planos e pré-venda." />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -176,13 +176,17 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--gray-300); border-radius: var(--radius-pill); }
 ::-webkit-scrollbar-thumb:hover { background: var(--color-accent); }
+section,
+footer {
+  scroll-margin-top: calc(var(--nav-h) + var(--space-4));
+}
 
 /* =================================================================
    3 · NAVBAR
 ================================================================= */
 .nav {
-  position: fixed;
-  inset: 0 0 auto 0;
+  position: sticky;
+  top: 0;
   height: var(--nav-h);
   z-index: 100;
   display: flex;
@@ -367,15 +371,15 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .hero {
   position: relative;
   height: var(--hero-scroll-vh);
-  background: var(--bg-primary);
+  background: var(--black);
 }
 .hero-stage {
   position: sticky;
-  top: 0;
-  height: 100vh;
+  top: var(--nav-h);
+  height: calc(100vh - var(--nav-h));
   width: 100%;
   overflow: hidden;
-  background: var(--bg-primary);
+  background: var(--black);
 }
 
 /* Fullscreen video background – fills the entire hero stage. */
@@ -395,32 +399,23 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   object-fit: cover;
   object-position: center;
   pointer-events: none;
-  background: var(--bg-primary);
+  background: var(--black);
+  filter: saturate(1.18) contrast(1.08) brightness(0.96);
 }
 
-/* Subtle gradient overlay for text legibility — keeps light/premium feel
-   while giving the title contrast against bright video frames */
+/* Dark-only readability layer. No white wash over the video. */
 .hero-overlay {
   position: absolute; inset: 0;
   z-index: 1;
   pointer-events: none;
   background:
-    /* Soft fade from left so the headline stays legible */
-    linear-gradient(90deg, rgba(251,250,248,0.55) 0%, rgba(251,250,248,0.18) 35%, rgba(251,250,248,0) 60%),
-    /* Light vignette top + bottom */
-    linear-gradient(180deg, rgba(251,250,248,0.35) 0%, rgba(251,250,248,0) 25%, rgba(251,250,248,0) 70%, rgba(251,250,248,0.35) 100%);
+    linear-gradient(90deg, rgba(10,10,10,0.22) 0%, rgba(10,10,10,0.08) 32%, rgba(10,10,10,0) 60%),
+    radial-gradient(ellipse at center, rgba(10,10,10,0) 52%, rgba(10,10,10,0.18) 100%);
 }
 
-/* Subtle dot grid for texture (sits between video and content) */
+/* Grid disabled over the hero video to preserve sharpness/color. */
 .hero-grid {
-  position: absolute; inset: 0;
-  z-index: 1;
-  background-image: radial-gradient(rgba(10,10,10,0.06) 1px, transparent 1px);
-  background-size: 28px 28px;
-  mask-image: radial-gradient(ellipse at 70% 50%, black 0%, transparent 70%);
-  -webkit-mask-image: radial-gradient(ellipse at 70% 50%, black 0%, transparent 70%);
-  pointer-events: none;
-  opacity: 0.35;
+  display: none;
 }
 
 /* Content – pushed to the LEFT and RIGHT edges (no centering container) */
@@ -430,7 +425,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   height: 100%;
   width: 100%;
   /* Edge-to-edge padding instead of a centered container */
-  padding: calc(var(--nav-h) + var(--space-12)) var(--hero-pad-x) var(--space-20);
+  padding: var(--space-12) var(--hero-pad-x) var(--space-20);
   display: grid;
   grid-template-columns: minmax(0, 560px) 1fr minmax(0, auto);
   align-items: center;
@@ -618,10 +613,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     padding-bottom: var(--space-24);
   }
   .hero-side { display: none; }
-  /* On small screens, brighten the overlay so text stays readable */
   .hero-overlay {
     background:
-      linear-gradient(180deg, rgba(251,250,248,0.55) 0%, rgba(251,250,248,0.15) 35%, rgba(251,250,248,0.5) 100%);
+      linear-gradient(180deg, rgba(10,10,10,0.14) 0%, rgba(10,10,10,0.04) 45%, rgba(10,10,10,0.18) 100%);
   }
 }
 
@@ -2015,7 +2009,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  .hero { height: 100vh; }
+  .hero { height: calc(100vh - var(--nav-h)); }
   .hero-stage { position: relative; }
 }
 </style>
@@ -2030,17 +2024,17 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 ===================================================== -->
 <header class="nav" id="nav">
   <div class="nav-inner">
-    <a href="#" class="nav-brand" aria-label="Crimson home">
+    <a href="#hero" class="nav-brand" aria-label="Início Tricolor Bottle">
       <span class="dot" aria-hidden="true"></span>
-      <span>Crimson</span>
+      <span>São Paulo Futebol Clube</span>
     </a>
     <nav class="nav-links" aria-label="Primary">
-      <a href="#work">Work</a>
-      <a href="#story">Story</a>
-      <a href="#system">System</a>
-      <a href="#journal">Journal</a>
+      <a href="#story">Produto</a>
+      <a href="#system">Tricolor</a>
+      <a href="#pricing">Planos</a>
+      <a href="#contact">Contato</a>
       <a href="#contact" class="btn btn--primary btn--sm nav-cta">
-        Get in touch <span class="arrow" aria-hidden="true">→</span>
+        Garanta a sua <span class="arrow" aria-hidden="true">→</span>
       </a>
     </nav>
   </div>
@@ -2078,43 +2072,43 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
       <div class="hero-text" id="heroText">
         <div class="hero-eyebrow">
           <span class="bar" aria-hidden="true"></span>
-          <span>Chapter 01 — The Vessel</span>
+          <span>Lançamento oficial · São Paulo FC</span>
         </div>
 
         <h1 class="hero-title">
-          <span class="word"><span>Form</span></span>
-          <span class="word"><span>that</span></span>
-          <span class="word"><span><em>becomes</em></span></span>
-          <span class="word"><span>feeling.</span></span>
+          <span class="word"><span>Leve</span></span>
+          <span class="word"><span>o</span></span>
+          <span class="word"><span><em>Tricolor</em></span></span>
+          <span class="word"><span>com você.</span></span>
         </h1>
 
         <p class="hero-lead">
-          A bottle, a breath, a transformation. Scroll to watch matter dissolve
-          into motion — a study in how design carries meaning beyond the object.
+          A garrafa feita para quem transforma rotina em ritual: treino,
+          trabalho, arquibancada e todos os momentos em que o São Paulo vai junto.
         </p>
 
         <div class="hero-actions">
           <a href="#story" class="btn btn--primary">
-            Begin the story <span class="arrow" aria-hidden="true">→</span>
+            Conhecer a garrafa <span class="arrow" aria-hidden="true">→</span>
           </a>
-          <a href="#system" class="btn btn--secondary">View the system</a>
+          <a href="#pricing" class="btn btn--secondary">Ver planos</a>
         </div>
       </div>
 
       <!-- RIGHT: meta info, aligned to the right edge -->
       <aside class="hero-side" id="heroSide" aria-label="Meta">
         <div>
-          <div class="hero-side-label">Edition</div>
-          <div class="hero-side-value">N° 04 — 2026</div>
+          <div class="hero-side-label">Edição</div>
+          <div class="hero-side-value">Tricolor 2026</div>
         </div>
         <div class="hero-side-divider" aria-hidden="true"></div>
         <div>
-          <div class="hero-side-label">Director</div>
-          <div class="hero-side-value">Studio Crimson</div>
+          <div class="hero-side-label">Ritual</div>
+          <div class="hero-side-value">Treino · Jogo · Rotina</div>
         </div>
         <div class="hero-side-divider" aria-hidden="true"></div>
         <div>
-          <div class="hero-side-label">Runtime</div>
+          <div class="hero-side-label">Vídeo</div>
           <div class="hero-side-value" id="heroRuntime">00:00</div>
         </div>
       </aside>
@@ -2123,7 +2117,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
     <!-- Scroll cue + per-section progress -->
     <div class="hero-cue" id="heroCue">
-      <span>Scroll to reveal</span>
+      <span>Role para descobrir</span>
       <span class="line" aria-hidden="true"></span>
       <span id="heroPercent">00%</span>
     </div>
@@ -2285,9 +2279,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
         </h2>
       </div>
       <p class="pricing-lead pricing-reveal">
-        Cards inspirados no efeito premium da Finex, agora com a energia do nosso
-        sistema: escuro, vermelho, foco no produto e um hover 3D que afunda o card
-        conforme o mouse se move.
+        Escolha entre uma unidade para a rotina, um kit para viver o jogo com
+        presença ou um pack para dividir o orgulho tricolor com quem torce junto.
       </p>
     </div>
 
@@ -2376,7 +2369,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
     <div class="footer-grid">
       <div class="footer-brand footer-reveal">
-        <a href="#" class="footer-logo" aria-label="Crimson home">Crimson</a>
+        <a href="#hero" class="footer-logo" aria-label="Início Tricolor Bottle">Tricolor Bottle</a>
         <p>
           Uma landing premium para um produto que não é só útil: ele carrega
           memória, clube, rotina e pertencimento.
@@ -2409,13 +2402,58 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     </div>
 
     <div class="footer-bottom footer-reveal">
-      <span>© 2026 Crimson · SPFC Bottle Concept</span>
+      <span>© 2026 Tricolor Bottle · São Paulo FC Concept</span>
       <span>Feito para torcedores que vivem o clube</span>
     </div>
   </div>
 </footer>
 
 <script>
+/* =================================================================
+   SMOOTH INTERNAL NAVIGATION
+================================================================= */
+(() => {
+  const navHeight = () => {
+    const value = getComputedStyle(document.documentElement).getPropertyValue('--nav-h');
+    return Number.parseFloat(value) || 72;
+  };
+
+  const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+
+  function smoothScrollTo(target) {
+    const startY = window.scrollY;
+    const rect = target.getBoundingClientRect();
+    const endY = Math.max(0, startY + rect.top - navHeight() - 8);
+    const distance = Math.abs(endY - startY);
+    const duration = Math.min(900, Math.max(340, distance * 0.32));
+    const start = performance.now();
+
+    function frame(now) {
+      const elapsed = now - start;
+      const progress = Math.min(1, elapsed / duration);
+      const eased = easeOutCubic(progress);
+      window.scrollTo(0, startY + (endY - startY) * eased);
+      if (progress < 1) requestAnimationFrame(frame);
+    }
+
+    requestAnimationFrame(frame);
+  }
+
+  document.querySelectorAll('a[href^="#"]').forEach((link) => {
+    link.addEventListener('click', (event) => {
+      const href = link.getAttribute('href');
+      if (!href || href === '#') return;
+
+      const target = document.querySelector(href);
+      if (!target) return;
+
+      event.preventDefault();
+      smoothScrollTo(target);
+      history.pushState(null, '', href);
+    });
+  });
+})();
+
 /* =================================================================
    SCROLL-DRIVEN HERO · GSAP ScrollTrigger
    -----------------------------------------------------------------
