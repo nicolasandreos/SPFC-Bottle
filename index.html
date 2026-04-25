@@ -571,50 +571,308 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 
 /* =================================================================
-   6 · NEXT SECTION (so the scroll has somewhere to land)
+   6 · PRODUCT SECTION
 ================================================================= */
-.next {
+.product-section {
   position: relative;
-  padding: var(--space-32) 0;
-  background: var(--ink);
-  color: var(--white);
+  isolation: isolate;
+  min-height: 100vh;
+  padding: clamp(112px, 12vw, 176px) 0;
+  overflow: hidden;
+  background:
+    radial-gradient(900px 520px at 16% 44%, rgba(225, 29, 42, 0.10), transparent 62%),
+    radial-gradient(680px 460px at 95% 10%, rgba(10, 10, 10, 0.05), transparent 64%),
+    linear-gradient(180deg, #FBFAF8 0%, #F2EFEB 100%);
+  color: var(--text-primary);
 }
-.next-inner {
+.product-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(rgba(10,10,10,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(10,10,10,0.035) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(ellipse at 50% 50%, black 0%, transparent 74%);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 50%, black 0%, transparent 74%);
+}
+.product-shell {
+  width: 100%;
   max-width: var(--container-max);
   margin: 0 auto;
   padding: 0 var(--container-pad);
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
-  gap: var(--space-16);
-  align-items: end;
+  grid-template-columns: minmax(340px, 0.95fr) minmax(420px, 1.05fr);
+  gap: clamp(48px, 7vw, 104px);
+  align-items: center;
 }
-.next-eyebrow {
+.product-visual {
+  position: relative;
+  min-height: clamp(520px, 62vw, 760px);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.product-photo-card {
+  position: relative;
+  width: min(560px, 100%);
+  aspect-ratio: 0.82;
+  border-radius: clamp(28px, 4vw, 48px);
+  overflow: hidden;
+  background: var(--surface-1);
+  box-shadow:
+    0 34px 100px rgba(10, 10, 10, 0.16),
+    inset 0 0 0 1px rgba(255,255,255,0.75);
+  transform-origin: center;
+  will-change: transform;
+}
+.product-photo-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background:
+    linear-gradient(120deg, rgba(255,255,255,0.55) 0%, transparent 28%),
+    linear-gradient(180deg, transparent 58%, rgba(10,10,10,0.28) 100%);
+  pointer-events: none;
+}
+.product-photo-card::after {
+  content: "";
+  position: absolute;
+  inset: 18px;
+  z-index: 3;
+  border: 1px solid rgba(255,255,255,0.46);
+  border-radius: clamp(20px, 3vw, 36px);
+  pointer-events: none;
+}
+.product-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 36% center;
+  transform: scale(1.08);
+  filter: saturate(1.05) contrast(1.03);
+  will-change: transform;
+}
+.product-orbit {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(0.2px);
+}
+.product-orbit--red {
+  width: 178px; height: 178px;
+  left: -34px; top: 52px;
+  border: 1px solid rgba(225, 29, 42, 0.28);
+  animation: productFloat 7s var(--ease-smooth) infinite;
+}
+.product-orbit--dark {
+  width: 104px; height: 104px;
+  right: 38px; bottom: 92px;
+  border: 1px solid rgba(10, 10, 10, 0.16);
+  animation: productFloat 8s var(--ease-smooth) 800ms infinite reverse;
+}
+@keyframes productFloat {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(10px, -18px, 0) scale(1.04); }
+}
+.product-badge {
+  position: absolute;
+  right: clamp(-16px, -2vw, -6px);
+  bottom: clamp(34px, 7vw, 76px);
+  z-index: 4;
+  max-width: 220px;
+  padding: var(--space-5);
+  border-radius: var(--radius-xl);
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(10,10,10,0.08);
+  box-shadow: var(--shadow-lg);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+}
+.product-badge-label {
   font-family: var(--font-mono);
   font-size: var(--fs-overline);
   letter-spacing: var(--ls-wider);
   text-transform: uppercase;
-  color: var(--red-400);
+  color: var(--color-accent);
+  margin-bottom: var(--space-2);
+}
+.product-badge strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(22px, 2.6vw, 34px);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-tight);
+}
+.product-copy {
+  justify-self: end;
+  max-width: 680px;
+  padding-left: clamp(0px, 3vw, 36px);
+}
+.product-eyebrow {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-2);
-  margin-bottom: var(--space-4);
+  gap: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--fs-overline);
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: var(--space-5);
 }
-.next-eyebrow::before {
-  content: ""; width: 24px; height: 1px; background: var(--red-400);
+.product-eyebrow::before {
+  content: "";
+  width: 28px;
+  height: 1px;
+  background: var(--color-accent);
 }
-.next-title {
+.product-title {
   font-family: var(--font-display);
-  font-size: var(--fs-h2);
+  font-size: clamp(44px, 5.2vw, 84px);
+  font-weight: 300;
+  line-height: 0.98;
+  letter-spacing: var(--ls-tighter);
+  max-width: 11ch;
+  margin-bottom: var(--space-6);
+}
+.product-title em {
+  font-style: italic;
   font-weight: 400;
+  color: var(--color-accent);
+}
+.product-lead {
+  max-width: 58ch;
+  font-size: var(--fs-body-lg);
+  line-height: var(--lh-normal);
+  color: var(--text-secondary);
+  margin-bottom: var(--space-8);
+}
+.product-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
+}
+.product-price {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  padding: 10px 16px;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-pill);
+  background: rgba(255,255,255,0.52);
+}
+.product-price strong {
+  font-family: var(--font-display);
+  font-size: 24px;
+  line-height: 1;
+}
+.product-price span {
+  font-size: var(--fs-caption);
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-wide);
+}
+.benefit-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+.benefit-card {
+  position: relative;
+  min-height: 164px;
+  padding: var(--space-6);
+  border-radius: var(--radius-xl);
+  background: rgba(255,255,255,0.62);
+  border: 1px solid rgba(10,10,10,0.07);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition:
+    transform var(--dur-normal) var(--ease-out),
+    box-shadow var(--dur-normal) var(--ease-out),
+    border-color var(--dur-normal) var(--ease-out);
+}
+.benefit-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(180px 120px at var(--mx, 15%) var(--my, 0%), rgba(225, 29, 42, 0.16), transparent 72%),
+    radial-gradient(260px 140px at 15% 0%, rgba(225, 29, 42, 0.10), transparent 70%);
+  opacity: 0;
+  transition: opacity var(--dur-normal) var(--ease-out);
+}
+.benefit-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(225, 29, 42, 0.22);
+  box-shadow: 0 20px 48px rgba(10,10,10,0.10);
+}
+.benefit-card:hover::before { opacity: 1; }
+.benefit-icon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px; height: 36px;
+  margin-bottom: var(--space-4);
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--white);
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+}
+.benefit-card h3 {
+  position: relative;
+  font-size: 18px;
   line-height: var(--lh-snug);
   letter-spacing: var(--ls-tight);
-  max-width: 18ch;
+  margin-bottom: var(--space-2);
 }
-.next-title em { font-style: italic; color: var(--color-accent); }
-.next-lead {
-  font-size: var(--fs-body-lg);
-  color: rgba(255,255,255,0.65);
-  max-width: 56ch;
+.benefit-card p {
+  position: relative;
+  font-size: var(--fs-body-sm);
+  color: var(--text-secondary);
+  line-height: var(--lh-normal);
+}
+.benefit-card:nth-child(5) {
+  grid-column: 1 / -1;
+  min-height: auto;
+}
+.product-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  filter: blur(12px);
+}
+.product-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+  transition:
+    opacity var(--dur-slow) var(--ease-out),
+    transform var(--dur-slow) var(--ease-out),
+    filter var(--dur-slow) var(--ease-out);
+}
+
+@media (max-width: 980px) {
+  .product-shell {
+    grid-template-columns: 1fr;
+  }
+  .product-copy {
+    justify-self: stretch;
+    padding-left: 0;
+  }
+  .product-title { max-width: 13ch; }
+}
+
+@media (max-width: 640px) {
+  .product-section { padding: var(--space-24) 0; }
+  .product-visual { min-height: 440px; }
+  .product-badge { left: var(--space-4); right: var(--space-4); bottom: var(--space-4); max-width: none; }
+  .benefit-grid { grid-template-columns: 1fr; }
+  .benefit-card:nth-child(5) { grid-column: auto; }
 }
 
 /* =================================================================
@@ -743,19 +1001,83 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 </section>
 
 <!-- =====================================================
-     NEXT — gives the page room to breathe after the hero
+     PRODUCT — second fold
 ===================================================== -->
-<section class="next" id="story">
-  <div class="next-inner">
-    <div>
-      <div class="next-eyebrow">Continue</div>
-      <h2 class="next-title">From a vessel to a <em>verse</em>.</h2>
+<section class="product-section" id="story" aria-label="Garrafa São Paulo FC">
+  <div class="product-shell">
+    <div class="product-visual product-reveal">
+      <span class="product-orbit product-orbit--red" aria-hidden="true"></span>
+      <span class="product-orbit product-orbit--dark" aria-hidden="true"></span>
+
+      <figure class="product-photo-card" id="productPhotoCard">
+        <img
+          class="product-photo"
+          id="productPhoto"
+          src="assets/lucas-agua.png"
+          alt="Garrafa do São Paulo FC sendo usada em campo"
+          loading="lazy"
+        />
+      </figure>
+
+      <div class="product-badge product-reveal">
+        <div class="product-badge-label">Edição Torcedor</div>
+        <strong>Leve o Tricolor para todos os seus momentos.</strong>
+      </div>
     </div>
-    <p class="next-lead">
-      The hero you just scrolled is the first chapter of a longer narrative — one
-      where every component, from the smallest caption to the largest headline,
-      moves in the same key. Welcome to the system.
-    </p>
+
+    <div class="product-copy">
+      <div class="product-eyebrow product-reveal">Garrafa Oficial SPFC</div>
+      <h2 class="product-title product-reveal">
+        Hidratação com <em>alma tricolor</em>.
+      </h2>
+      <p class="product-lead product-reveal">
+        Mais que uma garrafa: um símbolo de rotina, treino e paixão. Feita para
+        acompanhar seu dia com praticidade, presença e o orgulho de carregar o
+        São Paulo FC onde você estiver.
+      </p>
+
+      <div class="product-actions product-reveal">
+        <a href="#contact" class="btn btn--primary">
+          Quero a minha <span class="arrow" aria-hidden="true">→</span>
+        </a>
+        <div class="product-price" aria-label="Preço promocional">
+          <strong>R$ 89</strong>
+          <span>pré-venda</span>
+        </div>
+      </div>
+
+      <div class="benefit-grid">
+        <article class="benefit-card product-reveal">
+          <span class="benefit-icon">01</span>
+          <h3>Praticidade no dia a dia</h3>
+          <p>Leve, fácil de carregar e pronta para acompanhar trabalho, estudos, academia ou arquibancada.</p>
+        </article>
+
+        <article class="benefit-card product-reveal">
+          <span class="benefit-icon">02</span>
+          <h3>Design exclusivo São Paulo FC</h3>
+          <p>Visual tricolor marcante, com identidade forte para quem vive o clube dentro e fora do estádio.</p>
+        </article>
+
+        <article class="benefit-card product-reveal">
+          <span class="benefit-icon">03</span>
+          <h3>Feita para treinos e jogos</h3>
+          <p>Ideal para manter a hidratação na rotina intensa, no futebol de fim de semana ou nos dias de torcida.</p>
+        </article>
+
+        <article class="benefit-card product-reveal">
+          <span class="benefit-icon">04</span>
+          <h3>Durabilidade premium</h3>
+          <p>Material resistente, acabamento confiável e sensação de produto feito para durar temporada após temporada.</p>
+        </article>
+
+        <article class="benefit-card product-reveal">
+          <span class="benefit-icon">05</span>
+          <h3>Estilo e identificação</h3>
+          <p>Uma peça de uso diário que mostra, sem esforço, seu vínculo com o Maior do Brasil.</p>
+        </article>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -938,6 +1260,93 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   window.addEventListener('scroll', unlock, { passive: true });
 
   setChrome(0);
+})();
+
+/* =================================================================
+   PRODUCT SECTION MOTION
+================================================================= */
+(() => {
+  const section = document.querySelector('.product-section');
+  if (!section) return;
+
+  const revealItems = section.querySelectorAll('.product-reveal');
+  const photoCard = document.getElementById('productPhotoCard');
+  const photo = document.getElementById('productPhoto');
+
+  if (window.gsap && window.ScrollTrigger) {
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.set(revealItems, { opacity: 0, y: 28, filter: 'blur(12px)' });
+
+    gsap.to(revealItems, {
+      opacity: 1,
+      y: 0,
+      filter: 'blur(0px)',
+      duration: 0.9,
+      ease: 'power3.out',
+      stagger: 0.09,
+      scrollTrigger: {
+        trigger: section,
+        start: 'top 68%',
+        once: true
+      }
+    });
+
+    gsap.fromTo(photoCard,
+      { y: 70, rotate: -2.5, scale: 0.96 },
+      {
+        y: -36,
+        rotate: 1.5,
+        scale: 1,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 0.8
+        }
+      }
+    );
+
+    gsap.fromTo(photo,
+      { scale: 1.13, yPercent: -3 },
+      {
+        scale: 1.05,
+        yPercent: 4,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 0.8
+        }
+      }
+    );
+
+    section.querySelectorAll('.benefit-card').forEach((card) => {
+      card.addEventListener('pointermove', (event) => {
+        const rect = card.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+        card.style.setProperty('--mx', `${x}px`);
+        card.style.setProperty('--my', `${y}px`);
+      });
+    });
+
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      revealItems.forEach((item, index) => {
+        setTimeout(() => item.classList.add('is-visible'), index * 80);
+      });
+      observer.disconnect();
+    });
+  }, { threshold: 0.22 });
+
+  observer.observe(section);
 })();
 </script>
 
