@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Crimson — Cinematic Hero</title>
+<meta name="description" content="A premium, scroll-driven cinematic hero — the bottle morphs as you scroll." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<link rel="preload" as="video" href="assets/Bottle_morphs_into_202604181256.mp4" type="video/mp4" />
+
+<!-- GSAP & ScrollTrigger -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<style>
+/* =================================================================
+   1 · DESIGN TOKENS  (extracted from references/sistem-design)
+================================================================= */
+:root {
+  /* Color – red accent scale */
+  --red-100: #FFE0E2;
+  --red-300: #FF8A92;
+  --red-400: #FF4D5A;
+  --red-500: #E11D2A;
+  --red-700: #800E18;
+
+  --color-accent:        var(--red-500);
+  --color-accent-soft:   var(--red-100);
+  --color-accent-light:  var(--red-400);
+  --color-accent-dark:   var(--red-700);
+
+  /* Neutrals */
+  --black:    #0A0A0A;
+  --ink:      #111111;
+  --gray-900: #1F1F1F;
+  --gray-700: #4A4A4A;
+  --gray-600: #6B6B6B;
+  --gray-500: #8C8C8C;
+  --gray-400: #B3B3B3;
+  --gray-300: #D6D6D6;
+  --gray-200: #E8E8E8;
+  --gray-100: #F2F2F2;
+  --gray-50:  #FAFAFA;
+  --white:    #FFFFFF;
+
+  /* Surface – LIGHT theme */
+  --bg-primary:   #FBFAF8;        /* warm off‑white */
+  --bg-secondary: var(--gray-50);
+  --surface-1:    var(--white);
+  --surface-2:    #F4F2EF;
+
+  /* Text */
+  --text-primary:   var(--ink);
+  --text-secondary: var(--gray-700);
+  --text-tertiary:  var(--gray-500);
+  --text-muted:     var(--gray-400);
+  --text-accent:    var(--color-accent);
+
+  /* Borders */
+  --border-subtle: rgba(10,10,10,0.06);
+  --border-soft:   rgba(10,10,10,0.10);
+  --border-strong: rgba(10,10,10,0.20);
+
+  /* Typography */
+  --font-display: "Fraunces", "Times New Roman", serif;
+  --font-body:    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono:    "JetBrains Mono", "SF Mono", Monaco, monospace;
+
+  --fs-display:  clamp(56px, 9vw, 144px);
+  --fs-h1:       clamp(40px, 5vw, 72px);
+  --fs-h2:       clamp(32px, 3.6vw, 52px);
+  --fs-h4:       20px;
+  --fs-body-lg:  18px;
+  --fs-body:     16px;
+  --fs-body-sm:  14px;
+  --fs-caption:  12px;
+  --fs-overline: 11px;
+
+  --lh-tight:  1.05;
+  --lh-snug:   1.2;
+  --lh-normal: 1.5;
+
+  --ls-tighter: -0.04em;
+  --ls-tight:   -0.02em;
+  --ls-wide:    0.06em;
+  --ls-wider:   0.18em;
+
+  /* Spacing (4px base) */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+  --space-32: 128px;
+
+  /* Radii */
+  --radius-sm:   8px;
+  --radius-md:   12px;
+  --radius-lg:   16px;
+  --radius-xl:   24px;
+  --radius-pill: 999px;
+
+  /* Shadow */
+  --shadow-sm: 0 2px 8px rgba(10,10,10,0.06);
+  --shadow-md: 0 8px 24px rgba(10,10,10,0.08);
+  --shadow-lg: 0 24px 60px rgba(10,10,10,0.10);
+
+  /* Motion */
+  --dur-fast:    200ms;
+  --dur-normal:  400ms;
+  --dur-slow:    700ms;
+  --dur-ambient: 1200ms;
+
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  /* Layout */
+  --container-max: 1440px;
+  --container-pad: clamp(20px, 4vw, 56px);
+  /* Edge padding for the HERO — intentionally tighter so content
+     hugs the left/right edges of the viewport (premium, editorial) */
+  --hero-pad-x:    clamp(20px, 3vw, 48px);
+  --nav-h:         72px;
+
+  /* Hero scroll length – the section is this many viewports tall */
+  --hero-scroll-vh: 320vh;
+}
+
+/* =================================================================
+   2 · BASE / RESET
+================================================================= */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-normal);
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; }
+img, video, svg { display: block; max-width: 100%; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+::selection { background: var(--color-accent); color: var(--white); }
+
+/* Minimal scrollbar */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--gray-300); border-radius: var(--radius-pill); }
+::-webkit-scrollbar-thumb:hover { background: var(--color-accent); }
+
+/* =================================================================
+   3 · NAVBAR
+================================================================= */
+.nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: var(--nav-h);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--container-pad);
+  /* Dark glass bar — matches references/sistem-design */
+  background: rgba(10, 10, 10, 0.78);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  transition: background var(--dur-normal) var(--ease-out),
+              border-color var(--dur-normal) var(--ease-out);
+}
+.nav.is-scrolled {
+  background: rgba(10, 10, 10, 0.92);
+  border-bottom-color: rgba(255, 255, 255, 0.10);
+}
+.nav-inner {
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+.nav-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 18px;
+  letter-spacing: var(--ls-tight);
+  color: var(--white);
+}
+.nav-brand .dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  box-shadow: 0 0 12px var(--color-accent);
+  animation: pulse 2.4s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.55; transform: scale(0.8); }
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin-left: auto;
+}
+.nav-links a {
+  font-size: var(--fs-caption);
+  font-weight: 500;
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  padding: 10px 16px;
+  border-radius: var(--radius-pill);
+  transition: color var(--dur-fast) var(--ease-out),
+              background var(--dur-fast) var(--ease-out);
+}
+.nav-links a:hover { color: var(--white); background: rgba(255, 255, 255, 0.08); }
+.nav-cta { margin-left: var(--space-3); }
+/* CTA inverted on dark bar */
+.nav-cta.btn--primary { background: var(--white); color: var(--ink); }
+.nav-cta.btn--primary::after { background: var(--color-accent); }
+.nav-cta.btn--primary:hover { color: var(--white); }
+
+@media (max-width: 720px) {
+  .nav-links a:not(.nav-cta) { display: none; }
+}
+
+/* =================================================================
+   4 · BUTTONS
+================================================================= */
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 14px 28px;
+  font-family: var(--font-body);
+  font-size: var(--fs-body-sm);
+  font-weight: 500;
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  overflow: hidden;
+  isolation: isolate;
+  transition: transform var(--dur-fast) var(--ease-out),
+              box-shadow var(--dur-normal) var(--ease-out),
+              color var(--dur-normal) var(--ease-out);
+}
+.btn::after {
+  content: "";
+  position: absolute; inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  transition: transform var(--dur-normal) var(--ease-out);
+}
+.btn--primary { background: var(--ink); color: var(--white); }
+.btn--primary::after { background: var(--color-accent); transform: translateY(101%); }
+.btn--primary:hover { box-shadow: 0 12px 28px rgba(225, 29, 42, 0.25); }
+.btn--primary:hover::after { transform: translateY(0); }
+.btn--primary:active { transform: scale(0.97); }
+
+.btn--secondary {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border-strong);
+}
+.btn--secondary::after { background: var(--ink); transform: translateY(101%); }
+.btn--secondary:hover { color: var(--white); border-color: var(--ink); }
+.btn--secondary:hover::after { transform: translateY(0); }
+.btn--secondary:active { transform: scale(0.97); }
+
+.btn--sm { padding: 10px 18px; font-size: var(--fs-caption); }
+.btn .arrow {
+  display: inline-block;
+  transition: transform var(--dur-normal) var(--ease-out);
+}
+.btn:hover .arrow { transform: translateX(4px); }
+
+/* =================================================================
+   5 · HERO  (scroll-driven video)
+================================================================= */
+/*
+   The hero section is taller than the viewport so the page can be
+   scrolled to "scrub" the video. The inner stage is sticky, so the
+   visible content stays pinned at 100vh while we map scroll progress
+   onto video.currentTime in JS.
+*/
+.hero {
+  position: relative;
+  height: var(--hero-scroll-vh);
+  background: var(--bg-primary);
+}
+.hero-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background: var(--bg-primary);
+}
+
+/* Fullscreen video background – fills the entire hero stage. */
+.hero-video-wrap {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+.hero-video {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
+  background: var(--bg-primary);
+}
+
+/* Subtle gradient overlay for text legibility — keeps light/premium feel
+   while giving the title contrast against bright video frames */
+.hero-overlay {
+  position: absolute; inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    /* Soft fade from left so the headline stays legible */
+    linear-gradient(90deg, rgba(251,250,248,0.55) 0%, rgba(251,250,248,0.18) 35%, rgba(251,250,248,0) 60%),
+    /* Light vignette top + bottom */
+    linear-gradient(180deg, rgba(251,250,248,0.35) 0%, rgba(251,250,248,0) 25%, rgba(251,250,248,0) 70%, rgba(251,250,248,0.35) 100%);
+}
+
+/* Subtle dot grid for texture (sits between video and content) */
+.hero-grid {
+  position: absolute; inset: 0;
+  z-index: 1;
+  background-image: radial-gradient(rgba(10,10,10,0.06) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(ellipse at 70% 50%, black 0%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse at 70% 50%, black 0%, transparent 70%);
+  pointer-events: none;
+  opacity: 0.35;
+}
+
+/* Content – pushed to the LEFT and RIGHT edges (no centering container) */
+.hero-content {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  width: 100%;
+  /* Edge-to-edge padding instead of a centered container */
+  padding: calc(var(--nav-h) + var(--space-12)) var(--hero-pad-x) var(--space-20);
+  display: grid;
+  grid-template-columns: minmax(0, 560px) 1fr minmax(0, auto);
+  align-items: center;
+  gap: var(--space-8);
+}
+.hero-text {
+  /* This element fades + blurs on scroll, controlled by JS via --p */
+  --p: 0;
+  opacity: calc(1 - var(--p));
+  filter: blur(calc(var(--p) * 14px));
+  transform: translateY(calc(var(--p) * -40px));
+  transition: opacity 80ms linear, filter 80ms linear, transform 80ms linear;
+  will-change: opacity, filter, transform;
+}
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--fs-overline);
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: var(--space-6);
+  opacity: 0;
+  animation: fadeUp var(--dur-slow) var(--ease-out) 200ms forwards;
+}
+.hero-eyebrow .bar {
+  width: 28px; height: 1px; background: var(--color-accent);
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: var(--fs-display);
+  font-weight: 300;
+  line-height: 0.95;
+  letter-spacing: var(--ls-tighter);
+  color: var(--text-primary);
+  max-width: 12ch;
+}
+.hero-title em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--color-accent);
+}
+/* Word reveal — clipped slide-up */
+.hero-title .word {
+  display: inline-block;
+  overflow: hidden;
+  padding: 0.05em 0.04em 0.12em;
+  margin: 0 -0.04em;
+  vertical-align: top;
+}
+.hero-title .word > span {
+  display: inline-block;
+  transform: translateY(110%);
+  animation: heroReveal var(--dur-ambient) var(--ease-out) forwards;
+}
+.hero-title .word:nth-child(1) > span { animation-delay: 100ms; }
+.hero-title .word:nth-child(2) > span { animation-delay: 220ms; }
+.hero-title .word:nth-child(3) > span { animation-delay: 340ms; }
+.hero-title .word:nth-child(4) > span { animation-delay: 460ms; }
+.hero-title .word:nth-child(5) > span { animation-delay: 580ms; }
+@keyframes heroReveal {
+  to { transform: translateY(0); }
+}
+
+.hero-lead {
+  font-size: var(--fs-body-lg);
+  line-height: var(--lh-normal);
+  color: var(--text-secondary);
+  max-width: 46ch;
+  margin-top: var(--space-6);
+  opacity: 0;
+  animation: fadeUp var(--dur-slow) var(--ease-out) 800ms forwards;
+}
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-top: var(--space-8);
+  opacity: 0;
+  animation: fadeUp var(--dur-slow) var(--ease-out) 1000ms forwards;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); filter: blur(8px); }
+  to   { opacity: 1; transform: translateY(0);    filter: blur(0); }
+}
+
+/* Right column — meta info, pinned to the right edge */
+.hero-side {
+  grid-column: 3;
+  align-self: center;
+  justify-self: end;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  min-width: 180px;
+  /* Same scroll-driven fade as hero-text */
+  --p: 0;
+  opacity: calc(1 - var(--p));
+  filter: blur(calc(var(--p) * 14px));
+  transform: translateY(calc(var(--p) * -40px));
+  transition: opacity 80ms linear, filter 80ms linear, transform 80ms linear;
+}
+.hero-side-label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-overline);
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+.hero-side-value {
+  font-family: var(--font-display);
+  font-size: var(--fs-h4);
+  font-weight: 500;
+  letter-spacing: var(--ls-tight);
+  color: var(--text-primary);
+}
+.hero-side-divider {
+  width: 48px; height: 1px;
+  background: var(--border-strong);
+  margin-left: auto;
+}
+
+/* Scroll progress + cue (always visible, fades out as scroll completes) */
+.hero-cue {
+  position: absolute;
+  left: var(--hero-pad-x);
+  bottom: var(--space-10);
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--fs-overline);
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  --p: 0;
+  opacity: calc(1 - var(--p) * 1.4);
+}
+.hero-cue .line {
+  position: relative;
+  width: 60px; height: 1px;
+  background: var(--border-soft);
+  overflow: hidden;
+}
+.hero-cue .line::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: var(--color-accent);
+  transform-origin: left;
+  transform: scaleX(var(--p));
+  transition: transform 80ms linear;
+}
+
+/* Scroll progress bar across the top of the page */
+.scroll-bar {
+  position: fixed;
+  top: 0; left: 0;
+  height: 2px;
+  width: 100%;
+  background: transparent;
+  z-index: 200;
+  pointer-events: none;
+}
+.scroll-bar::after {
+  content: "";
+  display: block;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, var(--color-accent), var(--red-700));
+  transform-origin: left;
+  transform: scaleX(var(--scroll-progress, 0));
+  transition: transform 80ms linear;
+}
+
+/* Responsive – collapse side column */
+@media (max-width: 900px) {
+  .hero-content {
+    grid-template-columns: 1fr;
+    align-content: end;
+    padding-bottom: var(--space-24);
+  }
+  .hero-side { display: none; }
+  /* On small screens, brighten the overlay so text stays readable */
+  .hero-overlay {
+    background:
+      linear-gradient(180deg, rgba(251,250,248,0.55) 0%, rgba(251,250,248,0.15) 35%, rgba(251,250,248,0.5) 100%);
+  }
+}
+
+/* =================================================================
+   6 · NEXT SECTION (so the scroll has somewhere to land)
+================================================================= */
+.next {
+  position: relative;
+  padding: var(--space-32) 0;
+  background: var(--ink);
+  color: var(--white);
+}
+.next-inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--container-pad);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: var(--space-16);
+  align-items: end;
+}
+.next-eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--fs-overline);
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  color: var(--red-400);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+.next-eyebrow::before {
+  content: ""; width: 24px; height: 1px; background: var(--red-400);
+}
+.next-title {
+  font-family: var(--font-display);
+  font-size: var(--fs-h2);
+  font-weight: 400;
+  line-height: var(--lh-snug);
+  letter-spacing: var(--ls-tight);
+  max-width: 18ch;
+}
+.next-title em { font-style: italic; color: var(--color-accent); }
+.next-lead {
+  font-size: var(--fs-body-lg);
+  color: rgba(255,255,255,0.65);
+  max-width: 56ch;
+}
+
+/* =================================================================
+   7 · MOTION-REDUCE
+================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .hero { height: 100vh; }
+  .hero-stage { position: relative; }
+}
+</style>
+</head>
+<body>
+
+<!-- Scroll progress (top of page) -->
+<div class="scroll-bar" aria-hidden="true"></div>
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-brand" aria-label="Crimson home">
+      <span class="dot" aria-hidden="true"></span>
+      <span>Crimson</span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#work">Work</a>
+      <a href="#story">Story</a>
+      <a href="#system">System</a>
+      <a href="#journal">Journal</a>
+      <a href="#contact" class="btn btn--primary btn--sm nav-cta">
+        Get in touch <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<!-- =====================================================
+     HERO (scroll-driven video)
+===================================================== -->
+<section class="hero" id="hero" aria-label="Hero">
+  <div class="hero-stage">
+
+    <!-- Fullscreen background video -->
+    <div class="hero-video-wrap" id="heroVideoWrap" aria-hidden="true">
+      <video
+        id="heroVideo"
+        class="hero-video"
+        muted
+        playsinline
+        webkit-playsinline
+        preload="auto"
+        disablepictureinpicture
+        tabindex="-1"
+      >
+        <source src="assets/Bottle_morphs_into_202604181256.mp4" type="video/mp4" />
+      </video>
+    </div>
+
+    <!-- Soft light overlay for legibility -->
+    <div class="hero-overlay" aria-hidden="true"></div>
+    <div class="hero-grid"    aria-hidden="true"></div>
+
+    <div class="hero-content">
+
+      <!-- LEFT: title + subtitle + CTAs (fades + blurs on scroll) -->
+      <div class="hero-text" id="heroText">
+        <div class="hero-eyebrow">
+          <span class="bar" aria-hidden="true"></span>
+          <span>Chapter 01 — The Vessel</span>
+        </div>
+
+        <h1 class="hero-title">
+          <span class="word"><span>Form</span></span>
+          <span class="word"><span>that</span></span>
+          <span class="word"><span><em>becomes</em></span></span>
+          <span class="word"><span>feeling.</span></span>
+        </h1>
+
+        <p class="hero-lead">
+          A bottle, a breath, a transformation. Scroll to watch matter dissolve
+          into motion — a study in how design carries meaning beyond the object.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#story" class="btn btn--primary">
+            Begin the story <span class="arrow" aria-hidden="true">→</span>
+          </a>
+          <a href="#system" class="btn btn--secondary">View the system</a>
+        </div>
+      </div>
+
+      <!-- RIGHT: meta info, aligned to the right edge -->
+      <aside class="hero-side" id="heroSide" aria-label="Meta">
+        <div>
+          <div class="hero-side-label">Edition</div>
+          <div class="hero-side-value">N° 04 — 2026</div>
+        </div>
+        <div class="hero-side-divider" aria-hidden="true"></div>
+        <div>
+          <div class="hero-side-label">Director</div>
+          <div class="hero-side-value">Studio Crimson</div>
+        </div>
+        <div class="hero-side-divider" aria-hidden="true"></div>
+        <div>
+          <div class="hero-side-label">Runtime</div>
+          <div class="hero-side-value" id="heroRuntime">00:00</div>
+        </div>
+      </aside>
+
+    </div>
+
+    <!-- Scroll cue + per-section progress -->
+    <div class="hero-cue" id="heroCue">
+      <span>Scroll to reveal</span>
+      <span class="line" aria-hidden="true"></span>
+      <span id="heroPercent">00%</span>
+    </div>
+
+  </div>
+</section>
+
+<!-- =====================================================
+     NEXT — gives the page room to breathe after the hero
+===================================================== -->
+<section class="next" id="story">
+  <div class="next-inner">
+    <div>
+      <div class="next-eyebrow">Continue</div>
+      <h2 class="next-title">From a vessel to a <em>verse</em>.</h2>
+    </div>
+    <p class="next-lead">
+      The hero you just scrolled is the first chapter of a longer narrative — one
+      where every component, from the smallest caption to the largest headline,
+      moves in the same key. Welcome to the system.
+    </p>
+  </div>
+</section>
+
+<script>
+/* =================================================================
+   SCROLL-DRIVEN HERO · GSAP ScrollTrigger
+   -----------------------------------------------------------------
+   Context7/GSAP docs recommend linking animation progress to scroll
+   with ScrollTrigger `scrub`. Here GSAP owns the video playhead:
+   scroll progress -> video.currentTime. If the CDN is unavailable,
+   a small requestAnimationFrame fallback keeps the same behaviour.
+================================================================= */
+(() => {
+  const hero        = document.getElementById('hero');
+  const video       = document.getElementById('heroVideo');
+  const heroText    = document.getElementById('heroText');
+  const heroSide    = document.getElementById('heroSide');
+  const heroCue     = document.getElementById('heroCue');
+  const heroPercent = document.getElementById('heroPercent');
+  const heroRuntime = document.getElementById('heroRuntime');
+  const nav         = document.getElementById('nav');
+
+  if (!hero || !video) return;
+
+  const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
+  const pad = (n) => String(Math.floor(n)).padStart(2, '0');
+  const formatTime = (secs) => {
+    if (!isFinite(secs)) return '00:00';
+    return `${pad(secs / 60)}:${pad(secs % 60)}`;
+  };
+
+  let duration = 0;
+  let fallbackRaf = 0;
+  let initialized = false;
+
+  function setChrome(progress) {
+    const p = clamp(progress, 0, 1);
+    const textP = clamp((p - 0.06) / (0.55 - 0.06), 0, 1);
+    const docScrollable = document.documentElement.scrollHeight - window.innerHeight;
+    const docProgress = docScrollable > 0 ? window.scrollY / docScrollable : 0;
+
+    document.documentElement.style.setProperty('--scroll-progress', docProgress.toFixed(4));
+    heroText.style.setProperty('--p', textP.toFixed(3));
+    heroSide.style.setProperty('--p', textP.toFixed(3));
+    heroCue.style.setProperty('--p', p.toFixed(3));
+    heroPercent.textContent = pad(p * 100) + '%';
+    nav.classList.toggle('is-scrolled', window.scrollY > 24);
+  }
+
+  function heroProgress() {
+    const rect = hero.getBoundingClientRect();
+    const scrollable = hero.offsetHeight - window.innerHeight;
+    if (scrollable <= 0) return 0;
+    return clamp(-rect.top / scrollable, 0, 1);
+  }
+
+  function seekVideo(time) {
+    if (!duration || !Number.isFinite(time)) return;
+    const nextTime = clamp(time, 0.001, Math.max(0.001, duration - 0.04));
+
+    // Avoid excessive seeks for tiny scroll deltas. This helps Chrome
+    // keep decode work predictable while preserving visual sync.
+    if (Math.abs(video.currentTime - nextTime) > 0.012) {
+      try { video.currentTime = nextTime; } catch (_) {}
+    }
+  }
+
+  function setupScrollTrigger() {
+    if (initialized) return;
+    initialized = true;
+
+    duration = video.duration || 0;
+    heroRuntime.textContent = formatTime(duration);
+    seekVideo(0.001);
+
+    if (window.gsap && window.ScrollTrigger) {
+      gsap.registerPlugin(ScrollTrigger);
+
+      const playhead = { time: 0.001 };
+
+      gsap.to(playhead, {
+        time: Math.max(0.001, duration - 0.04),
+        ease: 'none',
+        onUpdate: () => seekVideo(playhead.time),
+        scrollTrigger: {
+          trigger: hero,
+          start: 'top top',
+          end: 'bottom bottom',
+          scrub: 0.35,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => setChrome(self.progress)
+        }
+      });
+
+      ScrollTrigger.refresh();
+      return;
+    }
+
+    // Fallback when GSAP CDN is not available: rAF-driven scroll scrub.
+    let smoothed = 0;
+    const tick = () => {
+      const target = heroProgress();
+      smoothed += (target - smoothed) * 0.22;
+      seekVideo(smoothed * duration);
+      setChrome(smoothed);
+
+      if (Math.abs(target - smoothed) > 0.001) {
+        fallbackRaf = requestAnimationFrame(tick);
+      } else {
+        fallbackRaf = 0;
+      }
+    };
+
+    const requestTick = () => {
+      if (!fallbackRaf) fallbackRaf = requestAnimationFrame(tick);
+    };
+
+    window.addEventListener('scroll', requestTick, { passive: true });
+    window.addEventListener('resize', requestTick);
+    requestTick();
+  }
+
+  // Prime decoding without letting the video autoplay normally.
+  function primeVideo() {
+    const p = video.play();
+    if (p && typeof p.then === 'function') {
+      p.then(() => video.pause()).catch(() => {});
+    } else {
+      try { video.pause(); } catch (_) {}
+    }
+  }
+
+  if (video.readyState >= 1) {
+    setupScrollTrigger();
+  } else {
+    video.addEventListener('loadedmetadata', setupScrollTrigger, { once: true });
+  }
+  video.addEventListener('loadeddata', () => seekVideo(0.001), { once: true });
+  video.addEventListener('error', () => {
+    console.warn('[hero] video failed to load. Check assets/Bottle_morphs_into_202604181256.mp4', video.error);
+  });
+
+  try { video.load(); } catch (_) {}
+  primeVideo();
+
+  const unlock = () => {
+    primeVideo();
+    window.removeEventListener('pointerdown', unlock);
+    window.removeEventListener('keydown', unlock);
+    window.removeEventListener('scroll', unlock);
+  };
+  window.addEventListener('pointerdown', unlock);
+  window.addEventListener('keydown', unlock);
+  window.addEventListener('scroll', unlock, { passive: true });
+
+  setChrome(0);
+})();
+</script>
+
+</body>
+</html>
