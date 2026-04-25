@@ -226,6 +226,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   margin-left: auto;
 }
 .nav-links a {
+  position: relative;
   font-size: var(--fs-caption);
   font-weight: 500;
   letter-spacing: var(--ls-wide);
@@ -233,15 +234,43 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   color: rgba(255, 255, 255, 0.55);
   padding: 10px 16px;
   border-radius: var(--radius-pill);
+  overflow: hidden;
   transition: color var(--dur-fast) var(--ease-out),
-              background var(--dur-fast) var(--ease-out);
+              background var(--dur-fast) var(--ease-out),
+              transform var(--dur-fast) var(--ease-out);
 }
-.nav-links a:hover { color: var(--white); background: rgba(255, 255, 255, 0.08); }
+.nav-links a::before {
+  content: "";
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 7px;
+  height: 1px;
+  background: var(--color-accent);
+  box-shadow: 0 0 10px rgba(225, 29, 42, 0.85);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--dur-normal) var(--ease-out);
+}
+.nav-links a:hover {
+  color: var(--white);
+  background: transparent;
+  transform: translateY(-1px);
+}
+.nav-links a:hover::before {
+  transform: scaleX(1);
+  transform-origin: left;
+}
 .nav-cta { margin-left: var(--space-3); }
 /* CTA inverted on dark bar */
 .nav-cta.btn--primary { background: var(--white); color: var(--ink); }
 .nav-cta.btn--primary::after { background: var(--color-accent); }
 .nav-cta.btn--primary:hover { color: var(--white); }
+.nav-cta.btn--primary::before {
+  left: 18px;
+  right: 18px;
+  bottom: 8px;
+}
 
 @media (max-width: 720px) {
   .nav-links a:not(.nav-cta) { display: none; }
@@ -753,28 +782,79 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--space-4);
-  margin-bottom: var(--space-8);
+  gap: var(--space-5);
+  margin-bottom: var(--space-10);
 }
-.product-price {
+.product-cta {
+  padding: 18px 34px;
+  min-height: 58px;
+  background:
+    radial-gradient(120px 80px at 20% 0%, rgba(255,255,255,0.34), transparent 65%),
+    linear-gradient(135deg, var(--ink) 0%, #2A0407 52%, var(--color-accent) 100%);
+  box-shadow:
+    0 18px 42px rgba(225, 29, 42, 0.28),
+    0 8px 20px rgba(10, 10, 10, 0.14);
+  animation: ctaBreathe 2.8s var(--ease-smooth) infinite;
+}
+.product-cta::before {
+  content: "";
+  position: absolute;
+  top: -80%;
+  bottom: -80%;
+  left: -32%;
+  width: 26%;
+  z-index: 1;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.55), transparent);
+  transform: rotate(18deg) translateX(-120%);
+  transition: transform 780ms var(--ease-out);
+  pointer-events: none;
+}
+.product-cta::after {
+  background: linear-gradient(135deg, var(--color-accent-dark), var(--color-accent));
+  transform: translateY(101%);
+}
+.product-cta:hover {
+  color: var(--white);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow:
+    0 26px 70px rgba(225, 29, 42, 0.36),
+    0 14px 28px rgba(10, 10, 10, 0.18);
+}
+.product-cta:hover::before {
+  transform: rotate(18deg) translateX(560%);
+}
+.product-cta:active {
+  transform: translateY(-1px) scale(0.98);
+}
+.product-cta .arrow {
+  position: relative;
+  z-index: 2;
+}
+@keyframes ctaBreathe {
+  0%, 100% { box-shadow: 0 18px 42px rgba(225, 29, 42, 0.28), 0 8px 20px rgba(10, 10, 10, 0.14); }
+  50% { box-shadow: 0 24px 60px rgba(225, 29, 42, 0.40), 0 10px 24px rgba(10, 10, 10, 0.16); }
+}
+.product-cta-note {
   display: inline-flex;
-  align-items: baseline;
+  align-items: center;
   gap: var(--space-2);
-  padding: 10px 16px;
+  max-width: 260px;
+  padding: 12px 16px;
   border: 1px solid var(--border-soft);
-  border-radius: var(--radius-pill);
-  background: rgba(255,255,255,0.52);
-}
-.product-price strong {
-  font-family: var(--font-display);
-  font-size: 24px;
-  line-height: 1;
-}
-.product-price span {
+  border-radius: var(--radius-lg);
+  background: rgba(255,255,255,0.58);
+  color: var(--text-secondary);
   font-size: var(--fs-caption);
-  color: var(--text-tertiary);
-  text-transform: uppercase;
   letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+}
+.product-cta-note::before {
+  content: "";
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  box-shadow: 0 0 14px rgba(225, 29, 42, 0.65);
+  flex: 0 0 auto;
 }
 .benefit-grid {
   display: grid;
@@ -876,7 +956,388 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 
 /* =================================================================
-   7 · MOTION-REDUCE
+   7 · RED PRODUCT FEATURE
+================================================================= */
+.red-feature {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  padding: clamp(112px, 12vw, 176px) 0;
+  overflow: hidden;
+  background:
+    radial-gradient(760px 520px at 50% 44%, rgba(255,255,255,0.22), transparent 62%),
+    radial-gradient(860px 620px at 88% 8%, rgba(10,10,10,0.26), transparent 68%),
+    linear-gradient(135deg, #B01421 0%, var(--color-accent) 42%, #4F080F 100%);
+  color: var(--white);
+}
+.red-feature::before {
+  content: "SPFC";
+  position: absolute;
+  left: -0.08em;
+  top: 50%;
+  z-index: -1;
+  transform: translateY(-52%);
+  font-family: var(--font-display);
+  font-size: clamp(180px, 28vw, 520px);
+  font-weight: 600;
+  letter-spacing: -0.12em;
+  color: rgba(255,255,255,0.055);
+  line-height: 0.8;
+  pointer-events: none;
+}
+.red-feature::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.055) 1px, transparent 1px);
+  background-size: 84px 84px;
+  mask-image: radial-gradient(ellipse at center, black 0%, transparent 76%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 0%, transparent 76%);
+}
+.red-feature-shell {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--container-pad);
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(360px, 0.9fr);
+  gap: clamp(48px, 7vw, 112px);
+  align-items: center;
+}
+.red-feature-copy {
+  max-width: 650px;
+}
+.red-feature-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--fs-overline);
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.72);
+  margin-bottom: var(--space-5);
+}
+.red-feature-eyebrow::before {
+  content: "";
+  width: 32px;
+  height: 1px;
+  background: rgba(255,255,255,0.72);
+}
+.red-feature-title {
+  font-family: var(--font-display);
+  font-size: clamp(48px, 6.8vw, 108px);
+  font-weight: 300;
+  line-height: 0.94;
+  letter-spacing: var(--ls-tighter);
+  max-width: 10ch;
+  margin-bottom: var(--space-6);
+}
+.red-feature-title em {
+  font-style: italic;
+  font-weight: 500;
+  color: #fff;
+  text-shadow: 0 0 38px rgba(255,255,255,0.26);
+}
+.red-feature-lead {
+  max-width: 54ch;
+  font-size: var(--fs-body-lg);
+  line-height: var(--lh-normal);
+  color: rgba(255,255,255,0.76);
+  margin-bottom: var(--space-8);
+}
+.red-feature-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  align-items: center;
+  margin-bottom: var(--space-12);
+}
+.red-feature-cta {
+  position: relative;
+  padding: 18px 34px;
+  min-height: 58px;
+  color: var(--ink);
+  background: var(--white);
+  box-shadow:
+    0 24px 70px rgba(10,10,10,0.24),
+    0 0 0 1px rgba(255,255,255,0.38) inset;
+}
+.red-feature-cta::after {
+  background: var(--ink);
+  transform: translateY(101%);
+}
+.red-feature-cta:hover {
+  color: var(--white);
+  transform: translateY(-4px);
+  box-shadow:
+    0 32px 90px rgba(10,10,10,0.32),
+    0 0 34px rgba(255,255,255,0.20);
+}
+.red-feature-cta .btn-label,
+.red-feature-cta .arrow {
+  position: relative;
+  z-index: 2;
+}
+.red-feature-cta:hover::after {
+  transform: translateY(0);
+}
+.red-feature-proof {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 12px 16px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(255,255,255,0.20);
+  background: rgba(10,10,10,0.18);
+  color: rgba(255,255,255,0.78);
+  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.red-feature-proof::before {
+  content: "";
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--white);
+  box-shadow: 0 0 16px rgba(255,255,255,0.82);
+}
+.red-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-4);
+  max-width: 720px;
+}
+.red-stat {
+  position: relative;
+  min-height: 142px;
+  padding: var(--space-5);
+  border-radius: 22px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0.07)),
+    rgba(10,10,10,0.18);
+  border: 1px solid rgba(255,255,255,0.20);
+  overflow: hidden;
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  transition:
+    transform var(--dur-normal) var(--ease-out),
+    background var(--dur-normal) var(--ease-out),
+    border-color var(--dur-normal) var(--ease-out);
+}
+.red-stat::before {
+  content: "";
+  position: absolute;
+  left: var(--space-5);
+  right: var(--space-5);
+  bottom: var(--space-4);
+  height: 3px;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(90deg, rgba(255,255,255,0.32), #fff 45%, rgba(255,255,255,0.26));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+.red-stat::after {
+  content: "";
+  position: absolute;
+  right: -64px;
+  top: -64px;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.22), transparent 68%);
+  opacity: 0.55;
+}
+.red-stat:hover {
+  transform: translateY(-10px) scale(1.015);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.26), rgba(255,255,255,0.10)),
+    rgba(10,10,10,0.16);
+  border-color: rgba(255,255,255,0.38);
+}
+.red-stat:hover::before { transform: scaleX(1); }
+.red-stat-number {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+  font-family: var(--font-display);
+  font-size: clamp(38px, 4.2vw, 64px);
+  line-height: 0.9;
+  letter-spacing: var(--ls-tight);
+  color: #fff;
+  text-shadow: 0 0 34px rgba(255,255,255,0.22);
+}
+.red-stat-number span {
+  font-family: var(--font-body);
+  font-size: 0.36em;
+  font-weight: 600;
+}
+.red-stat-label {
+  position: relative;
+  z-index: 1;
+  margin-top: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--fs-overline);
+  letter-spacing: var(--ls-wider);
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.70);
+}
+.red-stat-copy {
+  position: relative;
+  z-index: 1;
+  max-width: 22ch;
+  margin-top: var(--space-2);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-normal);
+  color: rgba(255,255,255,0.62);
+}
+.red-feature-visual {
+  position: relative;
+  min-height: clamp(780px, 86vw, 1120px);
+  display: grid;
+  place-items: center;
+}
+.bottle-stage {
+  position: relative;
+  width: min(988px, 118vw);
+  aspect-ratio: 0.72;
+  display: grid;
+  place-items: center;
+  perspective: 1200px;
+}
+.bottle-glow {
+  position: absolute;
+  width: 82%;
+  height: 86%;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(255,255,255,0.70), rgba(255,255,255,0.14) 42%, transparent 70%);
+  filter: blur(48px);
+  transform: translateY(6%);
+  animation: glowPulse 3.8s var(--ease-smooth) infinite;
+}
+.bottle-ring {
+  position: absolute;
+  width: 82%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.26);
+  transform: rotateX(72deg) rotateZ(-8deg);
+  animation: ringDrift 6s var(--ease-smooth) infinite;
+}
+.bottle-ring--2 {
+  width: 112%;
+  opacity: 0.45;
+  animation-delay: -1.8s;
+  animation-direction: reverse;
+}
+.feature-bottle {
+  position: relative;
+  z-index: 2;
+  width: min(858px, 112vw);
+  height: auto;
+  filter:
+    drop-shadow(0 42px 54px rgba(10,10,10,0.38))
+    drop-shadow(0 0 48px rgba(255,255,255,0.28));
+  transform-origin: 50% 70%;
+  will-change: transform, filter;
+}
+.bottle-shadow {
+  position: absolute;
+  left: 50%;
+  bottom: 6%;
+  width: 62%;
+  height: 46px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(10,10,10,0.32), transparent 70%);
+  transform: translateX(-50%);
+  filter: blur(8px);
+}
+.feature-chip {
+  position: absolute;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 12px 16px;
+  border-radius: var(--radius-pill);
+  background: rgba(255,255,255,0.16);
+  border: 1px solid rgba(255,255,255,0.22);
+  color: rgba(255,255,255,0.86);
+  font-size: var(--fs-caption);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 18px 40px rgba(10,10,10,0.18);
+}
+.feature-chip::before {
+  content: "";
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--white);
+}
+.feature-chip--top { top: 14%; right: 0; }
+.feature-chip--bottom { left: -4%; bottom: 19%; }
+.red-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  filter: blur(12px);
+}
+.red-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+  transition:
+    opacity var(--dur-slow) var(--ease-out),
+    transform var(--dur-slow) var(--ease-out),
+    filter var(--dur-slow) var(--ease-out);
+}
+.red-feature-visual.is-visible {
+  opacity: 1;
+  transform: translate(0, 0) scale(1);
+  filter: blur(0);
+  transition:
+    opacity var(--dur-slow) var(--ease-out),
+    transform 1100ms var(--ease-out),
+    filter var(--dur-slow) var(--ease-out);
+}
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.72; transform: translateY(6%) scale(1); }
+  50% { opacity: 1; transform: translateY(2%) scale(1.08); }
+}
+@keyframes ringDrift {
+  0%, 100% { transform: rotateX(72deg) rotateZ(-8deg) scale(1); }
+  50% { transform: rotateX(72deg) rotateZ(8deg) scale(1.06); }
+}
+
+@media (max-width: 980px) {
+  .red-feature-shell {
+    grid-template-columns: 1fr;
+  }
+  .red-feature-visual {
+    order: -1;
+    min-height: 560px;
+  }
+}
+
+@media (max-width: 680px) {
+  .red-stats {
+    grid-template-columns: 1fr;
+  }
+  .feature-chip--top { right: var(--space-4); }
+  .feature-chip--bottom { left: var(--space-4); }
+}
+
+/* =================================================================
+   8 · MOTION-REDUCE
 ================================================================= */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -1037,13 +1498,10 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
       </p>
 
       <div class="product-actions product-reveal">
-        <a href="#contact" class="btn btn--primary">
+        <a href="#contact" class="btn btn--primary product-cta">
           Quero a minha <span class="arrow" aria-hidden="true">→</span>
         </a>
-        <div class="product-price" aria-label="Preço promocional">
-          <strong>R$ 89</strong>
-          <span>pré-venda</span>
-        </div>
+        <div class="product-cta-note">Edição limitada para torcedores que vivem o clube todos os dias</div>
       </div>
 
       <div class="benefit-grid">
@@ -1076,6 +1534,69 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
           <h3>Estilo e identificação</h3>
           <p>Uma peça de uso diário que mostra, sem esforço, seu vínculo com o Maior do Brasil.</p>
         </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     RED FEATURE — third fold
+===================================================== -->
+<section class="red-feature" id="system" aria-label="Garrafa Tricolor">
+  <div class="red-feature-shell">
+    <div class="red-feature-copy">
+      <div class="red-feature-eyebrow red-reveal">Produto Oficial · SPFC</div>
+      <h2 class="red-feature-title red-reveal">
+        Mais que uma garrafa. É carregar o <em>Tricolor</em> com você.
+      </h2>
+      <p class="red-feature-lead red-reveal">
+        Um objeto de uso diário que vira declaração de amor: hidratação,
+        presença e orgulho são-paulino em uma peça feita para chamar atenção
+        no treino, no trabalho e em qualquer arquibancada.
+      </p>
+
+      <div class="red-feature-actions red-reveal">
+        <a href="#contact" class="btn red-feature-cta">
+          <span class="btn-label">Garantir a minha</span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+        <span class="red-feature-proof">Design tricolor de alto impacto</span>
+      </div>
+
+      <div class="red-stats">
+        <article class="red-stat red-reveal">
+          <div class="red-stat-number" data-count="520">0<span>%</span></div>
+          <div class="red-stat-label">mais presença visual</div>
+          <p class="red-stat-copy">A garrafa vira peça de destaque antes mesmo de ser usada.</p>
+        </article>
+        <article class="red-stat red-reveal">
+          <div class="red-stat-number" data-count="412">0<span>%</span></div>
+          <div class="red-stat-label">mais vontade de usar</div>
+          <p class="red-stat-copy">Visual de coleção que transforma hidratação em ritual tricolor.</p>
+        </article>
+        <article class="red-stat red-reveal">
+          <div class="red-stat-number" data-count="350">0<span>%</span></div>
+          <div class="red-stat-label">mais orgulho no ritual</div>
+          <p class="red-stat-copy">Perfeita para academia, campo, trabalho e dias de jogo.</p>
+        </article>
+      </div>
+    </div>
+
+    <div class="red-feature-visual" id="redBottleVisual">
+      <div class="bottle-stage">
+        <span class="bottle-glow" aria-hidden="true"></span>
+        <span class="bottle-ring" aria-hidden="true"></span>
+        <span class="bottle-ring bottle-ring--2" aria-hidden="true"></span>
+        <span class="bottle-shadow" aria-hidden="true"></span>
+        <img
+          class="feature-bottle"
+          id="featureBottle"
+          src="assets/garrafa-tricolor-removebg.png"
+          alt="Garrafa tricolor do São Paulo FC"
+          loading="lazy"
+        />
+        <span class="feature-chip feature-chip--top red-reveal">visual de coleção</span>
+        <span class="feature-chip feature-chip--bottom red-reveal">rotina com identidade</span>
       </div>
     </div>
   </div>
@@ -1269,7 +1790,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   const section = document.querySelector('.product-section');
   if (!section) return;
 
-  const revealItems = section.querySelectorAll('.product-reveal');
+  const productVisual = section.querySelector('.product-visual');
+  const revealItems = section.querySelectorAll('.product-reveal:not(.product-visual)');
   const photoCard = document.getElementById('productPhotoCard');
   const photo = document.getElementById('productPhoto');
 
@@ -1277,14 +1799,11 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     gsap.registerPlugin(ScrollTrigger);
 
     gsap.set(revealItems, { opacity: 0, y: 28, filter: 'blur(12px)' });
+    gsap.set(productVisual, { opacity: 0, x: '-24vw', y: 42, rotate: -8, filter: 'blur(18px)' });
+    gsap.set(photoCard, { rotate: -5, scale: 0.94 });
+    gsap.set(photo, { scale: 1.18, xPercent: -6 });
 
-    gsap.to(revealItems, {
-      opacity: 1,
-      y: 0,
-      filter: 'blur(0px)',
-      duration: 0.9,
-      ease: 'power3.out',
-      stagger: 0.09,
+    const productIntro = gsap.timeline({
       scrollTrigger: {
         trigger: section,
         start: 'top 68%',
@@ -1292,12 +1811,41 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
       }
     });
 
+    productIntro
+      .to(productVisual, {
+        opacity: 1,
+        x: 0,
+        y: 0,
+        rotate: 0,
+        filter: 'blur(0px)',
+        duration: 1.35,
+        ease: 'expo.out'
+      })
+      .to(photoCard, {
+        rotate: 0,
+        scale: 1,
+        duration: 1.1,
+        ease: 'elastic.out(1, 0.78)'
+      }, '-=1.05')
+      .to(photo, {
+        xPercent: 0,
+        scale: 1.08,
+        duration: 1.25,
+        ease: 'power3.out'
+      }, '-=1.15')
+      .to(revealItems, {
+        opacity: 1,
+        y: 0,
+        filter: 'blur(0px)',
+        duration: 0.9,
+        ease: 'power3.out',
+        stagger: 0.08
+      }, '-=0.55');
+
     gsap.fromTo(photoCard,
-      { y: 70, rotate: -2.5, scale: 0.96 },
+      { y: 56 },
       {
         y: -36,
-        rotate: 1.5,
-        scale: 1,
         ease: 'none',
         scrollTrigger: {
           trigger: section,
@@ -1309,9 +1857,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     );
 
     gsap.fromTo(photo,
-      { scale: 1.13, yPercent: -3 },
+      { yPercent: -3 },
       {
-        scale: 1.05,
         yPercent: 4,
         ease: 'none',
         scrollTrigger: {
@@ -1339,12 +1886,140 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (!entry.isIntersecting) return;
+      productVisual.classList.add('is-visible');
       revealItems.forEach((item, index) => {
         setTimeout(() => item.classList.add('is-visible'), index * 80);
       });
       observer.disconnect();
     });
   }, { threshold: 0.22 });
+
+  observer.observe(section);
+})();
+
+/* =================================================================
+   RED FEATURE MOTION
+================================================================= */
+(() => {
+  const section = document.querySelector('.red-feature');
+  if (!section) return;
+
+  const revealItems = section.querySelectorAll('.red-reveal');
+  const bottleVisual = document.getElementById('redBottleVisual');
+  const bottle = document.getElementById('featureBottle');
+  const stats = section.querySelectorAll('.red-stat-number');
+
+  function animateStats() {
+    stats.forEach((stat) => {
+      if (stat.dataset.done) return;
+      stat.dataset.done = 'true';
+      const target = Number(stat.dataset.count || 0);
+      const suffix = stat.querySelector('span')?.outerHTML || '';
+      const obj = { value: 0 };
+
+      if (window.gsap) {
+        gsap.to(obj, {
+          value: target,
+          duration: 1.5,
+          ease: 'power3.out',
+          onUpdate: () => {
+            stat.innerHTML = `${Math.round(obj.value)}${suffix}`;
+          }
+        });
+        return;
+      }
+
+      const start = performance.now();
+      const duration = 1300;
+      const tick = (now) => {
+        const p = Math.min(1, (now - start) / duration);
+        const eased = 1 - Math.pow(1 - p, 3);
+        stat.innerHTML = `${Math.round(target * eased)}${suffix}`;
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    });
+  }
+
+  if (window.gsap && window.ScrollTrigger) {
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.set(revealItems, { opacity: 0, y: 30, filter: 'blur(12px)' });
+    gsap.set(bottleVisual, { opacity: 0, x: '22vw', rotate: 8, scale: 0.84, filter: 'blur(18px)' });
+    gsap.set(bottle, { y: 42, rotate: -5, scale: 0.96 });
+
+    const intro = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: 'top 66%',
+        once: true,
+        onEnter: animateStats
+      }
+    });
+
+    intro
+      .to(bottleVisual, {
+        opacity: 1,
+        x: 0,
+        rotate: 0,
+        scale: 1,
+        filter: 'blur(0px)',
+        duration: 1.25,
+        ease: 'expo.out'
+      })
+      .to(bottle, {
+        y: 0,
+        rotate: 0,
+        scale: 1,
+        duration: 1.15,
+        ease: 'elastic.out(1, 0.7)'
+      }, '-=1.05')
+      .to(revealItems, {
+        opacity: 1,
+        y: 0,
+        filter: 'blur(0px)',
+        duration: 0.86,
+        ease: 'power3.out',
+        stagger: 0.08
+      }, '-=0.62');
+
+    gsap.to(bottle, {
+      y: -18,
+      rotate: 1.4,
+      duration: 2.8,
+      ease: 'sine.inOut',
+      yoyo: true,
+      repeat: -1
+    });
+
+    gsap.fromTo(bottleVisual,
+      { y: 56 },
+      {
+        y: -44,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 0.9
+        }
+      }
+    );
+
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      bottleVisual?.classList.add('is-visible');
+      revealItems.forEach((item, index) => {
+        setTimeout(() => item.classList.add('is-visible'), index * 80);
+      });
+      animateStats();
+      observer.disconnect();
+    });
+  }, { threshold: 0.25 });
 
   observer.observe(section);
 })();
