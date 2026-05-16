@@ -41,8 +41,35 @@
         Garanta a sua <span class="arrow" aria-hidden="true">→</span>
       </a>
     </nav>
+
+    <button class="nav-hamburger" id="navHamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobileMenu">
+      <span class="ham-bar"></span>
+      <span class="ham-bar"></span>
+      <span class="ham-bar"></span>
+    </button>
   </div>
 </header>
+
+<!-- =====================================================
+     MOBILE MENU OVERLAY
+===================================================== -->
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Menu de navegação">
+  <div class="mobile-menu-inner">
+    <nav class="mobile-nav" aria-label="Mobile primary">
+      <a href="#story"   class="mobile-nav-link" data-index="0">Produto</a>
+      <a href="#system"  class="mobile-nav-link" data-index="1">Tricolor</a>
+      <a href="#pricing" class="mobile-nav-link" data-index="2">Planos</a>
+      <a href="#contact" class="mobile-nav-link" data-index="3">Contato</a>
+    </nav>
+    <a href="#contact" class="btn btn--primary mobile-menu-cta">
+      Garanta a sua <span class="arrow" aria-hidden="true">→</span>
+    </a>
+    <div class="mobile-menu-footer">
+      <span>São Paulo FC · Tricolor Bottle</span>
+      <span>Edição Torcedor 2026</span>
+    </div>
+  </div>
+</div>
 
 <!-- =====================================================
      HERO (scroll-driven video)
@@ -117,6 +144,19 @@
         </div>
       </aside>
 
+    </div>
+
+    <!-- Mobile static hero visual (hidden on desktop) -->
+    <div class="hero-mobile-visual" aria-hidden="true">
+      <span class="hero-mobile-glow"></span>
+      <span class="hero-mobile-ring hero-mobile-ring--1"></span>
+      <span class="hero-mobile-ring hero-mobile-ring--2"></span>
+      <img
+        class="hero-mobile-bottle"
+        src="assets/garrafa-tricolor-removebg.png"
+        alt=""
+        aria-hidden="true"
+      />
     </div>
 
     <!-- Scroll cue + per-section progress -->
