@@ -100,221 +100,92 @@
 })();
 
 /* =================================================================
-   SCROLL-DRIVEN HERO · GSAP ScrollTrigger
-   -----------------------------------------------------------------
-   Context7/GSAP docs recommend linking animation progress to scroll
-   with ScrollTrigger `scrub`. Here GSAP owns the video playhead:
-   scroll progress -> video.currentTime. If the CDN is unavailable,
-   a small requestAnimationFrame fallback keeps the same behaviour.
-   On mobile (<= 767px) the video is hidden; skip all video logic.
+   HERO — scroll progress + nav state + mouse parallax
 ================================================================= */
 (() => {
-  const hero = document.getElementById("hero");
-  const video = document.getElementById("heroVideo");
-  const heroText = document.getElementById("heroText");
-  const heroSide = document.getElementById("heroSide");
-  const heroCue = document.getElementById("heroCue");
-  const heroPercent = document.getElementById("heroPercent");
-  const heroRuntime = document.getElementById("heroRuntime");
-  const nav = document.getElementById("nav");
+  const hero     = document.getElementById("hero");
+  const nav      = document.getElementById("nav");
+  const photoImg = document.getElementById("heroPhotoImg");
+  const badge    = document.getElementById("heroBadge");
 
-  if (!hero || !video) return;
+  if (!hero) return;
 
-  // On mobile the video is hidden — static visual handles the hero
-  const isMobile = () => window.innerWidth <= 767;
-  if (isMobile()) {
-    window.addEventListener(
-      "scroll",
-      () => {
-        nav?.classList.toggle("is-scrolled", window.scrollY > 24);
-        const docScrollable =
-          document.documentElement.scrollHeight - window.innerHeight;
-        const docProgress =
-          docScrollable > 0 ? window.scrollY / docScrollable : 0;
-        document.documentElement.style.setProperty(
-          "--scroll-progress",
-          docProgress.toFixed(4),
-        );
-      },
-      { passive: true },
-    );
-    return;
-  }
-
-  const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
-  const pad = (n) => String(Math.floor(n)).padStart(2, "0");
-  const formatTime = (secs) => {
-    if (!isFinite(secs)) return "00:00";
-    return `${pad(secs / 60)}:${pad(secs % 60)}`;
-  };
-
-  let duration = 0;
-  let targetTime = 0.001;
-  let smoothTime = 0.001;
-  let lastSeekAt = 0;
-  let fallbackRaf = 0;
-  let initialized = false;
-
-  // Seeking every scroll tick is the main source of stutter. The
-  // scroll animation only sets targetTime; this loop eases toward it
-  // and caps actual video seeks to a browser-friendly cadence.
-  const VIDEO_LERP = 0.28;
-  const MIN_SEEK_INTERVAL = 1000 / 30;
-  const SEEK_EPSILON = 0.024;
-
-  function setChrome(progress) {
-    const p = clamp(progress, 0, 1);
-    const textP = clamp((p - 0.06) / (0.55 - 0.06), 0, 1);
+  // ── Scroll progress bar + nav is-scrolled state ──────────────────
+  function onScroll() {
     const docScrollable =
       document.documentElement.scrollHeight - window.innerHeight;
-    const docProgress = docScrollable > 0 ? window.scrollY / docScrollable : 0;
-
+    const progress =
+      docScrollable > 0 ? window.scrollY / docScrollable : 0;
     document.documentElement.style.setProperty(
       "--scroll-progress",
-      docProgress.toFixed(4),
+      progress.toFixed(4),
     );
-    heroText.style.setProperty("--p", textP.toFixed(3));
-    heroSide.style.setProperty("--p", textP.toFixed(3));
-    heroCue.style.setProperty("--p", p.toFixed(3));
-    heroPercent.textContent = pad(p * 100) + "%";
-    nav.classList.toggle("is-scrolled", window.scrollY > 24);
+    nav?.classList.toggle("is-scrolled", window.scrollY > 24);
   }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
 
-  function heroProgress() {
-    const rect = hero.getBoundingClientRect();
-    const scrollable = hero.offsetHeight - window.innerHeight;
-    if (scrollable <= 0) return 0;
-    return clamp(-rect.top / scrollable, 0, 1);
-  }
+  // ── Mouse parallax (mouse-driven devices only) ────────────────────
+  // The photo shifts subtly toward the cursor; the badge drifts the
+  // opposite way. Two layers at different depths create a 3-D feeling
+  // without any heavy library.
+  if (!window.matchMedia("(pointer: fine)").matches) return;
 
-  function seekVideo(time, force = false) {
-    if (!duration || !Number.isFinite(time)) return;
-    const nextTime = clamp(time, 0.001, Math.max(0.001, duration - 0.04));
-    const now = performance.now();
+  const PHOTO_MAX  = 16;   // max px photo shift in each axis
+  const BADGE_MAX  = 9;    // max px badge counter-shift
+  const LERP_PHOTO = 0.055; // easing per rAF tick (~60 fps)
+  const LERP_BADGE = 0.038;
 
-    // Avoid excessive seeks for tiny scroll deltas. This helps Chrome
-    // keep decode work predictable while preserving visual sync.
-    if (
-      force ||
-      (now - lastSeekAt >= MIN_SEEK_INTERVAL &&
-        Math.abs(video.currentTime - nextTime) > SEEK_EPSILON)
-    ) {
-      try {
-        video.currentTime = nextTime;
-      } catch (_) {}
-      lastSeekAt = now;
-    }
-  }
+  let cx = 0.5, cy = 0.5;   // raw cursor [0..1]
+  let px = 0.5, py = 0.5;   // eased photo
+  let bx = 0.5, by = 0.5;   // eased badge
+  let rafId = 0;
+  let heroActive = false;
 
-  function renderVideoPlayhead() {
-    smoothTime += (targetTime - smoothTime) * VIDEO_LERP;
-    seekVideo(smoothTime);
-  }
-
-  function setupScrollTrigger() {
-    if (initialized) return;
-    initialized = true;
-
-    duration = video.duration || 0;
-    heroRuntime.textContent = formatTime(duration);
-    targetTime = 0.001;
-    smoothTime = 0.001;
-    seekVideo(0.001, true);
-
-    if (window.gsap && window.ScrollTrigger) {
-      gsap.registerPlugin(ScrollTrigger);
-
-      const playhead = { time: 0.001 };
-
-      gsap.to(playhead, {
-        time: Math.max(0.001, duration - 0.04),
-        ease: "none",
-        onUpdate: () => {
-          targetTime = playhead.time;
-        },
-        scrollTrigger: {
-          trigger: hero,
-          start: "top top",
-          end: "bottom bottom",
-          scrub: 0.55,
-          invalidateOnRefresh: true,
-          onUpdate: (self) => setChrome(self.progress),
-        },
-      });
-
-      gsap.ticker.add(renderVideoPlayhead);
-      ScrollTrigger.refresh();
-      return;
-    }
-
-    // Fallback when GSAP CDN is not available: rAF-driven scroll scrub.
-    let smoothed = 0;
-    const tick = () => {
-      const target = heroProgress();
-      smoothed += (target - smoothed) * 0.22;
-      targetTime = smoothed * duration;
-      renderVideoPlayhead();
-      setChrome(smoothed);
-
-      if (Math.abs(target - smoothed) > 0.001) {
-        fallbackRaf = requestAnimationFrame(tick);
-      } else {
-        fallbackRaf = 0;
-      }
-    };
-
-    const requestTick = () => {
-      if (!fallbackRaf) fallbackRaf = requestAnimationFrame(tick);
-    };
-
-    window.addEventListener("scroll", requestTick, { passive: true });
-    window.addEventListener("resize", requestTick);
-    requestTick();
-  }
-
-  // Prime decoding without letting the video autoplay normally.
-  function primeVideo() {
-    const p = video.play();
-    if (p && typeof p.then === "function") {
-      p.then(() => video.pause()).catch(() => {});
-    } else {
-      try {
-        video.pause();
-      } catch (_) {}
-    }
-  }
-
-  if (video.readyState >= 1) {
-    setupScrollTrigger();
-  } else {
-    video.addEventListener("loadedmetadata", setupScrollTrigger, {
-      once: true,
-    });
-  }
-  video.addEventListener("loadeddata", () => seekVideo(0.001), { once: true });
-  video.addEventListener("error", () => {
-    console.warn(
-      "[hero] video failed to load. Check assets/Bottle_morphs_into_202604181256.mp4",
-      video.error,
-    );
+  hero.addEventListener("pointermove", (e) => {
+    const r = hero.getBoundingClientRect();
+    cx = (e.clientX - r.left)  / r.width;
+    cy = (e.clientY - r.top)   / r.height;
   });
+  hero.addEventListener("pointerleave", () => { cx = 0.5; cy = 0.5; });
 
-  try {
-    video.load();
-  } catch (_) {}
-  primeVideo();
+  function tick() {
+    px += (cx - px) * LERP_PHOTO;
+    py += (cy - py) * LERP_PHOTO;
+    bx += (cx - bx) * LERP_BADGE;
+    by += (cy - by) * LERP_BADGE;
 
-  const unlock = () => {
-    primeVideo();
-    window.removeEventListener("pointerdown", unlock);
-    window.removeEventListener("keydown", unlock);
-    window.removeEventListener("scroll", unlock);
-  };
-  window.addEventListener("pointerdown", unlock);
-  window.addEventListener("keydown", unlock);
-  window.addEventListener("scroll", unlock, { passive: true });
+    // Photo: shifts toward cursor on top of its initial scale(1.04)
+    const pdx = (px - 0.5) * PHOTO_MAX;
+    const pdy = (py - 0.5) * PHOTO_MAX;
+    if (photoImg) {
+      photoImg.style.transform = `scale(1.04) translate(${pdx.toFixed(2)}px, ${pdy.toFixed(2)}px)`;
+    }
 
-  setChrome(0);
+    // Badge: counter-shifts for depth illusion
+    if (badge) {
+      const bdx = (bx - 0.5) * -BADGE_MAX;
+      const bdy = (by - 0.5) * -BADGE_MAX;
+      badge.style.transform = `translate(${bdx.toFixed(2)}px, ${bdy.toFixed(2)}px)`;
+    }
+
+    if (heroActive) rafId = requestAnimationFrame(tick);
+  }
+
+  // Only run the rAF loop while the hero is visible in the viewport.
+  const obs = new IntersectionObserver(
+    ([entry]) => {
+      heroActive = entry.isIntersecting;
+      if (heroActive && !rafId) {
+        rafId = requestAnimationFrame(tick);
+      } else if (!heroActive) {
+        cancelAnimationFrame(rafId);
+        rafId = 0;
+      }
+    },
+    { threshold: 0.1 },
+  );
+  obs.observe(hero);
 })();
 
 /* =================================================================

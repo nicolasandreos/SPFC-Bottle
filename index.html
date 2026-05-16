@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
-<link rel="preload" as="video" href="assets/Bottle_morphs_into_202604181256.mp4" type="video/mp4" />
+<link rel="preload" as="image" href="assets/lucas_mostrando_garrafa.jpeg" />
 
 <!-- GSAP & ScrollTrigger -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -72,101 +72,86 @@
 </div>
 
 <!-- =====================================================
-     HERO (scroll-driven video)
+     HERO (photo edition)
 ===================================================== -->
 <section class="hero" id="hero" aria-label="Hero">
-  <div class="hero-stage">
 
-    <!-- Fullscreen background video -->
-    <div class="hero-video-wrap" id="heroVideoWrap" aria-hidden="true">
-      <video
-        id="heroVideo"
-        class="hero-video"
-        muted
-        playsinline
-        webkit-playsinline
-        preload="auto"
-        disablepictureinpicture
-        tabindex="-1"
-      >
-        <source src="assets/Bottle_morphs_into_202604181256.mp4" type="video/mp4" />
-      </video>
-    </div>
+  <!-- Full-bleed photo background -->
+  <div class="hero-photo" aria-hidden="true">
+    <img
+      class="hero-photo-img"
+      id="heroPhotoImg"
+      src="assets/lucas_mostrando_garrafa.jpeg"
+      alt="Lucas segurando a garrafa oficial do São Paulo FC"
+      fetchpriority="high"
+    />
+    <div class="hero-photo-grad"></div>
+    <div class="hero-photo-grain"></div>
+  </div>
 
-    <!-- Soft light overlay for legibility -->
-    <div class="hero-overlay" aria-hidden="true"></div>
-    <div class="hero-grid"    aria-hidden="true"></div>
+  <!-- Vertical red accent stripe (desktop only) -->
+  <div class="hero-stripe" aria-hidden="true"></div>
 
-    <div class="hero-content">
+  <!-- Main content -->
+  <div class="hero-content">
 
-      <!-- LEFT: title + subtitle + CTAs (fades + blurs on scroll) -->
-      <div class="hero-text" id="heroText">
-        <div class="hero-eyebrow">
-          <span class="bar" aria-hidden="true"></span>
-          <span>Lançamento oficial · São Paulo FC</span>
-        </div>
+    <!-- Copy block -->
+    <div class="hero-copy">
+      <!-- Watermark year -->
+      <div class="hero-year" aria-hidden="true">26</div>
 
-        <h1 class="hero-title">
-          <span class="word"><span>Leve</span></span>
-          <span class="word"><span>o</span></span>
-          <span class="word"><span><em>Tricolor</em></span></span>
-          <span class="word"><span>com você.</span></span>
-        </h1>
-
-        <p class="hero-lead">
-          A garrafa feita para quem transforma rotina em ritual: treino,
-          trabalho, arquibancada e todos os momentos em que o São Paulo vai junto.
-        </p>
-
-        <div class="hero-actions">
-          <a href="#story" class="btn btn--primary">
-            Conhecer a garrafa <span class="arrow" aria-hidden="true">→</span>
-          </a>
-          <a href="#pricing" class="btn btn--secondary">Ver planos</a>
-        </div>
+      <div class="hero-eyebrow">
+        <span class="bar" aria-hidden="true"></span>
+        <span>Lançamento oficial · São Paulo FC</span>
       </div>
 
-      <!-- RIGHT: meta info, aligned to the right edge -->
-      <aside class="hero-side" id="heroSide" aria-label="Meta">
-        <div>
-          <div class="hero-side-label">Edição</div>
-          <div class="hero-side-value">Tricolor 2026</div>
-        </div>
-        <div class="hero-side-divider" aria-hidden="true"></div>
-        <div>
-          <div class="hero-side-label">Ritual</div>
-          <div class="hero-side-value">Treino · Jogo · Rotina</div>
-        </div>
-        <div class="hero-side-divider" aria-hidden="true"></div>
-        <div>
-          <div class="hero-side-label">Vídeo</div>
-          <div class="hero-side-value" id="heroRuntime">00:00</div>
-        </div>
-      </aside>
+      <h1 class="hero-title">
+        <span class="word"><span>Leve</span></span>
+        <span class="word"><span>o</span></span>
+        <span class="word"><span><em>Tricolor</em></span></span>
+        <span class="word"><span>com você.</span></span>
+      </h1>
 
+      <p class="hero-lead">
+        A garrafa feita para quem transforma rotina em ritual: treino,
+        trabalho, arquibancada — e todos os momentos em que o São Paulo vai junto.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#story" class="btn btn--primary">
+          Conhecer a garrafa <span class="arrow" aria-hidden="true">→</span>
+        </a>
+        <a href="#pricing" class="btn btn--ghost">Ver planos</a>
+      </div>
     </div>
 
-    <!-- Mobile static hero visual (hidden on desktop) -->
-    <div class="hero-mobile-visual" aria-hidden="true">
-      <span class="hero-mobile-glow"></span>
-      <span class="hero-mobile-ring hero-mobile-ring--1"></span>
-      <span class="hero-mobile-ring hero-mobile-ring--2"></span>
-      <img
-        class="hero-mobile-bottle"
-        src="assets/garrafa-tricolor-removebg.png"
-        alt=""
-        aria-hidden="true"
-      />
-    </div>
-
-    <!-- Scroll cue + per-section progress -->
-    <div class="hero-cue" id="heroCue">
-      <span>Role para descobrir</span>
-      <span class="line" aria-hidden="true"></span>
-      <span id="heroPercent">00%</span>
+    <!-- Stats strip pinned to bottom -->
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="hero-stat-label">Edição</span>
+        <span class="hero-stat-value">Tricolor 2026</span>
+      </div>
+      <span class="hero-stat-div" aria-hidden="true"></span>
+      <div class="hero-stat">
+        <span class="hero-stat-label">Ritual</span>
+        <span class="hero-stat-value">Treino · Jogo · Rotina</span>
+      </div>
+      <span class="hero-stat-div" aria-hidden="true"></span>
+      <div class="hero-stat">
+        <span class="hero-stat-label">Entrega</span>
+        <span class="hero-stat-value">Todo o Brasil</span>
+      </div>
     </div>
 
   </div>
+
+  <!-- Floating badge (right side, near the bottle) -->
+  <div class="hero-badge" id="heroBadge" aria-hidden="true">
+    <span class="hero-badge-label">Produto Oficial</span>
+    <strong class="hero-badge-name">SPFC</strong>
+    <span class="hero-badge-sub">Garrafa Tricolor</span>
+  </div>
+
 </section>
 
 <!-- =====================================================
