@@ -1276,7 +1276,7 @@ footer {
   color: var(--white);
 }
 .red-feature::before {
-  content: "SPFC";
+  content: "ELITE";
   position: absolute;
   left: -0.08em;
   top: 50%;
