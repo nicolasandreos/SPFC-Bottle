@@ -110,7 +110,7 @@
 
   if (!hero) return;
 
-  // ── Scroll progress bar + nav is-scrolled state ──────────────────
+  // ── Scroll progress bar ──────────────────────────────────────────
   function onScroll() {
     const docScrollable =
       document.documentElement.scrollHeight - window.innerHeight;
@@ -120,7 +120,6 @@
       "--scroll-progress",
       progress.toFixed(4),
     );
-    nav?.classList.toggle("is-scrolled", window.scrollY > 24);
   }
   window.addEventListener("scroll", onScroll, { passive: true });
   onScroll();
@@ -508,11 +507,10 @@
 
   if (window.gsap && window.ScrollTrigger) {
     gsap.registerPlugin(ScrollTrigger);
-    gsap.set(revealItems, { opacity: 0, y: 30, filter: "blur(12px)" });
+    gsap.set(revealItems, { opacity: 0, y: 30 });
     gsap.to(revealItems, {
       opacity: 1,
       y: 0,
-      filter: "blur(0px)",
       duration: 0.9,
       ease: "power3.out",
       stagger: 0.09,
@@ -520,6 +518,12 @@
         trigger: section,
         start: "top 68%",
         once: true,
+      },
+      onComplete: () => {
+        revealItems.forEach((el) => {
+          el.style.filter = "none";
+          el.style.webkitFilter = "none";
+        });
       },
     });
     return;
